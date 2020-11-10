@@ -25,6 +25,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
+	unsigned int getID() { return m_RendererID; }
+
 	// Set uniforms
 	void SetUniform4f(const std::string& name, float f1, float f2, float f3, float f4);
 	void SetUniform1f(const std::string& name, float value);
