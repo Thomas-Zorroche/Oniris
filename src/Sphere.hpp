@@ -22,6 +22,10 @@ public:
     const ShapeVertex* getDataPointer() const {
         return &m_Vertices[0];
     }
+
+    const std::vector<ShapeVertex> getVertices() const {
+        return m_Vertices;
+    }
     
     // Renvoit le nombre de vertex
     GLsizei getVertexCount() const {
