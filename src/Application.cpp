@@ -11,13 +11,20 @@
 #include "FreeflyCamera.hpp"
 #include "Inputs.hpp"
 #include "Mesh.hpp"
+#include "Terrain.hpp"
 
 
 void mainloop(GLFWwindow* window)
 {
-    Sphere s_sphere(1, 32, 16);
-    Mesh   m_sphere(s_sphere.getVertices());
-    Shader shader("res/shaders/Normal3D.shader");
+    // Sphere
+    Sphere sphere(1, 32, 16);
+    Mesh   m_sphere(sphere.getVertices());
+    Shader s_Normal("res/shaders/Normal3D.shader");
+
+    // Terrain
+    Texture t_grass("res/img/grass_diffuse.jpg", "texture_diffuse");
+    Terrain terrain(0, 0, t_grass);
+    Shader  s_grass("res/shaders/GrassTex.shader");
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
     FreeflyCamera camera;
@@ -51,12 +58,19 @@ void mainloop(GLFWwindow* window)
         glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MV));
 
         // Uniforms
-        shader.Bind();
-        glUniformMatrix4fv(glGetUniformLocation(shader.getID(), "uMVPMatrix"), 1, GL_FALSE, &MVP[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(shader.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);
-        glUniformMatrix4fv(glGetUniformLocation(shader.getID(), "uNormalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+        s_Normal.Bind();
+        glUniformMatrix4fv(glGetUniformLocation(s_Normal.getID(), "uMVPMatrix"), 1, GL_FALSE, &MVP[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(s_Normal.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(s_Normal.getID(), "uNormalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
 
-        m_sphere.Draw(shader);
+        s_grass.Bind();
+        glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uMVPMatrix"), 1, GL_FALSE, &MVP[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uNormalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+
+        // Draw Functions
+        m_sphere.Draw(s_Normal);
+        terrain.getMesh().Draw(s_grass);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

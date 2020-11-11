@@ -28,7 +28,7 @@ private:
 
 public:
 	FreeflyCamera()
-		: _Position(0, 0, -5), _phi(M_PI), _theta(0), _CanTurn(false),
+		: _Position(5, 1, 5), _phi(M_PI), _theta(0), _CanTurn(false),
 		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f) 
 	{
 		computeDirectionVectors();
@@ -77,11 +77,13 @@ public:
 	void moveFront(float t)	 
 	{ 
 		_Position += t * _FrontVector; 
+		_Position.y = 1.0f;
 		computeDirectionVectors();
 	}
 	void moveLeft(float t)  
 	{ 
 		_Position += t * _LeftVector; 
+		_Position.y = 1.0f;
 		computeDirectionVectors();
 	}
 

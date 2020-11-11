@@ -4,13 +4,28 @@
 #include "stb_image.h"
 #include <string>
 
+#include <iostream>
+
 
 Texture::Texture(const std::string& path, std::string type)
 	: m_RendererID(0), m_Filepath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0), _type(type)
 {
+	std::cout << "Default Constructor" << std::endl;
+	ProcessTexture();
+}
+
+Texture::Texture(const Texture& texture)
+	: m_RendererID(0), m_Filepath(texture.m_Filepath), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0), _type(texture._type)
+{
+	std::cout << "Copy Constructor" << std::endl;
+	ProcessTexture();
+}
+
+void Texture::ProcessTexture()
+{
 	stbi_set_flip_vertically_on_load(1);
-	m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4);
-	
+	m_LocalBuffer = stbi_load(m_Filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
+
 	glGenTextures(1, &m_RendererID);
 	glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
@@ -26,8 +41,8 @@ Texture::Texture(const std::string& path, std::string type)
 	{
 		stbi_image_free(m_LocalBuffer);
 	}
-
 }
+
 
 Texture::~Texture()
 {

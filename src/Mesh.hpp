@@ -13,7 +13,7 @@ public:
 		 std::vector<unsigned int>      * indices  = nullptr,	 // Optional Argument
 		 std::vector<Texture>           * textures = nullptr);   // Optional Argument
 
-	void Draw(Shader& shader);
+	void Draw(Shader& shader) const;
 
 private:
 	std::vector<ShapeVertex>  _vertices;

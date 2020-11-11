@@ -4,7 +4,7 @@
 
 #include <string>
 
-Mesh::Mesh(std::vector<ShapeVertex> vertices, std::vector<unsigned int> * indices, std::vector<Texture> * textures)
+Mesh::Mesh(const std::vector<ShapeVertex> & vertices, std::vector<unsigned int> * indices, std::vector<Texture> * textures)
 	: _vertices(vertices)
 {
     if (indices)
@@ -48,8 +48,10 @@ void Mesh::SetupMesh()
     glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader& shader)
+void Mesh::Draw(Shader& shader) const
 {
+    shader.Bind();
+    
     // Textures 
     unsigned int diffuseNr = 1;
 
@@ -76,5 +78,6 @@ void Mesh::Draw(Shader& shader)
         glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
+    shader.Unbind();
     glActiveTexture(GL_TEXTURE0);
 }
