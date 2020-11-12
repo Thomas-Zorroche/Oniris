@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 class Texture
 {
@@ -10,6 +11,8 @@ private:
 	unsigned char* m_LocalBuffer;
 	int m_Width, m_Height, m_BPP;
 	std::string _type;
+
+	std::vector<unsigned char> _image;
 
 	void Texture::ProcessTexture();
 public:
@@ -26,4 +29,7 @@ public:
 	int GetHeight() const { return m_Height; }
 	const std::string GetType() const { return _type; }
 	const std::string GetPath() const { return m_Filepath; }
+
+	const float GetRGB(float x, float y) const;
+
 };

@@ -3,9 +3,11 @@
 //#define _USE_MATH_DEFINES
 #define M_PI 3.14
 #include <cmath>
+#include <iostream>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Terrain.hpp"
 
 class FreeflyCamera
 {
@@ -24,11 +26,12 @@ private:
 	float _sensitivity;
 
 	char _ActiveKey = 'A';
-	float _Speed = 0.05f;
+	float _Speed = 1.0f;
+	float _HeightCamera = 2.0f;
 
 public:
 	FreeflyCamera()
-		: _Position(5, 1, 5), _phi(M_PI), _theta(0), _CanTurn(false),
+		: _Position(10, 1, 10), _phi(M_PI), _theta(0), _CanTurn(false),
 		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f) 
 	{
 		computeDirectionVectors();
@@ -53,18 +56,18 @@ private:
 	}
 
 public:
-	void Move()
+	void Move(const Terrain & terrain)
 	{
 		switch (_ActiveKey)
 		{
 		case 'Z':
-			moveFront(_Speed);
+			moveFront(_Speed, terrain);
 			break;
 		case 'Q':
 			moveLeft(_Speed);
 			break;
 		case 'S':
-			moveFront(-_Speed);
+			moveFront(-_Speed, terrain);
 			break;
 		case 'D':
 			moveLeft(-_Speed);
@@ -74,10 +77,11 @@ public:
 		}
 	}
 
-	void moveFront(float t)	 
+	void moveFront(float t, const Terrain & terrain)	 
 	{ 
 		_Position += t * _FrontVector; 
-		_Position.y = 1.0f;
+		_Position.y = terrain.GetHeight(_Position.x, _Position.z) + _HeightCamera;
+		std::cout << _Position.x << std::endl;
 		computeDirectionVectors();
 	}
 	void moveLeft(float t)  

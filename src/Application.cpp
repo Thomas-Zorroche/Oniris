@@ -23,7 +23,8 @@ void mainloop(GLFWwindow* window)
 
     // Terrain
     Texture t_grass("res/img/grass_diffuse.jpg", "texture_diffuse");
-    Terrain terrain(0, 0, t_grass);
+    Texture t_heightmap("res/img/heightmap.png", "texture_heightmap");
+    Terrain terrain(0, 0, t_grass, t_heightmap);
     Shader  s_grass("res/shaders/GrassTex.shader");
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
@@ -45,7 +46,7 @@ void mainloop(GLFWwindow* window)
         processInput(window, camera);
 
         // Camera movement according to Inputs
-        camera.Move();
+        camera.Move(terrain);
 
         /* Render here */
         glClearColor(0.5, 0.15f, 0.3f, 1.0f);

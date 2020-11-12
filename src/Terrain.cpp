@@ -5,18 +5,21 @@
 #include "common.hpp"
 
 #include <vector>
+#include <iostream>
 
-const float Terrain::Size = 10.0f;
+const float Terrain::_Size = 100.0f;
+const float Terrain::_MaxHeight = 10.0f;
+//const float Terrain::_MaxPixelColour = 256 * 256 * 256;
 
-Terrain::Terrain(float x, float z, const Texture & texture)
-	: _x(x), _z(z), _texture(texture), _mesh(generateMesh())
+Terrain::Terrain(float x, float z, const Texture & texture, const Texture & heightmap)
+	: _x(x), _z(z), _texture(texture), _heightmap(heightmap), _mesh(generateMesh())
 {
 
 }
 
 Mesh Terrain::generateMesh()
 {
-	int count = VertexCount * VertexCount;
+	int VertexCount = _heightmap.GetHeight();
 	std::vector<ShapeVertex> vertices;
 
 	// Shape Vertex
@@ -24,9 +27,9 @@ Mesh Terrain::generateMesh()
 		for (int j = 0; j < VertexCount; j++) {
 			ShapeVertex vertex;
 			// Positions
-			vertex.position.x = (float)j / ((float)(VertexCount - 1)) * Size;
-			vertex.position.y = 0;
-			vertex.position.z = (float)i / ((float)(VertexCount - 1)) * Size;
+			vertex.position.x = (float)j / ((float)(VertexCount - 1)) * _Size;
+			vertex.position.y = GetHeight(j, i);
+			vertex.position.z = (float)i / ((float)(VertexCount - 1)) * _Size;
 
 			// Normals
 			vertex.normal.x = 0;
@@ -65,6 +68,22 @@ Mesh Terrain::generateMesh()
 	std::vector<Texture> ArrayTextures = { _texture };
 
 	return Mesh(vertices, &indices, &ArrayTextures);
+}
+
+/*
+* Return the Y coordinate of the Terrain in a specific (X,Z) pixel of the heightmap
+*/
+float Terrain::GetHeight(int x, int z) const
+{
+	if (x < 0 || x >= _heightmap.GetHeight() || z < 0 || z >= _heightmap.GetHeight())
+		return 0;
+
+	float redValue = _heightmap.GetRGB(x, z);
+	float height = ((redValue / 255.0f) * (2 * _MaxHeight)) - _MaxHeight;
+	//std::cout << height << std::endl;
+	
+	return height;
+
 }
 
 

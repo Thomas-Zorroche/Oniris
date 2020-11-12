@@ -39,7 +39,12 @@ void Texture::ProcessTexture()
 
 	if (m_LocalBuffer)
 	{
+		_image = std::vector<unsigned char>(m_LocalBuffer, m_LocalBuffer + m_Height * m_Height * 4);
 		stbi_image_free(m_LocalBuffer);
+	}
+	else
+	{
+		std::cout << "[STBI_IMAGE] Error whe loading image." << std::endl;
 	}
 }
 
@@ -58,4 +63,11 @@ void Texture::Bind(unsigned int slot) const
 void Texture::Unbind() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+const float Texture::GetRGB(float x, float y) const
+{
+	size_t index = m_BPP * (y * m_Height + x);
+	
+	return _image[index + 0]; // Return Red Value
 }
