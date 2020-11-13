@@ -49,9 +49,10 @@ Mesh Terrain::generateMesh()
 			vertex.position.z = (float)j / ((float)(_VertexSideCount - 1)) * _Size;
 
 			// Normals
-			vertex.normal.x = 0;
-			vertex.normal.y = 1;
-			vertex.normal.z = 0;
+			glm::vec3 normal = CalculateNormals(i, j);
+			vertex.normal.x = normal.x;
+			vertex.normal.y = normal.y;
+			vertex.normal.z = normal.z;
 
 			// Textures Coordinates
 			vertex.texCoords.x = (float)i / (float)(_VertexSideCount - 1);
@@ -146,6 +147,19 @@ float Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
 
 	return height;
 }
+
+glm::vec3 Terrain::CalculateNormals(int x, int z)
+{
+	float heightL = GetHeightmapValue(x - 1, z);
+	float heightR = GetHeightmapValue(x + 1, z);
+	float heightD = GetHeightmapValue(x, z - 1);
+	float heightU = GetHeightmapValue(x, z + 1);
+
+	glm::vec3 normal = glm::vec3(heightL - heightR, 2.0f, heightD - heightU);
+	glm::normalize(normal);
+	return normal;
+}
+
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos) 
 {

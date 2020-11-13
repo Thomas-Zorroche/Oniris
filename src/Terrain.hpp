@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "glm/glm.hpp"
 
 #include "Mesh.hpp"
 #include "Texture.h"
@@ -34,5 +35,5 @@ private:
 
 
 	Mesh generateMesh();
-
+	glm::vec3 Terrain::CalculateNormals(int x, int z);
 };

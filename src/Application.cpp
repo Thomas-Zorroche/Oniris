@@ -60,11 +60,25 @@ void mainloop(GLFWwindow* window)
         glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MV));
 
         // Uniforms
+        // Blinn-Phong
+        s_grass.Bind();
+        glm::mat4 modelLight = glm::rotate(glm::mat4(1.0f), glm::radians((float)glfwGetTime() * 0), glm::vec3(0, 1, 0));
+        glm::vec4 LightDirection = view * modelLight * glm::vec4(1, 1, 1, 0);
+        glUniform3f(glGetUniformLocation(s_grass.getID(), "u_LightDir_vs"), LightDirection.x, LightDirection.y, LightDirection.z);
+        glUniform3f(glGetUniformLocation(s_grass.getID(), "u_LightIntensity"), 1.0, 1.0, 1.0);
+        glUniform1f(glGetUniformLocation(s_grass.getID(), "u_Shininess"), 16.0);
+        // Coeff de reflection diffuse
+        glUniform3f(glGetUniformLocation(s_grass.getID(), "u_Kd"), 1.0, 1.0, 1.0);
+        // Coeff de reflection glossy
+        glUniform3f(glGetUniformLocation(s_grass.getID(), "u_Ks"), 1.0, 1.0, 1.0);
+
+        // Normal Shader
         s_Normal.Bind();
         glUniformMatrix4fv(glGetUniformLocation(s_Normal.getID(), "uMVPMatrix"), 1, GL_FALSE, &MVP[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(s_Normal.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(s_Normal.getID(), "uNormalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
 
+        // Grass Shader
         s_grass.Bind();
         glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uMVPMatrix"), 1, GL_FALSE, &MVP[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);

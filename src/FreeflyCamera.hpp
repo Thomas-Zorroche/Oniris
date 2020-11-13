@@ -81,7 +81,6 @@ public:
 	{ 
 		_Position += t * _FrontVector; 
 		_Position.y = terrain.GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
-		std::cout << _Position.x << std::endl;
 		computeDirectionVectors();
 	}
 	void moveLeft(float t)  
