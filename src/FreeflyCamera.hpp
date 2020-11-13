@@ -27,7 +27,7 @@ private:
 
 	char _ActiveKey = 'A';
 	float _Speed = 1.0f;
-	float _HeightCamera = 2.0f;
+	float _HeightCamera = 10.0f;
 
 public:
 	FreeflyCamera()
@@ -80,7 +80,7 @@ public:
 	void moveFront(float t, const Terrain & terrain)	 
 	{ 
 		_Position += t * _FrontVector; 
-		_Position.y = terrain.GetHeight(_Position.x, _Position.z) + _HeightCamera;
+		_Position.y = terrain.GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		std::cout << _Position.x << std::endl;
 		computeDirectionVectors();
 	}
@@ -115,13 +115,9 @@ public:
 	char GetActiveKey() const  { return _ActiveKey; };
 	float GetSpeed() const  { return _Speed; };
 	
-
-
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
 	void SetLastX(float x) { _lastX = x; }
 	void SetLastY(float y) { _lastY = y; }
 	virtual void SetActiveKey(char key) { _ActiveKey = key; };
-
-
 };

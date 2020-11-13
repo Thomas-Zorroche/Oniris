@@ -27,8 +27,9 @@ void mainloop(GLFWwindow* window)
     Terrain terrain(0, 0, t_grass, t_heightmap);
     Shader  s_grass("res/shaders/GrassTex.shader");
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 500.0f);
     FreeflyCamera camera;
+    camera.moveFront(0, terrain);
 
     glEnable(GL_DEPTH_TEST);
 
