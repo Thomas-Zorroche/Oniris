@@ -26,7 +26,7 @@ private:
 	float _sensitivity;
 
 	char _ActiveKey = 'A';
-	float _Speed = 1.0f;
+	float _Speed = 3.0f;
 	float _HeightCamera = 10.0f;
 
 public:

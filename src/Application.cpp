@@ -11,7 +11,12 @@
 #include "FreeflyCamera.hpp"
 #include "Inputs.hpp"
 #include "Mesh.hpp"
+#include "Model.hpp"
 #include "Terrain.hpp"
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 
 void mainloop(GLFWwindow* window)
@@ -23,9 +28,13 @@ void mainloop(GLFWwindow* window)
 
     // Terrain
     Texture t_grass("res/img/grass_diffuse.jpg", "texture_diffuse");
-    Texture t_heightmap("res/img/heightmap.png", "texture_heightmap");
+    Texture t_heightmap("res/img/heightmap16.png", "texture_heightmap");
     Terrain terrain(0, 0, t_grass, t_heightmap);
     Shader  s_grass("res/shaders/GrassTex.shader");
+
+    // Models ASSIMP
+    Shader s_model("res/shaders/model.shader");
+    Model backpack("res/models/cube/cube.obj");
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 500.0f);
     FreeflyCamera camera;
@@ -84,8 +93,14 @@ void mainloop(GLFWwindow* window)
         glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);
         glUniformMatrix4fv(glGetUniformLocation(s_grass.getID(), "uNormalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
 
+        s_model.Bind();
+        glUniformMatrix4fv(glGetUniformLocation(s_model.getID(), "uMVPMatrix"), 1, GL_FALSE, &MVP[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(s_model.getID(), "uMVMatrix"), 1, GL_FALSE, &MV[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(s_model.getID(), "uNormalMatrix"), 1, GL_FALSE, &NormalMatrix[0][0]);
+        backpack.Draw(s_model);
+
         // Draw Functions
-        m_sphere.Draw(s_Normal);
+        //m_sphere.Draw(s_Normal);
         terrain.getMesh().Draw(s_grass);
 
         /* Swap front and back buffers */

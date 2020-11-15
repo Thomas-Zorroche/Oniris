@@ -29,6 +29,18 @@ add_executable(${PROJECT_NAME} ${HEADER_FILES} ${RES_FILES} ${SOURCE_FILES})
 file(COPY ${CMAKE_SOURCE_DIR}/res/shaders/
 	DESTINATION ${CMAKE_BINARY_DIR}/res/shaders)
 
+# Add Textures
+file(COPY ${CMAKE_SOURCE_DIR}/res/img/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/img)
+
+# Add Models
+file(COPY ${CMAKE_SOURCE_DIR}/res/models/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/models)
+
+# Add Assimp dll into Exec Directory
+file(COPY ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mtd.dll
+	 DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
+
 # External libraries
 
 # We need a CMAKE_DIR with some code to find external dependencies
@@ -52,7 +64,7 @@ add_library(STB_IMAGE "thirdparty/stb_image.cpp")
 add_library(GLAD "thirdparty/glad.c")
 
 # Put all libraries into a variable
-set(LIBS glfw3 opengl32 STB_IMAGE GLAD)
+set(LIBS glfw3 opengl32 STB_IMAGE GLAD assimp-vc142-mtd)
 
 # Define the include DIRs
 include_directories(

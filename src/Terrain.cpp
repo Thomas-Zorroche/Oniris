@@ -9,9 +9,9 @@
 #include <vector>
 #include <iostream>
 
-const float Terrain::_Size = 300.0f;
-const float Terrain::_MaxHeight = 15.0f;
-//const float Terrain::_MaxPixelColour = 256 * 256 * 256;
+const float Terrain::_Size = 1000.0f;
+const float Terrain::_MaxHeight = 100.0f;
+const float Terrain::_MaxPixelColour = 256 * 256 * 256;
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
 
@@ -28,7 +28,6 @@ Mesh Terrain::generateMesh()
 
 	std::vector<ShapeVertex> vertices;
 
-
 	// Shape Vertex
 	for (int i = 0; i < _VertexSideCount; i++) 
 	{
@@ -39,7 +38,7 @@ Mesh Terrain::generateMesh()
 			ShapeVertex vertex;
 
 			// Height
-			float height = GetHeightmapValue(j, i);
+			float height = GetHeightmapValue(i, j);
 			//_heights[j][i] = height;
 			_heights[i].push_back(height);
 			
@@ -67,9 +66,9 @@ Mesh Terrain::generateMesh()
 	int pointer = 0;
 	for (int gz = 0; gz < _VertexSideCount - 1; gz++) {
 		for (int gx = 0; gx < _VertexSideCount - 1; gx++) {
-			int topLeft = (gz * _VertexSideCount) + gx;
+			int topLeft = (gx * _VertexSideCount) + gz;
 			int topRight = topLeft + 1;
-			int bottomLeft = ((gz + 1) * _VertexSideCount) + gx;
+			int bottomLeft = ((gx + 1) * _VertexSideCount) + gz;
 			int bottomRight = bottomLeft + 1;
 			indices[pointer++] = topLeft;
 			indices[pointer++] = bottomLeft;
@@ -88,6 +87,7 @@ Mesh Terrain::generateMesh()
 	return Mesh(vertices, &indices, &ArrayTextures);
 }
 
+
 /*
 * Return the Y coordinate of the Terrain in a specific (X,Z) pixel of the heightmap
 */
@@ -96,9 +96,8 @@ float Terrain::GetHeightmapValue(int x, int z) const
 	if (x < 0 || x >= _heightmap.GetHeight() || z < 0 || z >= _heightmap.GetHeight())
 		return 0;
 
-	float redValue = _heightmap.GetRGB(x, z);
-	float height = ((redValue / 255.0f) * (2 * _MaxHeight)) - _MaxHeight;
-	//std::cout << height << std::endl;
+	float redValue = _heightmap.GetRGB(z, x);
+	float height = (redValue / 255.0f) * _MaxHeight;
 	
 	return height;
 
