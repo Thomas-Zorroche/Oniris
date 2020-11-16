@@ -23,11 +23,19 @@ private:
 	bool _CanTurn;    // Is Able to Turn ?
 	float _lastX;     // Last Mouse coordinates
 	float _lastY;
-	float _sensitivity;
 
+	// Input Data
+	float _sensitivity;
 	char _ActiveKey = 'A';
 	float _Speed = 3.0f;
 	float _HeightCamera = 10.0f;
+
+	// Technical Data
+	float _fov = 45.0f;
+	float _widthScreen = 1280.0f;
+	float _heightScreen = 720.0f;
+	float _nearPlane = 0.1f;
+	float _farPlane = 500.0f;
 
 public:
 	FreeflyCamera()
@@ -38,6 +46,12 @@ public:
 	}
 
 	~FreeflyCamera() {}
+
+	float GetFov() const { return _fov; }
+	float GetWidth() const { return _widthScreen; }
+	float GetHeight() const { return _heightScreen; }
+	float GetNearPlane() const { return _nearPlane; }
+	float GetFarPlane() const { return _farPlane; }
 
 private:
 	void computeDirectionVectors()

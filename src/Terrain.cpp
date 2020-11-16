@@ -2,6 +2,7 @@
 
 #include "Texture.h"
 #include "Mesh.hpp"
+#include "Shader.h"
 #include "common.hpp"
 
 #include "glm/glm.hpp"
@@ -15,10 +16,9 @@ const float Terrain::_MaxPixelColour = 256 * 256 * 256;
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
 
-Terrain::Terrain(float x, float z, const Texture & texture, const Texture & heightmap)
-	: _x(x), _z(z), _texture(texture), _heightmap(heightmap), _mesh(generateMesh())
+Terrain::Terrain(float x, float z, const Texture & texture, const Texture & heightmap, const Shader & shader)
+	: _x(x), _z(z), _texture(texture), _heightmap(heightmap), _mesh(generateMesh()), _shader(shader)
 {
-
 }
 
 Mesh Terrain::generateMesh()
@@ -171,4 +171,9 @@ float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 }
 
 
+/* DRAW THE TERRAIN */
+void Terrain::Draw()
+{
+	_mesh.Draw(_shader);
+}
 

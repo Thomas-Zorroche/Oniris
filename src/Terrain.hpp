@@ -5,17 +5,20 @@
 
 #include "Mesh.hpp"
 #include "Texture.h"
+#include "Shader.h"
 
 class Terrain
 {
 public:
 	// Constructor
-	Terrain(float x, float z, const Texture & texture, const Texture& heightmap);
+	Terrain(float x, float z, const Texture & texture, const Texture& heightmap, const Shader& shader);
 	
-	const Mesh & getMesh() const { return _mesh; }
-
 	float GetHeightmapValue(int x, int y) const;
 	float GetHeightOfTerrain(int worldX, int worldZ) const;
+
+	Shader& GetShader() { return _shader; }
+
+	void Draw();
 private:
 	static const float _Size;
 	static const float _MaxHeight;
@@ -26,6 +29,7 @@ private:
 	float   _z;
 	Texture _texture;
 	Texture _heightmap;
+	Shader _shader;
 
 	std::vector<std::vector<float>> _heights;
 
