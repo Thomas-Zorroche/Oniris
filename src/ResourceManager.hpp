@@ -1,8 +1,6 @@
 #pragma once
 
-#include <filesystem>
-#include <unordered_map>
-
+#include <unordered_map> 
 #include "Texture.h"
 #include "Shader.h"
 #include "Model.hpp"
@@ -22,10 +20,10 @@ public:
 	void DeleteAllResources();
 
 	// Load a text file and return as a string.
-	std::string LoadTextFile(const std::filesystem::path& path) const;
+	std::string LoadTextFile(const std::string& path) const;
 
 	// Loads an image (if not cached) and generates an OpenGL texture.
-	unsigned int LoadTexture(const std::string& path, const std::string& name) const;
+	Texture& LoadTexture(const std::string& path, TextureType type) const;
 	Texture GetTexture(const std::string& name) const;
 
 	unsigned int LoadShader(const std::string& path, const std::string& name) const;
@@ -43,8 +41,8 @@ private:
 	ResourceManager() = default;
 	~ResourceManager() = default;
 
-	std::unordered_map<std::string, unsigned int> _textureCache;
-	std::unordered_map<std::string, Model> _modelCache;
+	static std::unordered_map<std::string, Texture> _textureCache;
+	static std::unordered_map<std::string, Model> _modelCache;
 	//
 	// [TODO] :: Material
 	//

@@ -1,6 +1,7 @@
 #include "Mesh.hpp"
 #include "common.hpp"
 #include "Shader.h"
+#include "Texture.h"
 
 #include <string>
 
@@ -60,14 +61,30 @@ void Mesh::Draw(Shader& shader) const
         glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
         // retrieve texture number (the N in diffuse_textureN)
         std::string number;
-        std::string name = _textures[i].GetType();
-        if (name == "texture_diffuse")
+        TextureType type = _textures[i].Type();
+        std::string typeStr;
+        switch (type)
+        {
+        case DIFFUSE:
             number = std::to_string(diffuseNr++);
+            typeStr = "diffuse";
+            break;
+        case HEIGHTMAP:
+            typeStr = "heigtmap";
+            break;
+        case NORMAL:
+            break;
+        case ROUGHNESS:
+            break;
+        default:
+            break;
+        }
+            
 
         // now set the sampler to the correct texture unit
-        glUniform1i(glGetUniformLocation(shader.getID(), (name + number).c_str()), i);
+        glUniform1i(glGetUniformLocation(shader.getID(), (typeStr + number).c_str()), i);
         // and finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, _textures[i].GetID());
+        glBindTexture(GL_TEXTURE_2D, _textures[i].Id());
     }
 
     // draw mesh

@@ -6,58 +6,32 @@
 
 #include <iostream>
 
-
-Texture::Texture(const std::string& path, std::string type)
-	: m_RendererID(0), m_Filepath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0), _type(type)
+Texture::Texture()
+	: _rendererID(0), _width(0), _height(0), _type(DIFFUSE)
 {
-	std::cout << "Default Constructor" << std::endl;
-	ProcessTexture();
+	std::cout << "DEFAULT" << std::endl;
 }
 
-Texture::Texture(const Texture& texture)
-	: m_RendererID(0), m_Filepath(texture.m_Filepath), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0), _type(texture._type)
+Texture& Texture::operator=(const Texture&)
+	
 {
-	std::cout << "Copy Constructor" << std::endl;
-	ProcessTexture();
+	std::cout << "= OPERATOR" << std::endl;
 }
 
-void Texture::ProcessTexture()
+Texture::Texture(const Texture&)
 {
-	stbi_set_flip_vertically_on_load(1);
-	m_LocalBuffer = stbi_load(m_Filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
-
-	glGenTextures(1, &m_RendererID);
-	glBindTexture(GL_TEXTURE_2D, m_RendererID);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (m_LocalBuffer)
-	{
-		_image = std::vector<unsigned char>(m_LocalBuffer, m_LocalBuffer + m_Height * m_Height * 4);
-		stbi_image_free(m_LocalBuffer);
-	}
-	else
-	{
-		std::cout << "[STBI_IMAGE] Error whe loading image." << std::endl;
-	}
+	std::cout << "COPY" << std::endl;
 }
 
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &m_RendererID);
 }
 
 void Texture::Bind(unsigned int slot) const 
 {
 	glActiveTexture(GL_TEXTURE0 + slot);
-	glBindTexture(GL_TEXTURE_2D, m_RendererID);
+	glBindTexture(GL_TEXTURE_2D, _rendererID);
 }
 
 void Texture::Unbind() const
@@ -67,7 +41,7 @@ void Texture::Unbind() const
 
 const float Texture::GetRGB(float x, float y) const
 {
-	size_t index = m_BPP * (y * m_Height + x);
+	size_t index = _BPP * (y * _height + x);
 	
-	return _image[index + 0]; // Return Red Value
+	return _imageData[index + 0]; // Return Red Value
 }

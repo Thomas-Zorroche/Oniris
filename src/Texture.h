@@ -3,33 +3,37 @@
 #include <string>
 #include <vector>
 
+enum TextureType
+{
+	DIFFUSE = 0, HEIGHTMAP, NORMAL, ROUGHNESS
+};
+
 class Texture
 {
-private:
-	unsigned int m_RendererID;
-	std::string m_Filepath;
-	unsigned char* m_LocalBuffer;
-	int m_Width, m_Height, m_BPP;
-	std::string _type;
 
-	std::vector<unsigned char> _image;
-
-	void Texture::ProcessTexture();
 public:
-	Texture(const std::string& path, std::string type);
-	Texture(const Texture& texture);
+	Texture& operator=(const Texture&);
+	Texture (const Texture&);
 	
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;
 	void Unbind() const;
 
-	int GetWidth() const { return m_Width; }
-	int GetID() const { return m_RendererID; }
-	int GetHeight() const { return m_Height; }
-	const std::string GetType() const { return _type; }
-	const std::string GetPath() const { return m_Filepath; }
+	int Width() const { return _width; }
+	int Height() const { return _height; }
+	int Id() const { return _rendererID; }
+	TextureType Type() const { return _type; }
 
 	const float GetRGB(float x, float y) const;
 
+private:
+	Texture();
+
+private:
+	unsigned int _rendererID;
+	int _width, _height;
+	int _BPP;
+	TextureType _type;
+	std::vector<unsigned char> _imageData;
 };

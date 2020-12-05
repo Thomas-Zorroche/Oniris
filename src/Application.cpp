@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <string>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -15,17 +16,26 @@
 #include "Model.hpp"
 #include "SpecialMesh.hpp"
 #include "Terrain.hpp"
+#include "ResourceManager.hpp"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <unordered_map> 
+
 
 void mainloop(GLFWwindow* window)
 {
+    // Resource Manager
+    std::string textFile = ResourceManager::Get().LoadTextFile("lol.txt");
+    std::cout << textFile << std::endl;
+
+    
+    
     // Terrain
-    Texture t_grass("res/img/grass_diffuse.jpg", "texture_diffuse");
-    Texture t_heightmap("res/img/heightmap16.png", "texture_heightmap");
+    Texture t_grass = ResourceManager::Get().LoadTexture("res/img/grass_diffuse.jpg", DIFFUSE);
+    Texture t_heightmap = ResourceManager::Get().LoadTexture("res/img/heightmap16.png", HEIGHTMAP);
     Shader  sh_grass("res/shaders/GrassTex.shader");
     Terrain terrain(0, 0, t_grass, t_heightmap, sh_grass);
     
