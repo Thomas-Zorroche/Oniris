@@ -1,26 +1,34 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "common.hpp"
 #include "Shader.h"
-#include "Texture.h"
+//#include "Material.hpp"
+
+class Material;
 
 class Mesh
 {
 public:
-	// Constructor
 	Mesh(const std::vector<ShapeVertex> & vertices, 
-		 std::vector<unsigned int>      * indices  = nullptr,	 // Optional Argument
-		 std::vector<Texture>           * textures = nullptr);   // Optional Argument
+		const std::shared_ptr<Material>& material,
+		 std::vector<unsigned int>      * indices  = nullptr);   // Optional Argument
 
+	//Mesh(const Mesh& m);
+	
 	void Draw(Shader& shader) const;
+
 
 private:
 	std::vector<ShapeVertex>  _vertices;
 	std::vector<unsigned int> _indices;
-	std::vector<Texture>      _textures;
 	
 	unsigned int VAO, VBO, EBO;
+
+	std::shared_ptr<Material> _material;
+
+
 
 	void SetupMesh();
 };

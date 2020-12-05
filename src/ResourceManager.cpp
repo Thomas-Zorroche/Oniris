@@ -7,6 +7,7 @@
 
 #include "stb_image.h"
 #include "Texture.h"
+#include "Material.hpp"
 
 
 void ResourceManager::DeleteAllResources()
@@ -14,7 +15,7 @@ void ResourceManager::DeleteAllResources()
 	// Delete Textures
 	for (auto& texture : _textureCache)
 	{
-		glDeleteTextures(1, &texture.second);
+		glDeleteTextures(1, texture.second.IdPtr());
 	}
 
 	// Delete Models
@@ -38,11 +39,10 @@ std::string ResourceManager::LoadTextFile(const std::string& path) const {
 	return content;
 }
 
-Texture& ResourceManager::LoadTexture(const std::string& path, TextureType type) const
+Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 {
-	// Check if texture is already loaded
+	// Check if texture is already loaded in the cache
 	const auto val = _textureCache.find(path);
-
 	if (val != _textureCache.end())
 		return val->second;
 
@@ -51,23 +51,25 @@ Texture& ResourceManager::LoadTexture(const std::string& path, TextureType type)
 	glGenTextures(1, &textureID);
 
 	// Load image in a local buffer
-	int width, height, nrComponents;
-	unsigned char* localBuffer = stbi_load(path.c_str, &width, &height, &nrComponents, 0);
+	int width, height, BPP;
+	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &BPP, 4);
 	if (!localBuffer) {
 		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
 		stbi_image_free(localBuffer);
-		// [TODO]
-		// A remplacer par une execption
+		// 
+		// [TODO] :: A remplacer par une execption
 		//
 		assert("FAILED TO LOAD TEXTURE"); 
 	}
 
 	// Fill imageData in order to retrieve pixel color later
-	std::vector<unsigned char> imageData = std::vector<unsigned char>(localBuffer, localBuffer + height * height * 4);
+	// 
+	// [TODO] :: Just do this for heightmaps
+	//
+	std::vector<unsigned char> imageData(localBuffer, localBuffer + height * height * 4);
 	
-
 	GLenum format = 0;
-	switch (nrComponents) {
+	switch (BPP) {
 	case 1:
 		format = GL_RED;
 		break;
@@ -80,15 +82,56 @@ Texture& ResourceManager::LoadTexture(const std::string& path, TextureType type)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, localBuffer);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, localBuffer);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 
 	stbi_image_free(localBuffer);
 
 	std::cout << "Resource Manager: loaded texture: " << path << std::endl;
 
-	Texture texture(textureID, type, imageData);
+	Texture texture(textureID, type, imageData, path, width, height);
 
 	_textureCache.insert({ path, texture });
 
 	return texture;
 }
+
+
+std::shared_ptr<Material> ResourceManager::GetMaterial(const std::string& name) const
+{
+	// Check if material exists
+	const auto mat = _materialCache.find(name);
+	
+	if (mat == _materialCache.end())
+		return nullptr;
+
+	return mat->second;
+}
+
+std::shared_ptr<Material> ResourceManager::CachePBRMaterial(const std::string& name, const std::string& diffuse,
+	const std::string& roughness, const std::string& normal)
+{
+	Material mat = Material();
+	mat.InitTexturePBR(name, diffuse, roughness, normal);
+
+	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
+
+}
+
+std::shared_ptr<Material> ResourceManager::CacheBasicMaterial(const std::string& name, const std::string& diffuse)
+{
+	Material mat = Material();
+	mat.InitBasic(name, diffuse);
+
+	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
+}
+
+
+

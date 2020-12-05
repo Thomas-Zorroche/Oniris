@@ -2,19 +2,25 @@
 #include "common.hpp"
 #include "Shader.h"
 #include "Texture.h"
-
 #include <string>
+#include <iostream>
+#include "Material.hpp"
 
-Mesh::Mesh(const std::vector<ShapeVertex> & vertices, std::vector<unsigned int> * indices, std::vector<Texture> * textures)
-	: _vertices(vertices)
+Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Material>& material,
+           std::vector<unsigned int>* indices)
+	: _vertices(vertices), _material(material)
 {
     if (indices)
         _indices = *indices;
-    if (textures)
-        _textures = *textures;
 
     SetupMesh();
 }
+
+//Mesh::Mesh(const Mesh& m)
+//    : _vertices(m._vertices), _indices(m._indices), VAO(m.VAO), VBO(m.VBO), EBO(m.EBO), _material(m._material)
+//{
+//    std::cout << "[MESH] COPY CONSTRUCTOR" << std::endl;
+//}
 
 void Mesh::SetupMesh()
 {
@@ -54,37 +60,33 @@ void Mesh::Draw(Shader& shader) const
     shader.Bind();
     
     // Textures 
-    unsigned int diffuseNr = 1;
 
-    for (unsigned int i = 0; i < _textures.size(); i++)
+    for (unsigned int i = 0; i < _material->TextureCount(); i++)
     {
-        glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-        // retrieve texture number (the N in diffuse_textureN)
-        std::string number;
-        TextureType type = _textures[i].Type();
+        glActiveTexture(GL_TEXTURE0 + i); 
+        
         std::string typeStr;
-        switch (type)
+        switch (i)
         {
-        case DIFFUSE:
-            number = std::to_string(diffuseNr++);
-            typeStr = "diffuse";
+        case 0:
+            typeStr = "u_Diffuse";
             break;
-        case HEIGHTMAP:
-            typeStr = "heigtmap";
+        case 1:
+            typeStr = "u_Roughness";
             break;
-        case NORMAL:
+        case 2:
+            typeStr = "u_Normal";
             break;
-        case ROUGHNESS:
+        case 3:
+            typeStr = "u_Heightmap";
             break;
         default:
             break;
         }
-            
-
         // now set the sampler to the correct texture unit
-        glUniform1i(glGetUniformLocation(shader.getID(), (typeStr + number).c_str()), i);
+        glUniform1i(glGetUniformLocation(shader.getID(), typeStr.c_str()), i);
         // and finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, _textures[i].Id());
+        glBindTexture(GL_TEXTURE_2D, _material->GetParameterTexture(i));
     }
 
     // draw mesh
@@ -97,4 +99,5 @@ void Mesh::Draw(Shader& shader) const
 
     shader.Unbind();
     glActiveTexture(GL_TEXTURE0);
+
 }

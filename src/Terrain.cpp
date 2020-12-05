@@ -4,6 +4,8 @@
 #include "Mesh.hpp"
 #include "Shader.h"
 #include "common.hpp"
+#include "ResourceManager.hpp"
+#include "Material.hpp"
 
 #include "glm/glm.hpp"
 
@@ -16,14 +18,18 @@ const float Terrain::_MaxPixelColour = 256 * 256 * 256;
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
 
-Terrain::Terrain(float x, float z, const Texture & texture, const Texture & heightmap, const Shader & shader)
-	: _x(x), _z(z), _texture(texture), _heightmap(heightmap), _mesh(generateMesh()), _shader(shader)
+Terrain::Terrain(float x, float z, const Texture & diffuse, const Texture & heightmap, const Shader & shader)
+	: _x(x), _z(z), 
+	  _texture(ResourceManager::Get().LoadTexture(diffuse.Path(), DIFFUSE)),
+	  _heightmap(ResourceManager::Get().LoadTexture(heightmap.Path(), DIFFUSE)),
+	  _mesh(generateMesh()), 
+	  _shader(shader)
 {
 }
 
 Mesh Terrain::generateMesh()
 {
-	_VertexSideCount = _heightmap.GetHeight();
+	_VertexSideCount = _heightmap.Height();
 	_GridSquareSize = _Size / (float)(_VertexSideCount - 1);
 
 	std::vector<ShapeVertex> vertices;
@@ -79,12 +85,9 @@ Mesh Terrain::generateMesh()
 		}
 	}
 	
-	/*
-	* ATTENTION : Texture Copy Constructeur x4 !!!
-	*/
-	std::vector<Texture> ArrayTextures = { _texture };
-
-	return Mesh(vertices, &indices, &ArrayTextures);
+	const auto newMaterial = ResourceManager::Get().CacheBasicMaterial("Terrain", _texture.Path());
+	
+	return Mesh(vertices, newMaterial, &indices);
 }
 
 
@@ -93,7 +96,7 @@ Mesh Terrain::generateMesh()
 */
 float Terrain::GetHeightmapValue(int x, int z) const
 {
-	if (x < 0 || x >= _heightmap.GetHeight() || z < 0 || z >= _heightmap.GetHeight())
+	if (x < 0 || x >= _heightmap.Height() || z < 0 || z >= _heightmap.Height())
 		return 0;
 
 	float redValue = _heightmap.GetRGB(z, x);

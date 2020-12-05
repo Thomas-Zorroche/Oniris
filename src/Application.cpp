@@ -31,8 +31,6 @@ void mainloop(GLFWwindow* window)
     std::string textFile = ResourceManager::Get().LoadTextFile("lol.txt");
     std::cout << textFile << std::endl;
 
-    
-    
     // Terrain
     Texture t_grass = ResourceManager::Get().LoadTexture("res/img/grass_diffuse.jpg", DIFFUSE);
     Texture t_heightmap = ResourceManager::Get().LoadTexture("res/img/heightmap16.png", HEIGHTMAP);
@@ -53,13 +51,13 @@ void mainloop(GLFWwindow* window)
     std::vector<StaticMesh *> StaticMeshes = { &sm_portail };
     Renderer renderer(&camera, StaticMeshes, terrain);
 
-    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);  
 
     // Callback function for Mouse Cursor
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetWindowUserPointer(window, &camera);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {

@@ -7,6 +7,8 @@
 #include "Texture.h"
 #include "Shader.h"
 
+class Material;
+
 class Terrain
 {
 public:
@@ -36,6 +38,8 @@ private:
 	Mesh    _mesh;
 	int     _VertexSideCount;
 	float   _GridSquareSize;
+
+	std::shared_ptr<Material> _material;
 
 
 	Mesh generateMesh();

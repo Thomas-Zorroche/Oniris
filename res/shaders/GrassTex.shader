@@ -34,7 +34,7 @@ in vec3 vNormals_vs;
 in vec3 vPosition_vs;
 in vec2 vVertexTexcoords;
 
-uniform sampler2D Texture;
+uniform sampler2D u_Diffuse;
 
 uniform vec3 u_Kd;
 uniform vec3 u_Ks;
@@ -60,6 +60,7 @@ vec3 BlinnPhong()
 }
 void main()
 {
-    fFragColor = texture(Texture, vVertexTexcoords * 10.0) * vec4(BlinnPhong(), 1.0);
-    //fFragColor = BlinnPhong();
+    fFragColor = texture(u_Diffuse, vVertexTexcoords * 10.0) * vec4(BlinnPhong(), 1.0);
+    //fFragColor = vec4(1.0f);
+    //fFragColor = vec4(BlinnPhong(), 1.0f);
 };
