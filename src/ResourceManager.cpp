@@ -2,12 +2,14 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <unordered_map> 
 #include <vector> 
 
 #include "stb_image.h"
 #include "Texture.h"
 #include "Material.hpp"
+#include "Shader.h"
 
 
 void ResourceManager::DeleteAllResources()
@@ -24,6 +26,10 @@ void ResourceManager::DeleteAllResources()
 		models.second->Delete();
 	}*/
 }
+
+//
+// ------------------------------ Textures ------------------------------ 
+//
 
 std::string ResourceManager::LoadTextFile(const std::string& path) const {
 	std::ifstream ifs(path);
@@ -103,6 +109,9 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 	return texture;
 }
 
+//
+// ------------------------------ Materials ------------------------------ 
+//
 
 std::shared_ptr<Material> ResourceManager::GetMaterial(const std::string& name) const
 {
@@ -131,6 +140,60 @@ std::shared_ptr<Material> ResourceManager::CacheBasicMaterial(const std::string&
 	mat.InitBasic(name, diffuse);
 
 	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
+}
+
+//
+// ------------------------------ Shaders ------------------------------ 
+//
+std::shared_ptr<Shader> ResourceManager::LoadShader(const std::string& vertexShaderPath, 
+													const std::string& fragmentShaderPath, 
+													const std::string& name)
+{
+	// If shader already exists, return it
+	const auto shader = GetShader(name);
+	if (shader)
+		return shader;
+
+	//Otherwise, create and cache a new shader
+	std::string vertexCode;
+	std::string fragmentCode;
+	try
+	{
+		// open file
+		std::ifstream vertexShaderFile(vertexShaderPath);
+		std::ifstream fragmentShaderFile(fragmentShaderPath);
+		std::stringstream vShaderStream, fShaderStream;
+		// read file's buffer contents into streams
+		vShaderStream << vertexShaderFile.rdbuf();
+		fShaderStream << fragmentShaderFile.rdbuf();
+		// close file handlers
+		vertexShaderFile.close();
+		fragmentShaderFile.close();
+		// convert stream into string
+		vertexCode = vShaderStream.str();
+		fragmentCode = fShaderStream.str();
+	}
+	catch (std::exception e)
+	{
+		std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
+	}
+
+	Shader newShader(vertexCode, fragmentCode);
+
+	_shaderCache.insert({ name, std::make_shared<Shader>(newShader)}).first->second;
+
+
+}
+
+std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name) const
+{
+	// Check if shader exists
+	const auto shader = _shaderCache.find(name);
+
+	if (shader == _shaderCache.end())
+		return nullptr;
+
+	return shader->second;
 }
 
 

@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Model.hpp"
+#include "Shader.h"
 
 class ResourceManager
 {
@@ -25,12 +26,13 @@ public:
 
 	// Loads an image (if not cached) and generates an OpenGL texture.
 	Texture LoadTexture(const std::string& path, TextureType type);
-	Texture GetTexture(const std::string& name) const;
+	//Texture GetTexture(const std::string& path) const;
 
-	unsigned int LoadShader(const std::string& path, const std::string& name) const;
-	Shader GetShader(const std::string& name) const;
+	std::shared_ptr<Shader> LoadShader(const std::string& vertexShaderPath, 
+									   const std::string& fragmentShaderPath,
+									   const std::string& name);
+	std::shared_ptr<Shader> GetShader(const std::string& name) const;
 
-	//Model LoadObj(const std::string& path, const std::string& name);
 
 	std::shared_ptr<Material> GetMaterial(const std::string& name) const;
 	std::shared_ptr<Material> CachePBRMaterial(const std::string& name, const std::string& diffuse, 
@@ -48,6 +50,7 @@ private:
 	~ResourceManager() = default;
 
 	std::unordered_map<std::string, Texture> _textureCache;
+	std::unordered_map<std::string, std::shared_ptr<Shader>> _shaderCache;
 	std::unordered_map<std::string, std::shared_ptr<Model>> _modelCache;
 	std::unordered_map<std::string, std::shared_ptr<Material>> _materialCache;
 };
