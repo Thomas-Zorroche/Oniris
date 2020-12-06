@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "Mesh.hpp"
 #include "Texture.h"
@@ -16,7 +17,7 @@ class Model
 public:
 	// Constructor
 	Model(const std::string& path);
-	void Model::Draw(Shader& shader);
+	void Model::Draw(std::shared_ptr<Shader>& shader);
 
 private:
 	std::vector<Mesh> _meshes;

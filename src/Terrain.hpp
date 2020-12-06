@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "glm/glm.hpp"
 
 #include "Mesh.hpp"
@@ -13,12 +14,12 @@ class Terrain
 {
 public:
 	// Constructor
-	Terrain(float x, float z, const Texture & texture, const Texture& heightmap, const Shader& shader);
+	Terrain(float x, float z, const std::string & diffusePath, const std::string& heightmapPath);
 	
 	float GetHeightmapValue(int x, int y) const;
 	float GetHeightOfTerrain(int worldX, int worldZ) const;
 
-	Shader& GetShader() { return _shader; }
+	std::shared_ptr<Shader>& GetShader() { return _shader; }
 
 	void Draw();
 private:
@@ -31,7 +32,6 @@ private:
 	float   _z;
 	Texture _texture;
 	Texture _heightmap;
-	Shader _shader;
 
 	std::vector<std::vector<float>> _heights;
 
@@ -40,6 +40,7 @@ private:
 	float   _GridSquareSize;
 
 	std::shared_ptr<Material> _material;
+	std::shared_ptr<Shader> _shader;
 
 
 	Mesh generateMesh();

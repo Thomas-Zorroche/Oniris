@@ -8,6 +8,7 @@
 #include <assimp/postprocess.h>
 
 #include <iostream>
+#include <memory>
 #include "stb_image.h"
 
 
@@ -17,7 +18,7 @@ Model::Model(const std::string& path)
 }
 
 // draws the model, and thus all its meshes
-void Model::Draw(Shader& shader)
+void Model::Draw(std::shared_ptr<Shader>& shader)
 {
     for (unsigned int i = 0; i < _meshes.size(); i++)
         _meshes[i].Draw(shader);

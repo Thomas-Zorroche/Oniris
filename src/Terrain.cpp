@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <iostream>
+#include <string>
 
 const float Terrain::_Size = 1000.0f;
 const float Terrain::_MaxHeight = 100.0f;
@@ -18,17 +19,17 @@ const float Terrain::_MaxPixelColour = 256 * 256 * 256;
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
 
-Terrain::Terrain(float x, float z, const Texture & diffuse, const Texture & heightmap, const Shader & shader)
+Terrain::Terrain(float x, float z, const std::string& diffusePath, const std::string& heightmapPath)
 	: _x(x), _z(z), 
-	  _texture(ResourceManager::Get().LoadTexture(diffuse.Path(), DIFFUSE)),
-	  _heightmap(ResourceManager::Get().LoadTexture(heightmap.Path(), DIFFUSE)),
+	  _texture(ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE)),
+	  _heightmap(ResourceManager::Get().LoadTexture(heightmapPath, DIFFUSE)),
 	  _mesh(generateMesh()), 
-	  _shader(shader)
+	  _shader(ResourceManager::Get().GetShader("Terrain"))
 {
 }
 
 Mesh Terrain::generateMesh()
-{
+{	
 	_VertexSideCount = _heightmap.Height();
 	_GridSquareSize = _Size / (float)(_VertexSideCount - 1);
 

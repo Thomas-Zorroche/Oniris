@@ -178,11 +178,9 @@ std::shared_ptr<Shader> ResourceManager::LoadShader(const std::string& vertexSha
 		std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
 	}
 
-	Shader newShader(vertexCode, fragmentCode);
-
-	_shaderCache.insert({ name, std::make_shared<Shader>(newShader)}).first->second;
-
-
+	std::shared_ptr<Shader> newShader = std::make_shared<Shader>(vertexCode, fragmentCode);
+	
+	_shaderCache.insert({ name, newShader}).first->second;
 }
 
 std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name) const
@@ -195,6 +193,4 @@ std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name) cons
 
 	return shader->second;
 }
-
-
 

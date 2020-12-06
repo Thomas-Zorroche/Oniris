@@ -1,4 +1,3 @@
-#shader vertex
 #version 330 core
 
 layout(location = 0) in vec3 aVertexPosition;
@@ -22,20 +21,4 @@ void main() {
     vVertexTexcoords = aVertexTexcoords;
 
     gl_Position = uMVPMatrix * vertexPosition;
-}
-
-#shader fragment
-#version 330 core
-
-out vec4 fFragColor;
-
-in vec3 vNormals_vs;
-in vec3 vPosition_vs;
-in vec2 vVertexTexcoords;
-
-uniform sampler2D texture_diffuse1;
-
-void main()
-{
-    fFragColor = texture(texture_diffuse1, vVertexTexcoords);
 }

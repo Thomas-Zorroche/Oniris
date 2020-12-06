@@ -55,9 +55,9 @@ void Mesh::SetupMesh()
     glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader& shader) const
+void Mesh::Draw(std::shared_ptr<Shader>& shader) const
 {
-    shader.Bind();
+    shader->Bind();
     
     // Textures 
 
@@ -84,7 +84,7 @@ void Mesh::Draw(Shader& shader) const
             break;
         }
         // now set the sampler to the correct texture unit
-        glUniform1i(glGetUniformLocation(shader.getID(), typeStr.c_str()), i);
+        glUniform1i(glGetUniformLocation(shader->getID(), typeStr.c_str()), i);
         // and finally bind the texture
         glBindTexture(GL_TEXTURE_2D, _material->GetParameterTexture(i));
     }
@@ -97,7 +97,7 @@ void Mesh::Draw(Shader& shader) const
         glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    shader.Unbind();
+    shader->Unbind();
     glActiveTexture(GL_TEXTURE0);
 
 }

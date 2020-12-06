@@ -17,7 +17,7 @@ public:
 
 	//Mesh(const Mesh& m);
 	
-	void Draw(Shader& shader) const;
+	void Draw(std::shared_ptr<Shader>& shader) const;
 
 
 private:
