@@ -70,7 +70,7 @@ private:
 	}
 
 public:
-	void Move(const Terrain & terrain)
+	void Move(const std::shared_ptr<Terrain>& terrain)
 	{
 		switch (_ActiveKey)
 		{
@@ -91,10 +91,10 @@ public:
 		}
 	}
 
-	void moveFront(float t, const Terrain & terrain)	 
+	void moveFront(float t, const std::shared_ptr<Terrain>& terrain)
 	{ 
 		_Position += t * _FrontVector; 
-		_Position.y = terrain.GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
+		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
 	void moveLeft(float t)  

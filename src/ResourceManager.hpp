@@ -28,7 +28,7 @@ public:
 	Texture LoadTexture(const std::string& path, TextureType type);
 	//Texture GetTexture(const std::string& path) const;
 
-	std::shared_ptr<Shader> LoadShader(const std::string& vertexShaderPath, 
+	void LoadShader(const std::string& vertexShaderPath, 
 									   const std::string& fragmentShaderPath,
 									   const std::string& name);
 	std::shared_ptr<Shader> GetShader(const std::string& name) const;

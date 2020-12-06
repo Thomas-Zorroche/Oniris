@@ -16,6 +16,13 @@ public:
 
 	void Update();
 
+	void Draw();
+
+	std::shared_ptr<Terrain>& TerrainPtr() { return _terrain; }
+	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
+
+	int StaticMeshesCount() const { return _staticMeshesCount; }
+
 
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);
@@ -23,5 +30,7 @@ private:
 
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
-	//Terrain _terrain;
+	std::shared_ptr<Terrain> _terrain;
+
+	unsigned int _staticMeshesCount = 0;
 };

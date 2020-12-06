@@ -145,42 +145,41 @@ std::shared_ptr<Material> ResourceManager::CacheBasicMaterial(const std::string&
 //
 // ------------------------------ Shaders ------------------------------ 
 //
-std::shared_ptr<Shader> ResourceManager::LoadShader(const std::string& vertexShaderPath, 
+void ResourceManager::LoadShader(const std::string& vertexShaderPath, 
 													const std::string& fragmentShaderPath, 
 													const std::string& name)
 {
-	// If shader already exists, return it
+	// If shader already exists, do not load it again
 	const auto shader = GetShader(name);
-	if (shader)
-		return shader;
-
-	//Otherwise, create and cache a new shader
-	std::string vertexCode;
-	std::string fragmentCode;
-	try
+	if (!shader)
 	{
-		// open file
-		std::ifstream vertexShaderFile(vertexShaderPath);
-		std::ifstream fragmentShaderFile(fragmentShaderPath);
-		std::stringstream vShaderStream, fShaderStream;
-		// read file's buffer contents into streams
-		vShaderStream << vertexShaderFile.rdbuf();
-		fShaderStream << fragmentShaderFile.rdbuf();
-		// close file handlers
-		vertexShaderFile.close();
-		fragmentShaderFile.close();
-		// convert stream into string
-		vertexCode = vShaderStream.str();
-		fragmentCode = fShaderStream.str();
-	}
-	catch (std::exception e)
-	{
-		std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
-	}
+		std::string vertexCode;
+		std::string fragmentCode;
+		try
+		{
+			// open file
+			std::ifstream vertexShaderFile(vertexShaderPath);
+			std::ifstream fragmentShaderFile(fragmentShaderPath);
+			std::stringstream vShaderStream, fShaderStream;
+			// read file's buffer contents into streams
+			vShaderStream << vertexShaderFile.rdbuf();
+			fShaderStream << fragmentShaderFile.rdbuf();
+			// close file handlers
+			vertexShaderFile.close();
+			fragmentShaderFile.close();
+			// convert stream into string
+			vertexCode = vShaderStream.str();
+			fragmentCode = fShaderStream.str();
+		}
+		catch (std::exception e)
+		{
+			std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
+		}
 
-	std::shared_ptr<Shader> newShader = std::make_shared<Shader>(vertexCode, fragmentCode);
+		std::shared_ptr<Shader> newShader = std::make_shared<Shader>(vertexCode, fragmentCode);
 	
-	_shaderCache.insert({ name, newShader}).first->second;
+		_shaderCache.insert({ name, newShader}).first->second;
+	}
 }
 
 std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name) const

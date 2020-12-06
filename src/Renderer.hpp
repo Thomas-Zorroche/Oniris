@@ -1,4 +1,5 @@
 #pragma once
+#include <GLFW/glfw3.h>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -12,36 +13,25 @@
 #include <vector>
 #include <memory>
 
+
 class Renderer
 {
 public:
-	Renderer(FreeflyCamera* camera, const std::vector<StaticMesh *> & StaticMeshes, Terrain * terrain)
-		: _camera(camera), _StaticMeshes(StaticMeshes), _terrain(terrain)
+	static Renderer& Get()
 	{
-		ComputeProjectionMatrix();
+		static Renderer instance;
+		return instance;
 	}
-	
+
+	Renderer(const Renderer&) = delete;
+	Renderer& operator=(const Renderer&) = delete;
+
+
 	void ComputeViewMatrix()
 	{
 		_view = _camera->getViewMatrix();
 	}
 
-	void DrawScene()
-	{
-		// Render the Terrain
-		SendModelMatrixUniforms(glm::mat4(1.0f), _terrain->GetShader());
-		SendBlinnPhongUniforms(_terrain->GetShader());
-		_terrain->Draw();
-
-
-		// Render all Static Meshes
-		for (size_t i = 0; i < _StaticMeshes.size(); i++)
-		{
-			SendModelMatrixUniforms(_StaticMeshes[i]->GetModelMatrix(), _StaticMeshes[i]->GetShader());
-			_StaticMeshes[i]->Draw();
-		}
-	}
-private:
 	void ComputeProjectionMatrix()
 	{
 		float fov = _camera->GetFov();
@@ -61,11 +51,8 @@ private:
 		glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MV));
 
 		shader->SetUniformMatrix4fv("uMVPMatrix", MVP);
-
 		shader->SetUniformMatrix4fv("uMVMatrix", MV);
-
 		shader->SetUniformMatrix4fv("uNormalMatrix", NormalMatrix);
-
 
 		shader->Unbind();
 	}
@@ -86,10 +73,17 @@ private:
 		shader->Unbind();
 	}
 
+	void SetCamera(FreeflyCamera* camera)
+	{
+		_camera = camera;
+	}
+
+
+private:
+	Renderer() = default;
+	~Renderer() = default;
 
 	FreeflyCamera* _camera;
 	glm::mat4 _projection;
 	glm::mat4 _view;
-	std::vector<StaticMesh *> _StaticMeshes;
-	Terrain* _terrain;
 };
