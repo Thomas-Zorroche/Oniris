@@ -29,12 +29,14 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Terrain.frag", "Terrain");
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16.png");
 
-
 	// Create Static Meshes
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
 	Model m_portail("res/models/portail/portail.obj");
 
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(350, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(650, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 }
 
 void Scene::Draw()

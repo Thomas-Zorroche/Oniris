@@ -44,7 +44,7 @@ void mainloop(GLFWwindow* window)
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetWindowUserPointer(window, &camera);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {

@@ -89,6 +89,10 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader) const
         glBindTexture(GL_TEXTURE_2D, _material->GetParameterTexture(i));
     }
 
+    //
+    // [TODO 1] :: Lien entre Material Basic Color and Shader
+    //
+
     // draw mesh
     glBindVertexArray(VAO);
     if (_indices.empty())

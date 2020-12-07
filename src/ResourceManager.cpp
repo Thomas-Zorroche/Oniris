@@ -63,14 +63,14 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
 		stbi_image_free(localBuffer);
 		// 
-		// [TODO] :: A remplacer par une execption
+		// [TODO 2] :: A remplacer par une execption
 		//
 		assert("FAILED TO LOAD TEXTURE"); 
 	}
 
 	// Fill imageData in order to retrieve pixel color later
 	// 
-	// [TODO] :: Just do this for heightmaps
+	// [TODO 1] :: Just do this for heightmaps
 	//
 	std::vector<unsigned char> imageData(localBuffer, localBuffer + height * height * 4);
 	
@@ -175,6 +175,9 @@ void ResourceManager::LoadShader(const std::string& vertexShaderPath,
 		{
 			std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
 		}
+		//
+		// [TODO 2] :: Vérifier cette execption
+		// 
 
 		std::shared_ptr<Shader> newShader = std::make_shared<Shader>(vertexCode, fragmentCode);
 	

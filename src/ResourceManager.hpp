@@ -53,5 +53,9 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<Shader>> _shaderCache;
 	std::unordered_map<std::string, std::shared_ptr<Model>> _modelCache;
 	std::unordered_map<std::string, std::shared_ptr<Material>> _materialCache;
+
+	//
+	// [TODO 3] :: Cache Vertex & Cache Fragment
+	//
 };
 

@@ -14,8 +14,6 @@ public:
 
 	void Init(const std::string& pathScene);
 
-	void Update();
-
 	void Draw();
 
 	std::shared_ptr<Terrain>& TerrainPtr() { return _terrain; }
