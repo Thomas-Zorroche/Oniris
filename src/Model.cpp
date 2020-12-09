@@ -121,7 +121,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     // 1. diffuse maps
     aiString aiDiffusePath;
     mat->GetTexture(aiTextureType_DIFFUSE, 0, &aiDiffusePath);
-    std::string diffusePath("res/models/portail/");
+    std::string diffusePath("res/img/");
     diffusePath += aiDiffusePath.C_Str();
     // 2. specular maps
     aiString specularPath;

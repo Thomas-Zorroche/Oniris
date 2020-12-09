@@ -35,7 +35,7 @@ void Scene::Init(const std::string& pathScene)
 
 	//Create Ui
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Ui");
-	Model m_ui("res/models/plan.obj");
+	Model m_ui("res/models/plan_ui/plan.obj");
 	AddStaticMesh(std::make_shared<StaticMesh>(m_ui, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Ui"));
 
 

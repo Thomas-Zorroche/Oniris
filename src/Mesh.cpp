@@ -10,17 +10,15 @@ Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Mater
            std::vector<unsigned int>* indices)
 	: _vertices(vertices), _material(material)
 {
+    //
+    // [TODO] :: constructeur par défaut de vecteur
+    //
     if (indices)
         _indices = *indices;
 
     SetupMesh();
 }
 
-//Mesh::Mesh(const Mesh& m)
-//    : _vertices(m._vertices), _indices(m._indices), VAO(m.VAO), VBO(m.VBO), EBO(m.EBO), _material(m._material)
-//{
-//    std::cout << "[MESH] COPY CONSTRUCTOR" << std::endl;
-//}
 
 void Mesh::SetupMesh()
 {
