@@ -33,10 +33,16 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
 	Model m_portail("res/models/portail/portail.obj");
 
+	//Create Ui
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Ui");
+	Model m_ui("res/models/plan.obj");
+	AddStaticMesh(std::make_shared<StaticMesh>(m_ui, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Ui"));
+
+
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(350, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(650, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+//	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(350, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+//	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+//	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(650, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 }
 
 void Scene::Draw()
