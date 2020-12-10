@@ -20,5 +20,5 @@ void main() {
     vNormals_vs = vec3(uNormalMatrix * vertexNormal);
     vVertexTexcoords = aVertexTexcoords;
 
-    gl_Position = uMVMatrix * vertexPosition;
+    gl_Position = vertexPosition;
 }

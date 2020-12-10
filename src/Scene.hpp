@@ -29,6 +29,8 @@ private:
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
 	std::shared_ptr<Terrain> _terrain;
+	//_______________
+	std::shared_ptr<Mesh> _mesh;
 
 	unsigned int _staticMeshesCount = 0;
 };

@@ -58,11 +58,14 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader) const
     shader->Bind();
     
     // Textures 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
     for (unsigned int i = 0; i < _material->TextureCount(); i++)
     {
         glActiveTexture(GL_TEXTURE0 + i); 
-        
+
         std::string typeStr;
         switch (i)
         {
@@ -101,5 +104,6 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader) const
 
     shader->Unbind();
     glActiveTexture(GL_TEXTURE0);
+    glDisable(GL_BLEND);
 
 }
