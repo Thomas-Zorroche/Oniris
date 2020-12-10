@@ -142,6 +142,14 @@ std::shared_ptr<Material> ResourceManager::CacheBasicMaterial(const std::string&
 	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
 }
 
+std::shared_ptr<Material> ResourceManager::CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse)
+{
+	Material mat = Material();
+	mat.InitColorPBR(name, diffuse, glm::vec3(1, 1, 1), glm::vec3(1, 1, 1));
+
+	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
+}
+
 //
 // ------------------------------ Shaders ------------------------------ 
 //

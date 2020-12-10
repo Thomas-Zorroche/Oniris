@@ -55,10 +55,10 @@ void Mesh::SetupMesh()
     glBindVertexArray(0);
 }
 
-void Mesh::Draw(std::shared_ptr<Shader>& shader) const
+void Mesh::Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance, int countParticules) const
 {
     shader->Bind();
-    
+
     // Textures 
 
     for (unsigned int i = 0; i < _material->TextureCount(); i++)
@@ -95,7 +95,11 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader) const
 
     // draw mesh
     glBindVertexArray(VAO);
-    if (_indices.empty())
+    if (IsParticuleInstance)
+    {
+        glDrawElementsInstanced(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0, countParticules);
+    }
+    else if (_indices.empty())
         glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
     else
         glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);

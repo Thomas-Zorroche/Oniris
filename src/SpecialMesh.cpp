@@ -1,6 +1,7 @@
 #include "SpecialMesh.hpp"
 #include "ResourceManager.hpp"
 #include "Shader.h"
+#include "Renderer.hpp"
 #include <string>
 
 
@@ -18,7 +19,18 @@ void StaticMesh::TransformModel()
 	_modelMatrix = glm::translate(glm::mat4(1.0f), _position);
 }
 
-void StaticMesh::Draw()
+void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 {
-	_model.Draw(_shader);
+	Renderer::Get().SendModelMatrixUniforms(GetModelMatrix(), _shader);
+	_model.Draw(_shader, isParticuleInstance, countParticule);
 }
+
+/*
+* Transfromations
+*/
+
+void StaticMesh::Scale(float alpha)
+{
+	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(alpha));
+}
+
