@@ -76,7 +76,10 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
 
 void ParticuleSystem::Draw()
 {
-    Renderer::Get().SendBlinnPhongUniforms(_instance.GetShader());
+    Renderer::Get().SendBlinnPhongUniforms(_instance.GetShader()); 
+    auto shader = _instance.GetShader();
+    shader->Bind();
+    shader->SetUniform3f("u_SkyColor", 0.32f, 0.78f, 0.76f);
 
     _instance.Draw(true, _count);
 }

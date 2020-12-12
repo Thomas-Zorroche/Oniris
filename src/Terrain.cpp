@@ -178,6 +178,8 @@ float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 /* DRAW THE TERRAIN */
 void Terrain::Draw()
 {
+	_shader->Bind();
+	_shader->SetUniform3f("u_SkyColor", 0.32f, 0.78f, 0.76f);
 	_mesh.Draw(_shader);
 }
 

@@ -13,6 +13,10 @@ uniform mat4 uNormalMatrix;
 out vec3 vPosition_vs;
 out vec3 vNormals_vs;
 out vec2 vVertexTexcoords;
+out float vVisibility;
+
+const float density = 0.0035;
+const float gradient = 2.0;
 
 //uniform vec2 offsets[100];
 
@@ -36,4 +40,9 @@ void main()
     vVertexTexcoords = aVertexTexcoords;
 
     gl_Position =  uMVPMatrix * translate(aOffset) * scale(aScale) * vertexPosition;
+
+
+    float distance = length(gl_Position.xyz);
+    vVisibility = exp(-pow((distance * density), gradient));
+    vVisibility = clamp(vVisibility, 0.0, 1.0);
 }
