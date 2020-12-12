@@ -33,6 +33,7 @@ vec3 BlinnPhong()
 
 void main()
 {
-    fFragColor = texture(u_Diffuse, vVertexTexcoords * 10.0) * vec4(BlinnPhong(), 1.0);
-    //fFragColor = vec4(u_Kd, 1.0f);
-};
+    //fFragColor = vec4(0.8, 0.4, 0.0, 1.0);
+    //fFragColor = texture(u_Diffuse, vVertexTexcoords);
+    fFragColor = texture(u_Diffuse, vVertexTexcoords) * vec4(BlinnPhong(), 1.0);
+}

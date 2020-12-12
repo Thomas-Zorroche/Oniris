@@ -6,6 +6,7 @@
 #include "ResourceManager.hpp"
 #include "Texture.h"
 #include "Terrain.hpp"
+#include "Renderer.hpp"
 
 #include "glm/glm.hpp"
 
@@ -14,33 +15,40 @@
 #include <chrono>
 
 
-ParticuleSystem::ParticuleSystem(const StaticMesh& mesh, unsigned int count, const std::string& pathDensity, std::shared_ptr<Terrain>& terrain)
-	: _instance(mesh), _instanceVAO(mesh.GetVAO()), _count(count), _terrain(terrain),
-	  _densityTexture(ResourceManager::Get().LoadTexture("res/img/grass_diffuse.jpg", DENSITY))
+ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count,
+    const std::vector<ControlPointParticule>& controlPoints, std::shared_ptr<Terrain>& terrain)
+	: _name(name), _instance(mesh), _instanceVAO(mesh.GetVAO()), _count(count), _controlPoints(controlPoints), _terrain(terrain)
 {
-    glm::vec3 translations[100];
-    int index = 0;
-    float offset = 25.0f;
-    for (int z = 0; z < 20; z += 2)
-    {
-        for (int x = 0; x < 20; x += 2)
-        {
-            translations[index].x = (float)x * offset;
-            translations[index].z = (float)z * offset;
-            translations[index].y = _terrain->GetHeightOfTerrain(translations[index].x, translations[index].z);
-            index++;
-        }
-    }
-
-    // select seed from time
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::uniform_int_distribution<int> uniformIntDistribution(4, 8);
-
-    float scales[100];
-    for (size_t i = 0; i < 100; i++)
+    
+    std::vector<glm::vec3> translations;
+    std::vector<float> scales;
+    
+    for (size_t i = 0; i < _controlPoints.size(); i++)
     {
-        scales[i] = uniformIntDistribution(generator);
+        double meanX = _controlPoints[i].Position().x;
+        double meanZ = _controlPoints[i].Position().y;
+        double stdev = _controlPoints[i].Radius();
+        std::normal_distribution<double> normalDistributionX(meanX, stdev);
+        std::normal_distribution<double> normalDistributionZ(meanZ, stdev);
+        
+        // Random Positions
+        for (size_t i = 0; i < _count / (float)_controlPoints.size(); i++)
+        {
+            glm::vec3 trans;
+            trans.x = normalDistributionX(generator);
+            trans.z = normalDistributionZ(generator);
+            trans.y = _terrain->GetHeightOfTerrain(trans.x, trans.z);
+            translations.push_back(trans);
+        }
+
+        // Random Scales
+        std::uniform_int_distribution<int> uniformIntDistribution(2, 4);
+        for (size_t i = 0; i < _count / (float)_controlPoints.size(); i++)
+        {
+            scales.push_back(uniformIntDistribution(generator));
+        }
     }
 
 
@@ -50,7 +58,7 @@ ParticuleSystem::ParticuleSystem(const StaticMesh& mesh, unsigned int count, con
 
     glGenBuffers(1, &vboTrans);
     glBindBuffer(GL_ARRAY_BUFFER, vboTrans);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * 100, &translations[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * _count, &translations[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -58,22 +66,17 @@ ParticuleSystem::ParticuleSystem(const StaticMesh& mesh, unsigned int count, con
 
     glGenBuffers(1, &vboScales);
     glBindBuffer(GL_ARRAY_BUFFER, vboScales);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 100, &scales[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * _count, &scales[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)(0));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribDivisor(4, 1);
     glBindVertexArray(0);
-
-    //auto shader = _instance.GetShader();
-    //shader->Bind();
-    //for (unsigned int i = 0; i < 100; i++)
-    //{
-    //    shader->SetUniform2f(("offsets[" + std::to_string(i) + "]"), translations[i].x, translations[i].y);
-    //}
 }
 
 void ParticuleSystem::Draw()
 {
-	_instance.Draw(true, _count);
+    Renderer::Get().SendBlinnPhongUniforms(_instance.GetShader());
+
+    _instance.Draw(true, _count);
 }

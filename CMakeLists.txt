@@ -37,6 +37,10 @@ file(COPY ${CMAKE_SOURCE_DIR}/res/img/
 file(COPY ${CMAKE_SOURCE_DIR}/res/models/
 	DESTINATION ${CMAKE_BINARY_DIR}/res/models)
 
+# Add Scene files
+file(COPY ${CMAKE_SOURCE_DIR}/res/scene/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/scene)
+
 # Add Assimp dll into Exec Directory
 file(COPY ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mtd.dll
 	 DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
