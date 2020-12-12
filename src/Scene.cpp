@@ -27,6 +27,10 @@ void Scene::Init(const std::string& pathScene)
 	std::string sceneFileContent = ResourceManager::Get().LoadTextFile(pathScene);
 	std::cout << sceneFileContent << std::endl;
 
+	//Ui shader loading & Hud creation
+	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
+	Hud _hud();
+
 	// Create Terrain
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Terrain.frag", "Terrain");
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16.png");
@@ -35,37 +39,7 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
 	Model m_portail("res/models/portail/portail.obj");
 
-	//Create Ui
-	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
-	Model m_ui("res/models/plan_ui/plan.obj");
-	//AddStaticMesh(std::make_shared<StaticMesh>(m_ui, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250)+ 2.0, 250), "Ui"));
-
-	//______________________________________________________________________________create mesh ui
-
-	std::vector<ShapeVertex> vertices = {
-						// position					// normal				// texcoord
-		ShapeVertex(glm::vec3(-1.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 0.0), glm::vec2(0.0, 0.0)),
-		ShapeVertex(glm::vec3( 1.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 0.0), glm::vec2(0.0, 1.0)),
-		ShapeVertex(glm::vec3( 1.0,-1.0, 0.0), glm::vec3(0.0, 0.0, 0.0), glm::vec2(1.0, 1.0)),
-		ShapeVertex(glm::vec3(-1.0,-1.0, 0.0), glm::vec3(0.0, 0.0, 0.0), glm::vec2(1.0, 0.0))
-
-	};
-
-	//const auto material = ResourceManager::Get().CachePBRColorMaterial("ui", glm::vec3(1.0, 1.0, 1.0));
-	const auto material = ResourceManager::Get().CacheBasicMaterial("ui", "res/img/uiplaceholder.png");
-
-	std::vector<unsigned int> indices = {
-		0,1,3,
-		1,3,2
-	};
-
-	Mesh newMesh = Mesh(vertices, material, &indices);
-	_mesh = std::make_shared<Mesh>(newMesh);
-
-
-	//______________________________________________________________________________________________
-
-	//AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+//	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 //	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(350, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 //	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 //	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(650, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
@@ -85,8 +59,7 @@ void Scene::Draw()
 		_staticMeshes[i]->Draw();
 	}
 
-
-	_mesh->Draw(ResourceManager::Get().GetShader("Ui"));
+	_hud.Draw();
 
 }
 

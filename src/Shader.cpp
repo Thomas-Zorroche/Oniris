@@ -65,8 +65,6 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 void Shader::Bind() const
 {
     glUseProgram(m_RendererID);
-    GLCheckError();
-
 }
 
 void Shader::Unbind() const

@@ -56,6 +56,8 @@ void Mesh::SetupMesh()
 void Mesh::Draw(std::shared_ptr<Shader>& shader) const
 {
     shader->Bind();
+
+
     
     // Textures 
     glEnable(GL_BLEND);
