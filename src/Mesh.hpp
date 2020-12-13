@@ -29,6 +29,5 @@ private:
 	std::shared_ptr<Material> _material;
 
 
-
 	void SetupMesh();
 };
