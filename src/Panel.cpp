@@ -3,8 +3,8 @@
 #include "Material.hpp"
 
 
-Panel::Panel(const std::string texture, std::string name, float x, float y, float scale, int spriteSize, int nbSprite):
-	_modelMatrix(glm::mat4(1.0f)), _name(name), _nbSprite(nbSprite)
+Panel::Panel(const std::string texture, std::string name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
+	_modelMatrix(glm::mat4(1.0f)), _name(name), _nbSprite(nbSprite), _visibility(visibility)
 {
 	//
 	// [TODO] :: Global window size
@@ -38,8 +38,8 @@ Panel::Panel(const std::string texture, std::string name, float x, float y, floa
 
 	ComputeModelMatrix(x,y,scale);
 	_texTranslation = glm::vec2(0.0f);
-	TranslateTexture();
-	
+	//TranslateTexture();
+
 }
 
 void Panel::Update(FreeflyCamera* camera)

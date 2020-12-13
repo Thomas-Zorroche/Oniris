@@ -17,7 +17,8 @@ public:
 		float y, 
 		float scale,
 		int spriteSize,
-		int nbSprite);
+		int nbSprite,
+		bool visibity);
 	
 	//Draw
 	void Panel::Draw();
@@ -25,7 +26,7 @@ public:
 	// A appeler à chaque tour de boucle de rendu
 	void Panel::Update(FreeflyCamera* camera);
 
-	//void Panel::Draw() { _mesh.Draw(_shader); }
+	inline bool Panel::IsVisible(){ return _visibility; };
 
 private:
 	void Panel::ComputeModelMatrix(float x, float y, float scale);
@@ -49,6 +50,6 @@ private:
 
 
 	// Je sais pas si t'en auras besoin, mais au cas où
-	bool _visible = true;
+	bool _visibility = true;
 
 };
