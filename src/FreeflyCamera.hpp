@@ -39,7 +39,7 @@ private:
 
 public:
 	FreeflyCamera()
-		: _Position(10, 1, 10), _phi(M_PI), _theta(0), _CanTurn(false),
+		: _Position(300, 1, 170), _phi(M_PI), _theta(0), _CanTurn(false),
 		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f) 
 	{
 		computeDirectionVectors();

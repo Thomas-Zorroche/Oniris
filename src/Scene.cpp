@@ -4,6 +4,7 @@
 #include "Terrain.hpp"
 #include "Shader.h"
 #include "Renderer.hpp"
+#include "Ocean.hpp"
 #include "ParticuleSystem.hpp"
 
 #include <memory>
@@ -27,9 +28,15 @@ void Scene::Init(const std::string& pathScene)
 	std::string sceneFileContent = ResourceManager::Get().LoadTextFile(pathScene);
 	std::cout << sceneFileContent << std::endl;
 
-	// Create Terrain
+	// Load all Shaders
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Terrain.frag", "Terrain");
+	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
+
+	// Create Terrain
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16.png");
+
+	// Create Ocean
+	_ocean = std::make_shared<Ocean>();
 	
 	// Particule Systems
 	auto _particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain);
@@ -55,10 +62,18 @@ void Scene::Draw()
 	Renderer::Get().SendBlinnPhongUniforms(_terrain->GetShader());
 	_terrain->Draw();
 
+	// Render the Ocean
+	//Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _terrain->GetShader());
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	_ocean->Draw();
+	glDisable(GL_BLEND);
+
+
 	// Render all the static meshes
 	for (size_t i = 0; i < _staticMeshesCount; i++)
 	{
-		Renderer::Get().SendModelMatrixUniforms(_staticMeshes[i]->GetModelMatrix(), _staticMeshes[i]->GetShader());
+		//Renderer::Get().SendModelMatrixUniforms(_staticMeshes[i]->GetModelMatrix(), _staticMeshes[i]->GetShader());
 		_staticMeshes[i]->Draw();
 	}
 

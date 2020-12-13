@@ -6,6 +6,7 @@
 
 #include "SpecialMesh.hpp"
 #include "Terrain.hpp"
+#include "Ocean.hpp"
 #include "ParticuleSystem.hpp"
 
 
@@ -34,6 +35,7 @@ private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
 	std::vector<std::shared_ptr<ParticuleSystem> > _particuleSystem;
 	std::shared_ptr<Terrain> _terrain;
+	std::shared_ptr<Ocean> _ocean;
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;

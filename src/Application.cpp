@@ -40,6 +40,7 @@ void mainloop(GLFWwindow* window)
 
     glEnable(GL_DEPTH_TEST);  
 
+
     // Callback function for Mouse Cursor
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetWindowUserPointer(window, &camera);
