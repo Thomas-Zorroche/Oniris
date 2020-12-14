@@ -7,6 +7,7 @@
 #include "SpecialMesh.hpp"
 #include "Terrain.hpp"
 #include "Ocean.hpp"
+#include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
 
 
@@ -36,7 +37,12 @@ private:
 	std::vector<std::shared_ptr<ParticuleSystem> > _particuleSystem;
 	std::shared_ptr<Terrain> _terrain;
 	std::shared_ptr<Ocean> _ocean;
+	std::shared_ptr<Skybox> _skybox;
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;
+	
+	// VARIABLE TEST
+	unsigned int _idSky = 0;
+	unsigned int _VAOSky = 0;
 };

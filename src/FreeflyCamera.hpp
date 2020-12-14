@@ -35,7 +35,7 @@ private:
 	float _widthScreen = 1280.0f;
 	float _heightScreen = 720.0f;
 	float _nearPlane = 0.1f;
-	float _farPlane = 1000.0f;
+	float _farPlane = 5000.0f;
 
 public:
 	FreeflyCamera()

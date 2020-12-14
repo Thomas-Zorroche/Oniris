@@ -11,6 +11,8 @@ class Material;
 class Mesh
 {
 public:
+	Mesh();
+
 	Mesh(const std::vector<ShapeVertex> & vertices, 
 		 const std::shared_ptr<Material>& material,
 		 std::vector<unsigned int>      * indices  = nullptr);   // Optional Argument

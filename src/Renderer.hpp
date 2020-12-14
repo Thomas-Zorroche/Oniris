@@ -42,8 +42,11 @@ public:
 		_projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane);
 	}
 
-	void SendModelMatrixUniforms(const glm::mat4 & modelMatrix, std::shared_ptr<Shader>& shader) const
+	void SendModelMatrixUniforms(const glm::mat4 & modelMatrix, std::shared_ptr<Shader>& shader, bool removeTranslationView = false)
 	{
+		if (removeTranslationView)
+			_view = glm::mat4(glm::mat3(_view));
+
 		shader->Bind();
 
 		glm::mat4 MVP = _projection * _view * modelMatrix;
@@ -55,6 +58,9 @@ public:
 		shader->SetUniformMatrix4fv("uNormalMatrix", NormalMatrix);
 
 		shader->Unbind();
+
+		if (removeTranslationView)
+			ComputeViewMatrix();
 	}
 
 	void SendBlinnPhongUniforms(std::shared_ptr<Shader>& shader) const
