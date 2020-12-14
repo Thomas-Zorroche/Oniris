@@ -38,30 +38,19 @@ void Skybox::GenerateMesh()
 
 void Skybox::Draw()
 {
-    glDepthMask(GL_FALSE);
+    glDepthFunc(GL_LEQUAL);
 
-   /* glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);*/
+    auto shader = ResourceManager::Get().GetShader("Skybox");
+    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), shader, true);
 
-    // Set uniform
-    // -----------
-    _shader->Bind();
-    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader, true);
+    shader->Bind();
     glBindVertexArray(_mesh->GetVAO());
-
-    // Active Texture
-    // --------------
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, _id);
-    //glUniform1i(glGetUniformLocation(_shader->getID(), "skybox"), 0);
-
     glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
 
-    //glDisable(GL_CULL_FACE);
-    //glCullFace(GL_BACK);
-    glDepthMask(GL_TRUE);
-
-    _shader->Unbind();
+    glDepthFunc(GL_LESS); 
 }
 
 

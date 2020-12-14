@@ -40,7 +40,6 @@ void mainloop(GLFWwindow* window)
 
     glEnable(GL_DEPTH_TEST);  
 
-
     // Callback function for Mouse Cursor
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetWindowUserPointer(window, &camera);
@@ -59,7 +58,7 @@ void mainloop(GLFWwindow* window)
         Renderer::Get().ComputeViewMatrix();
         
         // 84, 199, 195
-        glClearColor(0.32f, 0.78f, 0.76f, 1.0f);
+        glClearColor(0.15f, 0.25f, 0.32f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Render scene here
