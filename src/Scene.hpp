@@ -7,6 +7,9 @@
 #include "SpecialMesh.hpp"
 #include "Terrain.hpp"
 #include "Hud.hpp"
+#include "Ocean.hpp"
+#include "Skybox.hpp"
+#include "ParticuleSystem.hpp"
 
 
 class Scene
@@ -27,13 +30,22 @@ public:
 
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);
+	void AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particuleSystem);
 	//void AddLight();
 
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
+	std::vector<std::shared_ptr<ParticuleSystem> > _particuleSystem;
 	std::shared_ptr<Terrain> _terrain;
 	Hud _hud;
+	std::shared_ptr<Ocean> _ocean;
+	std::shared_ptr<Skybox> _skybox;
 
 
 	unsigned int _staticMeshesCount = 0;
+	unsigned int _particuleSystemCount = 0;
+	
+	// VARIABLE TEST
+	unsigned int _idSky = 0;
+	unsigned int _VAOSky = 0;
 };

@@ -11,13 +11,17 @@ class Material;
 class Mesh
 {
 public:
+	Mesh();
+
 	Mesh(const std::vector<ShapeVertex> & vertices, 
-		const std::shared_ptr<Material>& material,
+		 const std::shared_ptr<Material>& material,
 		 std::vector<unsigned int>      * indices  = nullptr);   // Optional Argument
 
 	//Mesh(const Mesh& m);
 	
-	void Draw(std::shared_ptr<Shader>& shader) const;
+	void Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance = false, int countParticules = 0) const;
+
+	unsigned int GetVAO() const { return VAO; }
 
 
 private:
@@ -27,7 +31,6 @@ private:
 	unsigned int VAO, VBO, EBO;
 
 	std::shared_ptr<Material> _material;
-
 
 	void SetupMesh();
 };

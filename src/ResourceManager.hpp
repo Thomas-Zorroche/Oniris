@@ -2,6 +2,8 @@
 
 #include <unordered_map> 
 #include <memory> 
+#include <vector> 
+#include <string> 
 #include "Texture.h"
 #include "Shader.h"
 #include "Model.hpp"
@@ -26,7 +28,8 @@ public:
 
 	// Loads an image (if not cached) and generates an OpenGL texture.
 	Texture LoadTexture(const std::string& path, TextureType type);
-	//Texture GetTexture(const std::string& path) const;
+	
+	unsigned int LoadCubemap(const std::vector<std::string>& faces) const;
 
 	void LoadShader(const std::string& vertexShaderPath, 
 									   const std::string& fragmentShaderPath,
@@ -37,6 +40,7 @@ public:
 	std::shared_ptr<Material> GetMaterial(const std::string& name) const;
 	std::shared_ptr<Material> CachePBRMaterial(const std::string& name, const std::string& diffuse, 
 											   const std::string& roughness, const std::string& normal);
+	std::shared_ptr<Material> CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse);
 	
 	std::shared_ptr<Material> CacheBasicMaterial(const std::string& name, const std::string& diffuse);
 	std::shared_ptr<Material> CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse);

@@ -5,7 +5,7 @@
 
 enum TextureType
 {
-	DIFFUSE = 0, ROUGHNESS, NORMAL, HEIGHTMAP
+	DIFFUSE = 0, ROUGHNESS, NORMAL, HEIGHTMAP, DENSITY
 };
 
 class Texture

@@ -58,7 +58,8 @@ void mainloop(GLFWwindow* window)
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
         
-        glClearColor(0.5, 0.15f, 0.3f, 1.0f);
+        // 84, 199, 195
+        glClearColor(0.15f, 0.25f, 0.32f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Render scene here

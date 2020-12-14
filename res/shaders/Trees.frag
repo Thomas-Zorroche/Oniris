@@ -7,7 +7,6 @@ in vec3 vPosition_vs;
 in vec2 vVertexTexcoords;
 in float vVisibility;
 
-
 uniform sampler2D u_Diffuse;
 
 uniform vec3 u_Kd;
@@ -35,8 +34,8 @@ vec3 BlinnPhong()
 
 void main()
 {
-    fFragColor = texture(u_Diffuse, vVertexTexcoords * 10.0) * vec4(BlinnPhong(), 1.0);
-    fFragColor = mix(fFragColor, vec4(0.05, 0.12, 0.10, 1.0), 0.4);
+    //fFragColor = vec4(0.8, 0.4, 0.0, 1.0);
+    //fFragColor = texture(u_Diffuse, vVertexTexcoords);
+    fFragColor = texture(u_Diffuse, vVertexTexcoords) * vec4(BlinnPhong(), 1.0);
     fFragColor = mix(vec4(u_SkyColor, 1.0), fFragColor, vVisibility);
-    //fFragColor = vec4(u_Kd, 1.0f);
-};
+}

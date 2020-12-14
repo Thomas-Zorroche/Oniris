@@ -11,7 +11,7 @@ Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Mater
 	: _vertices(vertices), _material(material)
 {
     //
-    // [TODO] :: constructeur par défaut de vecteur
+    // [TODO] :: constructeur par dï¿½faut de vecteur
     //
     if (indices)
         _indices = *indices;
@@ -53,12 +53,10 @@ void Mesh::SetupMesh()
     glBindVertexArray(0);
 }
 
-void Mesh::Draw(std::shared_ptr<Shader>& shader) const
+void Mesh::Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance, int countParticules) const
 {
     shader->Bind();
 
-
-    
     // Textures 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -98,7 +96,11 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader) const
 
     // draw mesh
     glBindVertexArray(VAO);
-    if (_indices.empty())
+    if (IsParticuleInstance)
+    {
+        glDrawElementsInstanced(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0, countParticules);
+    }
+    else if (_indices.empty())
         glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
     else
         glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);

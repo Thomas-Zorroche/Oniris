@@ -65,6 +65,7 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 void Shader::Bind() const
 {
     glUseProgram(m_RendererID);
+
 }
 
 void Shader::Unbind() const
@@ -89,13 +90,20 @@ void Shader::SetUniform2f(const std::string& name, float f1, float f2)
 
 void Shader::SetUniform4f(const std::string& name, float f1, float f2, float f3, float f4)
 {
-    glUniform4f(GetUniformLocation(name), f1, f2, f3, f4);
+    glUniform2f(GetUniformLocation(name), f1, f2);
 }
+
 
 void Shader::SetUniform3f(const std::string& name, float f1, float f2, float f3)
 {
     glUniform3f(GetUniformLocation(name), f1, f2, f3);
 }
+
+void Shader::SetUniform4f(const std::string& name, float f1, float f2, float f3, float f4)
+{
+    glUniform4f(GetUniformLocation(name), f1, f2, f3, f4);
+}
+
 
 void Shader::SetUniformMatrix4fv(const std::string& name, glm::mat4 matrix)
 {
