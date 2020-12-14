@@ -14,10 +14,10 @@ Hud::Hud()
 	Panel panel4("res/img/ui_health.png", "ui_health", 0.8, -0.7, 1.0, 163, 8, true);
 	_panels.push_back(panel4);
 
-	Panel panel5("res/img/ui_key.png", "ui_key", 0.9, 0.3, 1.0, 80, 3, true);
+	Panel panel5("res/img/ui_key.png", "ui_key", 0.9, -0.1, 0.6, 80, 3, true);
 	_panels.push_back(panel5);
 
-	Panel panel6("res/img/ui_map.png", "ui_map", 0.9, 0.0, 1.0, 80, 3, true);
+	Panel panel6("res/img/ui_map.png", "ui_map", 0.9, -0.3, 0.6, 80, 3, true);
 	_panels.push_back(panel6);
 
 }
