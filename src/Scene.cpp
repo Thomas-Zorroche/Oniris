@@ -7,14 +7,11 @@
 #include "Ocean.hpp"
 #include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
-#include "stb_image.h"
-#include "Material.hpp"
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <iostream>
-#include "glm/glm.hpp"
 
 
 Scene::Scene(const std::string& pathScene)
@@ -94,7 +91,6 @@ void Scene::Draw()
 		_staticMeshes[i]->Draw();
 	}
 
-	_hud.Draw();
 
 
 	// Render all the particule systems
@@ -106,6 +102,7 @@ void Scene::Draw()
 
 	// Render the Skybox
 	_skybox->Draw();
+	_hud.Draw();
 }
 
 void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)

@@ -40,7 +40,6 @@ public:
 	std::shared_ptr<Material> GetMaterial(const std::string& name) const;
 	std::shared_ptr<Material> CachePBRMaterial(const std::string& name, const std::string& diffuse, 
 											   const std::string& roughness, const std::string& normal);
-	std::shared_ptr<Material> CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse);
 	
 	std::shared_ptr<Material> CacheBasicMaterial(const std::string& name, const std::string& diffuse);
 	std::shared_ptr<Material> CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse);
