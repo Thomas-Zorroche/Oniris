@@ -7,7 +7,6 @@ in vec3 vPosition_vs;
 in vec2 vVertexTexcoords;
 in float vVisibility;
 
-
 uniform sampler2D u_Diffuse;
 uniform vec3 u_SkyColor;
 

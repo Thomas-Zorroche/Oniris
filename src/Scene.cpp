@@ -55,7 +55,12 @@ void Scene::Init(const std::string& pathScene)
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
 	
-
+	// Particule Systems
+	auto _particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain);
+	for (size_t i = 0; i < _particuleSystem.size(); i++)
+	{
+		AddParticuleSystem(_particuleSystem[i]);
+	}
 
 	//ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Trees.frag", "Trees");
 	//Model m_tree("res/models/trees/Sapin_01.obj");

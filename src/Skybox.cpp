@@ -39,11 +39,14 @@ void Skybox::GenerateMesh()
 void Skybox::Draw()
 {
     glDepthFunc(GL_LEQUAL);
-
+    
     auto shader = ResourceManager::Get().GetShader("Skybox");
+
     Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), shader, true);
 
     shader->Bind();
+    LoadAllUniforms();
+
     glBindVertexArray(_mesh->GetVAO());
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, _id);
