@@ -19,6 +19,7 @@
 #include "Terrain.hpp"
 #include "Scene.hpp"
 #include "ResourceManager.hpp"
+#include "Hud.hpp"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

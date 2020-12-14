@@ -1,9 +1,12 @@
+#pragma once
+
 #include <vector>
 #include <memory>
 #include <string>
 
 #include "SpecialMesh.hpp"
 #include "Terrain.hpp"
+#include "Hud.hpp"
 
 
 class Scene
@@ -29,6 +32,8 @@ private:
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
 	std::shared_ptr<Terrain> _terrain;
+	Hud _hud;
+
 
 	unsigned int _staticMeshesCount = 0;
 };
