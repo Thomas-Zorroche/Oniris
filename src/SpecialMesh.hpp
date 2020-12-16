@@ -2,8 +2,10 @@
 
 #include "Model.hpp"
 #include "Shader.h"
+#include "BoxCollision.hpp"
 
 #include <string>
+#include <memory>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -30,6 +32,8 @@ private:
 	glm::vec3 _position;
 	glm::mat4 _modelMatrix;
 	std::shared_ptr<Shader> _shader;
+
+	std::shared_ptr<CollisionBox> _cBox;
 	
 	void TransformModel();
 };

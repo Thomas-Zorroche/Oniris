@@ -8,6 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Terrain.hpp"
+#include "BoxCollision.hpp"
 
 class FreeflyCamera
 {
@@ -27,7 +28,7 @@ private:
 	// Input Data
 	float _sensitivity;
 	char _ActiveKey = 'A';
-	float _Speed = .5f;
+	float _Speed = 3.0f;
 	float _HeightCamera = 10.0f;
 
 	// Technical Data
@@ -37,10 +38,14 @@ private:
 	float _nearPlane = 0.1f;
 	float _farPlane = 5000.0f;
 
+	// Box Collision
+	std::shared_ptr<CollisionBox> _cBox;
+
 public:
 	FreeflyCamera()
 		: _Position(300, 1, 170), _phi(M_PI), _theta(0), _CanTurn(false),
-		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f) 
+		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f), 
+		_cBox(std::make_shared<CollisionBox>(300, 1, 170, 10, 10, 10, []() { std::cout << "HIT CAMERA\n"; }) )
 	{
 		computeDirectionVectors();
 	}
@@ -127,6 +132,7 @@ public:
 	float GetSensitivity() const  { return _sensitivity; }
 	char GetActiveKey() const  { return _ActiveKey; };
 	float GetSpeed() const  { return _Speed; };
+	std::shared_ptr<CollisionBox> GetCollisionBox() const { return _cBox; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }

@@ -20,6 +20,7 @@
 #include "Scene.hpp"
 #include "ResourceManager.hpp"
 #include "Hud.hpp"
+#include "CollisionManager.hpp"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -39,6 +40,9 @@ void mainloop(GLFWwindow* window)
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
+    // Initialisation Collision Manager
+    CollisionManager::Get().Init(&camera);
+
     glEnable(GL_DEPTH_TEST);  
 
     // Callback function for Mouse Cursor
@@ -51,6 +55,9 @@ void mainloop(GLFWwindow* window)
     {
         // Handle Inputs
         processInput(window, camera);
+
+        // Check Collisions
+        CollisionManager::Get().CheckCollisions();
 
         // Camera movement according to Inputs
         camera.Move(scene.TerrainPtr());

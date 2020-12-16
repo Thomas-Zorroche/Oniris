@@ -9,7 +9,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName)
-	: _model(model), _position(position), _shader(ResourceManager::Get().GetShader(shaderName))
+	: _model(model), _position(position), _shader(ResourceManager::Get().GetShader(shaderName)),
+	  _cBox(std::make_shared<CollisionBox>(300, 1, 170, 10, 10, 10, []() { std::cout << "HIT CAMERA\n"; }))
 {
 	TransformModel();
 }
