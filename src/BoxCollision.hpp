@@ -1,22 +1,23 @@
 #pragma once
 
-#include <functional>
+#include "glm/glm.hpp"
+#include <memory>
 
-class FreeflyCamera;
+typedef void(*OnBeginOverlapFunction)(void);
 
 class CollisionBox
 {
 public:
-	CollisionBox(float x, float y, float z, float w, float h, float d, 
-				 const std::function<void(void)>& collisionFunction);
+	CollisionBox(const glm::vec3& origin, float w, float h, float d, 
+		const OnBeginOverlapFunction& collisionFunction = []{});
 
 	void OnBeginOverlap();
-	bool IsColliding(FreeflyCamera* camera);
+	bool IsColliding(const std::shared_ptr<CollisionBox>& box);
 
 private:
 	float _x = 0.0f, _y = 0.0f, _z = 0.0f;
 	float _w = 10.0f, _h = 10.0f, _d = 10.0f;
 
 
-	std::function<void(void)> _collisionFunction;
+	OnBeginOverlapFunction _collisionFunction;
 };

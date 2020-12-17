@@ -28,7 +28,7 @@ private:
 	// Input Data
 	float _sensitivity;
 	char _ActiveKey = 'A';
-	float _Speed = 3.0f;
+	float _Speed = 1.5f;
 	float _HeightCamera = 10.0f;
 
 	// Technical Data
@@ -45,7 +45,7 @@ public:
 	FreeflyCamera()
 		: _Position(300, 1, 170), _phi(M_PI), _theta(0), _CanTurn(false),
 		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f), 
-		_cBox(std::make_shared<CollisionBox>(300, 1, 170, 10, 10, 10, []() { std::cout << "HIT CAMERA\n"; }) )
+		_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), 10, 10, 10))
 	{
 		computeDirectionVectors();
 	}

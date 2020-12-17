@@ -38,6 +38,7 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Terrain.frag", "Terrain");
 	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
 
 
 	// Create Terrain
@@ -65,13 +66,13 @@ void Scene::Init(const std::string& pathScene)
 		AddParticuleSystem(_particuleSystem[i]);
 	}
 
-	//ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Trees.frag", "Trees");
-	//Model m_tree("res/models/trees/Sapin_01.obj");
-	//AddStaticMesh(std::make_shared<StaticMesh>(m_tree, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Trees"));
+	Model m_portail("res/models/portail/portail.obj");
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+	_staticMeshes[0]->Scale(10.0);
 
-	//ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
-	//Model m_portail("res/models/portail/portail.obj");
-	//AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(350, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+	Model m_house("res/models/houses/house.obj");
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail"));
+	_staticMeshes[1]->Scale(5.0);
 }
 
 void Scene::Draw()

@@ -22,6 +22,7 @@ public:
 	void Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance = false, int countParticules = 0) const;
 
 	unsigned int GetVAO() const { return VAO; }
+	const std::vector<ShapeVertex>& Vertices() const { return _vertices; }
 
 
 private:

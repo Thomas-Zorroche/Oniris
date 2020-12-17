@@ -30,7 +30,7 @@ void CollisionManager::CheckCollisions()
 	// Check all collisions between boxes and camera
 	for (size_t i = 0; i < activeBoxes.size(); i++)
 	{
-		if (activeBoxes[i]->IsColliding(_camera))
+		if (activeBoxes[i]->IsColliding(_camera->GetCollisionBox()))
 		{
 			// If colliding, execute appropriate event
 			activeBoxes[i]->OnBeginOverlap();

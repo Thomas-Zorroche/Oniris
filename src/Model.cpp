@@ -48,7 +48,13 @@ void Model::processNode(aiNode* node, const aiScene* scene)
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        _meshes.push_back(processMesh(mesh, scene));
+        std::string nameMesh = mesh->mName.C_Str();
+
+        // Check whether the mesh is a collision box
+        if (nameMesh.find("cBox") == std::string::npos)
+            _cBoxes.push_back(processMesh(mesh, scene, true));
+
+        _meshes.push_back(processMesh(mesh, scene, false));
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
     for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -58,11 +64,12 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 }
 
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
 {
     // data to fill
     std::vector<ShapeVertex> vertices;
     std::vector<unsigned int> indices;
+
 
     // walk through each of the mesh's vertices
     for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -107,6 +114,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
             indices.push_back(face.mIndices[j]);
     }
 
+    // No need to have textures if it's a Collision Box
+    if (IscBox)
+    {
+        const auto cBoxMaterial = ResourceManager::Get().CachePBRColorMaterial("cBox", glm::vec3(1.0, 0.0, 0.0));
+        return Mesh(vertices, cBoxMaterial, &indices);
+    }
+
     // process materials
     const auto mat = scene->mMaterials[mesh->mMaterialIndex];
     aiString name;
@@ -138,6 +152,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 
     // return a mesh object created from the extracted mesh data
     return Mesh(vertices, newMaterial, &indices);
+}
+
+
+const std::vector<ShapeVertex>& Model::VerticesCBox() const
+{
+    // Retrun just the first cBox of the model !
+    return _cBoxes[0].Vertices();
 }
 
 
