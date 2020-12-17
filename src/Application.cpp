@@ -19,6 +19,7 @@
 #include "Scene.hpp"
 #include "ResourceManager.hpp"
 #include "Hud.hpp"
+#include "Game.hpp"
 #include "InputHandler.hpp"
 
 #include <assimp/Importer.hpp>
@@ -26,6 +27,7 @@
 #include <assimp/postprocess.h>
 
 #include <unordered_map> 
+
 
 
 void mainloop(GLFWwindow* window)
@@ -39,10 +41,11 @@ void mainloop(GLFWwindow* window)
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
-    glEnable(GL_DEPTH_TEST);  
+    glEnable(GL_DEPTH_TEST); 
 
-    // Callback 
-    InputHandler::Get().Callback(window, &camera);
+    // Callback
+    Game game = Game(&camera, &scene.GetHudPtr());
+    InputHandler::Get().SetCallback(window, &game);
 
 
     /* Loop until the user closes the window */

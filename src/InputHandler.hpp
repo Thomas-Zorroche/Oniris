@@ -2,6 +2,7 @@
 
 #include "FreeflyCamera.hpp"
 #include "Terrain.hpp"
+#include "Game.hpp"
 #include <iostream>
 #include "GLFW/glfw3.h"
 
@@ -20,7 +21,7 @@ public:
 	InputHandler& operator=(const InputHandler&) = delete;
 
 	void InputHandler::ProcessInput(GLFWwindow* window, FreeflyCamera& camera, const std::shared_ptr<Terrain> terrain);
-	void InputHandler::Callback(GLFWwindow* window, FreeflyCamera* camera);
+	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
 
 private:
 	// Prevent using constructors
@@ -29,5 +30,10 @@ private:
 
 
 };
+//
+// callbacks functions
+// can't be object function due to glwf syntax
+//
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);

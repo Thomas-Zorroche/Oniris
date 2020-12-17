@@ -4,10 +4,10 @@
 
 
 Panel::Panel(const std::string texture, std::string name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
-	_modelMatrix(glm::mat4(1.0f)), _name(name), _nbSprite(nbSprite), _visibility(visibility)
+	_modelMatrix(glm::mat4(1.0f)), _nbSprite(nbSprite), _visibility(visibility)
 {
 	//
-	// [TODO] :: Global window size
+	// [TODO] :: put Global window size
 	//
 
 	float imgWidth = ResourceManager::Get().LoadTexture(texture, DIFFUSE).Width();
@@ -25,7 +25,7 @@ Panel::Panel(const std::string texture, std::string name, float x, float y, floa
 	};
 
 
-	auto material = ResourceManager::Get().CacheBasicMaterial(_name, texture);
+	auto material = ResourceManager::Get().CacheBasicMaterial(name, texture);
 	
 
 	std::vector<unsigned int> indices = {
@@ -38,7 +38,7 @@ Panel::Panel(const std::string texture, std::string name, float x, float y, floa
 
 	ComputeModelMatrix(x,y,scale);
 	_texTranslation = glm::vec2(0.0f);
-	//TranslateTexture();
+
 
 }
 
@@ -47,7 +47,7 @@ void Panel::Update(FreeflyCamera* camera)
 	//to do ou pas 
 }
 
-void Panel::Draw() {
+void Panel::Draw() const {
 	auto shader = ResourceManager::Get().GetShader("Ui");
 	shader->Bind();
 	shader->SetUniformMatrix4fv("uModelMatrix", _modelMatrix);
@@ -73,7 +73,10 @@ void Panel::Translate(float x, float y)
 	_modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 1)) * _modelMatrix;
 }
 
-void Panel::TranslateTexture()
+void Panel::TranslateTexture(int dir)
 {
-	_texTranslation = _texTranslation + glm::vec2(_spriteSize, 0.0f);
+	if (dir >= 0)
+		_texTranslation = _texTranslation + glm::vec2(_spriteSize, 0.0f);
+	else 
+		_texTranslation = _texTranslation - glm::vec2(_spriteSize, 0.0f);
 }

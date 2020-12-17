@@ -1,5 +1,6 @@
 #include "InputHandler.hpp"
 #include "FreeflyCamera.hpp"
+#include "Game.hpp"
 #include <iostream>
 #include "GLFW/glfw3.h"
 
@@ -27,16 +28,17 @@ void InputHandler::ProcessInput(GLFWwindow* window, FreeflyCamera& camera,const 
         camera.MoveLeft(terrain, -1);
 }
 
-void InputHandler::Callback(GLFWwindow* window, FreeflyCamera* camera) {
+void InputHandler::SetCallback(GLFWwindow* window, Game* game) {
     glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetWindowUserPointer(window, camera);
+    glfwSetScrollCallback(window, scroll_callback);
+    glfwSetWindowUserPointer(window, game);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    FreeflyCamera* camera = (FreeflyCamera*)glfwGetWindowUserPointer(window);
+    FreeflyCamera* camera = ((Game*)glfwGetWindowUserPointer(window))->camera;
     float xoffset = xpos - camera->GetLastX();
     float yoffset = ypos - camera->GetLastY();
     camera->SetLastX(xpos);
@@ -47,4 +49,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     camera->rotateLeft(xoffset);
     camera->rotateUp(yoffset);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    Hud* hud = ((Game*)glfwGetWindowUserPointer(window))->hud;
+    hud->Scroll(int(yoffset));
+    std::cout << "scroll   :  " << yoffset << std::endl;
 }
