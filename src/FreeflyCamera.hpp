@@ -29,7 +29,7 @@ private:
 	float _sensitivity;
 	char _ActiveKey = 'A';
 	float _Speed = 1.5f;
-	float _HeightCamera = 10.0f;
+	float _HeightCamera = 15.0f;
 
 	// Technical Data
 	float _fov = 45.0f;
@@ -39,13 +39,15 @@ private:
 	float _farPlane = 5000.0f;
 
 	// Box Collision
+	float _cBoxWidth = 5.0f;
+	float _cBoxDepth = 5.0f;
 	std::shared_ptr<CollisionBox> _cBox;
 
 public:
 	FreeflyCamera()
-		: _Position(300, 1, 170), _phi(M_PI), _theta(0), _CanTurn(false),
+		: _Position(512, _HeightCamera, 487), _phi(M_PI), _theta(0), _CanTurn(false),
 		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f), 
-		_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), 10, 10, 10))
+		_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxDepth))
 	{
 		computeDirectionVectors();
 	}
@@ -74,6 +76,13 @@ private:
 		_UpVector = glm::cross(_FrontVector, _LeftVector);
 	}
 
+	void updateBox()
+	{
+		_cBox->SetX(_Position.x);
+		_cBox->SetY(_Position.y - _HeightCamera);
+		_cBox->SetZ(_Position.z);
+	}
+
 public:
 	void Move(const std::shared_ptr<Terrain>& terrain)
 	{
@@ -83,17 +92,18 @@ public:
 			moveFront(_Speed, terrain);
 			break;
 		case 'Q':
-			moveLeft(_Speed);
+			moveLeft(_Speed, terrain);
 			break;
 		case 'S':
 			moveFront(-_Speed, terrain);
 			break;
 		case 'D':
-			moveLeft(-_Speed);
+			moveLeft(-_Speed, terrain);
 			break;
 		case 'A':
 			break;
 		}
+		updateBox();
 	}
 
 	void moveFront(float t, const std::shared_ptr<Terrain>& terrain)
@@ -102,10 +112,10 @@ public:
 		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
-	void moveLeft(float t)  
+	void moveLeft(float t, const std::shared_ptr<Terrain>& terrain)
 	{ 
 		_Position += t * _LeftVector; 
-		_Position.y = 1.0f;
+		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
 
@@ -132,7 +142,7 @@ public:
 	float GetSensitivity() const  { return _sensitivity; }
 	char GetActiveKey() const  { return _ActiveKey; };
 	float GetSpeed() const  { return _Speed; };
-	std::shared_ptr<CollisionBox> GetCollisionBox() const { return _cBox; }
+	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }

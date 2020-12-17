@@ -20,9 +20,15 @@ bool CollisionBox::IsColliding(const std::shared_ptr<CollisionBox>& box)
         || (box->_x + box->_w <= _x)    // trop à gauche 
         || (box->_y >= _y + _h)         // trop en bas 
         || (box->_y + box->_h <= _y)    // trop en haut     
-        || (box->_z >= _z + _d)         // trop derrière 
-        || (box->_z + box->_d <= _z))   // trop devant 
+        || (box->_z <= _z - _d)         // trop derrière 
+        || (box->_z - box->_d >= _z))   // trop devant 
         return false;
     else
         return true;
 }
+
+void CollisionBox::AddIndex(CollisionGridCase gridCase, int index)
+{
+    _indices.insert({ gridCase, index });
+}
+

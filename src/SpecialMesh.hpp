@@ -15,7 +15,8 @@ class StaticMesh
 {
 public:
 	// Constructor
-	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, const OnBeginOverlapFunction& function = [] {});
+	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
+			   const OnBeginOverlapFunction& function = [] {}, bool hasCollision = false);
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
@@ -26,7 +27,8 @@ public:
 	void Scale(float alpha);
 	void Rotate(float alpha, const glm::vec3& axis);
 
-	std::shared_ptr<CollisionBox> StaticMesh::GenerateCBox(const OnBeginOverlapFunction& collisionFunction);
+	void StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox);
+	void StaticMesh::updateCBox();
 
 	unsigned int GetVAO() const { return _model.GetVAO(); }
 
@@ -38,4 +40,6 @@ private:
 	std::shared_ptr<Shader> _shader;
 
 	std::shared_ptr<CollisionBox> _cBox;
+	OnBeginOverlapFunction _collisionFunction;
+	bool _hasCollision;
 };

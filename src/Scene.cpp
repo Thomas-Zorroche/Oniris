@@ -7,11 +7,18 @@
 #include "Ocean.hpp"
 #include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
+#include "CollisionManager.hpp"
+
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <iostream>
+
+void cBoxTestFunction()
+{
+	std::cout << "Hit Collision LOLILOL" << std::endl;
+}
 
 
 Scene::Scene(const std::string& pathScene)
@@ -30,6 +37,8 @@ void Scene::Init(const std::string& pathScene)
 	std::string sceneFileContent = ResourceManager::Get().LoadTextFile(pathScene);
 	std::cout << sceneFileContent << std::endl;
 
+
+
 	//Ui shader loading & Hud creation
 	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
 	Hud _hud();
@@ -45,7 +54,7 @@ void Scene::Init(const std::string& pathScene)
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16.png");
 
 	// Create Ocean
-	_ocean = std::make_shared<Ocean>();
+	//_ocean = std::make_shared<Ocean>();
 
 	// Create Skybox
 	std::vector<std::string> facesSkybox
@@ -63,16 +72,20 @@ void Scene::Init(const std::string& pathScene)
 	auto _particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain);
 	for (size_t i = 0; i < _particuleSystem.size(); i++)
 	{
-		AddParticuleSystem(_particuleSystem[i]);
+		//AddParticuleSystem(_particuleSystem[i]);
 	}
+
 
 	Model m_portail("res/models/portail/portail.obj");
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
-	_staticMeshes[0]->Scale(10.0);
+	_staticMeshes[0]->Scale(5.0);
 
-	Model m_house("res/models/houses/house.obj");
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail"));
+	OnBeginOverlapFunction f = cBoxTestFunction;
+	Model m_house("res/models/houses/houses.obj");
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", f, true));
 	_staticMeshes[1]->Scale(5.0);
+	_staticMeshes[1]->Rotate(0, glm::vec3(0, 1, 0));
+
 }
 
 void Scene::Draw()
@@ -83,7 +96,7 @@ void Scene::Draw()
 	_terrain->Draw();
 
 	// Render the Ocean
-	_ocean->Draw();
+	//_ocean->Draw();
 
 	// Render all the static meshes
 	for (size_t i = 0; i < _staticMeshesCount; i++)
@@ -91,8 +104,6 @@ void Scene::Draw()
 		//Renderer::Get().SendModelMatrixUniforms(_staticMeshes[i]->GetModelMatrix(), _staticMeshes[i]->GetShader());
 		_staticMeshes[i]->Draw();
 	}
-
-
 
 	// Render all the particule systems
 	

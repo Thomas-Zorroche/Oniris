@@ -2,31 +2,12 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <string>
-#include <memory>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-
-#include "Shader.h"
 #include "Renderer.hpp"
-#include "Sphere.hpp"
 #include "FreeflyCamera.hpp"
 #include "Inputs.hpp"
-#include "Mesh.hpp"
-#include "Model.hpp"
-#include "SpecialMesh.hpp"
-#include "Terrain.hpp"
 #include "Scene.hpp"
-#include "ResourceManager.hpp"
-#include "Hud.hpp"
 #include "CollisionManager.hpp"
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
-#include <unordered_map> 
 
 
 void mainloop(GLFWwindow* window)

@@ -23,6 +23,7 @@ public:
 
 	unsigned int GetVAO() const { return VAO; }
 	const std::vector<ShapeVertex>& Vertices() const { return _vertices; }
+	std::vector<ShapeVertex>& Vertices() { return _vertices; }
 
 
 private:

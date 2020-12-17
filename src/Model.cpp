@@ -51,10 +51,10 @@ void Model::processNode(aiNode* node, const aiScene* scene)
         std::string nameMesh = mesh->mName.C_Str();
 
         // Check whether the mesh is a collision box
-        if (nameMesh.find("cBox") == std::string::npos)
+        if (nameMesh.find("cBox") != std::string::npos)
             _cBoxes.push_back(processMesh(mesh, scene, true));
-
-        _meshes.push_back(processMesh(mesh, scene, false));
+        else
+            _meshes.push_back(processMesh(mesh, scene, false));
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
     for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -155,9 +155,13 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
 }
 
 
-const std::vector<ShapeVertex>& Model::VerticesCBox() const
+std::vector<ShapeVertex>& Model::VerticesCBox()
 {
     // Retrun just the first cBox of the model !
+    // Check whether the model has collision boxes
+    if (_cBoxes.empty())
+        throw std::string("Model has no Collision Box ! Impossible to generate one.");
+
     return _cBoxes[0].Vertices();
 }
 

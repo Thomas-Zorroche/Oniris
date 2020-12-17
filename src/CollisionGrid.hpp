@@ -1,9 +1,8 @@
 #pragma once
 
-#include "BoxCollision.hpp"
-
 #include <memory>
 
+class CollisionBox;
 
 struct CollisionGridCase
 {
@@ -40,13 +39,22 @@ namespace std
 class CollisionGrid
 {
 public:
+	CollisionGrid(float size = 1000.0f, int res = 10)
+		: _size(size), _resolution(res) {}
+
 	CollisionGridCase CollisionGrid::BoxCase(const std::shared_ptr<CollisionBox>& box);
+	
 	int Resolution() const { return _resolution; }
+	float Margin() const { return _margin; }
+	float WidthCase() const { return _widthCase; }
 
 private:
 
 	// Equal to the size of the Terrain
-	float _size = 1000.0f;
+	float _size;
 	int _resolution;
+	float _widthCase = _size / (float)_resolution;
+	float _margin = 0.2f; // We search around each case for potential object
+						  // that are across multiple cases
 
 };

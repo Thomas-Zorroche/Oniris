@@ -84,7 +84,6 @@ public:
 		_camera = camera;
 	}
 
-
 private:
 	Renderer() = default;
 	~Renderer() = default;
