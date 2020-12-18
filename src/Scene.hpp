@@ -26,6 +26,7 @@ public:
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 
 	int StaticMeshesCount() const { return _staticMeshesCount; }
+	Hud& GetHudPtr() { return _hud; }
 
 
 private:

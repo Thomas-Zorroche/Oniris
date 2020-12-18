@@ -10,8 +10,9 @@ public:
 	Hud();
 	~Hud();
 	void Hud::Draw() const;
+	void Hud::Scroll(int dir);
 
 private:
-	std::vector<Panel> _panels;
+	std::unordered_map<std::string, Panel> _panels;
 };
 

@@ -11,8 +11,8 @@ class Panel
 {
 public:
 	// Constructeur
-	Panel::Panel(const std::string texture, 
-		std::string name, 
+	Panel::Panel(const std::string texture,  
+		const std::string name,
 		float x, 
 		float y, 
 		float scale,
@@ -21,22 +21,21 @@ public:
 		bool visibity);
 	
 	//Draw
-	void Panel::Draw();
+	void Panel::Draw() const;
 
 	// A appeler à chaque tour de boucle de rendu
 	void Panel::Update(FreeflyCamera* camera);
 
-	inline bool Panel::IsVisible(){ return _visibility; };
+	inline bool Panel::IsVisible() const { return _visibility; };
+	void Panel::TranslateTexture(int dir);
 
 private:
 	void Panel::ComputeModelMatrix(float x, float y, float scale);
 	void Panel::Scale(float x, float y);
 	void Panel::Translate(float x, float y);
-	void Panel::TranslateTexture();
 
 
 	glm::mat4 _modelMatrix;
-	std::string _name;
 
 	// Le Mesh possède :
 	// - La géometrie (VAO, VBO, IBO)

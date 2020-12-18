@@ -70,37 +70,17 @@ private:
 	}
 
 public:
-	void Move(const std::shared_ptr<Terrain>& terrain)
-	{
-		switch (_ActiveKey)
-		{
-		case 'Z':
-			moveFront(_Speed, terrain);
-			break;
-		case 'Q':
-			moveLeft(_Speed);
-			break;
-		case 'S':
-			moveFront(-_Speed, terrain);
-			break;
-		case 'D':
-			moveLeft(-_Speed);
-			break;
-		case 'A':
-			break;
-		}
-	}
 
-	void moveFront(float t, const std::shared_ptr<Terrain>& terrain)
+	void MoveFront(const std::shared_ptr<Terrain>& terrain, int dir) // 1 if front -1 if back
 	{ 
-		_Position += t * _FrontVector; 
+		_Position += _Speed * _FrontVector * float(dir); 
 		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
-	void moveLeft(float t)  
+	void MoveLeft(const std::shared_ptr<Terrain>& terrain, int dir) // 1 if left -1 if back
 	{ 
-		_Position += t * _LeftVector; 
-		_Position.y = 1.0f;
+		_Position += _Speed * _LeftVector * float(dir); 
+		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;;
 		computeDirectionVectors();
 	}
 

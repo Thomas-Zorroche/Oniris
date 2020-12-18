@@ -12,7 +12,6 @@
 #include "Renderer.hpp"
 #include "Sphere.hpp"
 #include "FreeflyCamera.hpp"
-#include "Inputs.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
 #include "SpecialMesh.hpp"
@@ -20,12 +19,15 @@
 #include "Scene.hpp"
 #include "ResourceManager.hpp"
 #include "Hud.hpp"
+#include "Game.hpp"
+#include "InputHandler.hpp"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
 #include <unordered_map> 
+
 
 
 void mainloop(GLFWwindow* window)
@@ -35,25 +37,22 @@ void mainloop(GLFWwindow* window)
 
     // Camera
     FreeflyCamera camera;
-    camera.moveFront(0, scene.TerrainPtr());
+    camera.MoveFront(scene.TerrainPtr(), 1);
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
-    glEnable(GL_DEPTH_TEST);  
+    glEnable(GL_DEPTH_TEST); 
 
-    // Callback function for Mouse Cursor
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetWindowUserPointer(window, &camera);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // Callback
+    Game game = Game(&camera, &scene.GetHudPtr());
+    InputHandler::Get().SetCallback(window, &game);
+
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         // Handle Inputs
-        processInput(window, camera);
-
-        // Camera movement according to Inputs
-        camera.Move(scene.TerrainPtr());
+        InputHandler::Get().ProcessInput(window, camera, scene.TerrainPtr());
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
