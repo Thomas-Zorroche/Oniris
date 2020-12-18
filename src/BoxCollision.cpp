@@ -32,7 +32,7 @@ HitResult CollisionBox::IsColliding(const std::shared_ptr<CollisionBox>& box)
                return { true, Z_POS };
             if (box->_z >= _z)
                 return { true, Z_NEG };
-            if (box->_x + box->_w >= _x)
+            if (box->_x <= _x)
                 return { true, X_POS };
             if (box->_x + box->_w >= _x + _w)
                 return { true, X_NEG };

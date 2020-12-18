@@ -114,7 +114,6 @@ public:
 
 	void moveFront(float dir, const std::shared_ptr<Terrain>& terrain)
 	{ 
-		std::cout << dir << std::endl;
 		switch (_blockAxis)
 		{
 		case NONE:
@@ -122,22 +121,22 @@ public:
 			break;
 		case X_POS:
 			_Position.z += dir * _FrontVector.z;
-			if (dir < 0)
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(1, 0, 0)) < 0)
 				_Position.x += dir * _FrontVector.x;
 			break;
 		case X_NEG:
 			_Position.z += dir * _FrontVector.z;
-			if (dir < 0)
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(1, 0, 0)) > 0)
 				_Position.x += dir * _FrontVector.x;
 			break;
 		case Z_POS:
 			_Position.x += dir * _FrontVector.x;
-			if (dir < 0)
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(0, 0, 1)) < 0)
 				_Position.z += dir * _FrontVector.z;
 			break;
 		case Z_NEG:
 			_Position.x += dir * _FrontVector.x;
-			if (dir < 0)
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(0, 0, 1)) > 0)
 				_Position.z += dir * _FrontVector.z;
 			break;
 		}
