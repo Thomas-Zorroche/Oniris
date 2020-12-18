@@ -45,3 +45,10 @@ void CollisionBox::AddIndex(CollisionGridCase gridCase, int index)
     _indices.insert({ gridCase, index });
 }
 
+void CollisionBox::DecreaseIndexCase(CollisionGridCase gridCase)
+{
+    _indices[gridCase] -= 1;
+}
+
+
+

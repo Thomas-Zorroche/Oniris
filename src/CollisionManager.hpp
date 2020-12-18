@@ -34,6 +34,8 @@ private:
 	CollisionManager() = default;
 	~CollisionManager() = default;
 
+	void CollisionManager::updateCaseIndices(const CollisionGridCase& gridCase, int indexDeadBox);
+
 	CollisionGrid _grid;
 	std::unordered_map<CollisionGridCase, std::vector<std::shared_ptr<CollisionBox> >> _boxes;
 	FreeflyCamera * _camera;

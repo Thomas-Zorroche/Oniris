@@ -42,7 +42,7 @@ void CollisionManager::CheckCollisions()
 			hitSomething = true;
 			if (_camera->BlockAxis() == NONE)
 				_camera->BlockMovement(hit.axis);
-			activeBoxes[i]->OnBeginOverlap();
+			//activeBoxes[i]->OnBeginOverlap();
 			_countCollision++;
 		}
 	}
@@ -50,8 +50,8 @@ void CollisionManager::CheckCollisions()
 	if (!hitSomething)
 		_camera->BlockMovement(NONE);
 
-	//std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
-	//		  << " ; " << activeBoxes.size() <<  std::endl;
+	std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
+			  << " ; " << activeBoxes.size() <<  std::endl;
 }
 
 void CollisionManager::AddBox(const std::shared_ptr<CollisionBox>& box)
@@ -96,6 +96,13 @@ void CollisionManager::DeleteBox(const std::shared_ptr<CollisionBox>& box)
 	for (auto it = box->Indices().begin(); it != box->Indices().end(); ++it)
 	{
 		_boxes[it->first].erase(_boxes[it->first].begin() + it->second);
+		updateCaseIndices(it->first, it->second);
 	}
 	box->Indices().clear();
+}
+
+void CollisionManager::updateCaseIndices(const CollisionGridCase& gridCase, int indexDeadBox)
+{
+	for (size_t i = indexDeadBox; i < _boxes[gridCase].size(); i++)
+		_boxes[gridCase][i]->DecreaseIndexCase(gridCase);
 }

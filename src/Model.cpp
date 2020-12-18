@@ -157,7 +157,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
 
 std::vector<ShapeVertex>& Model::VerticesCBox()
 {
-    // Retrun just the first cBox of the model !
+    // Return just the first cBox of the model !
     // Check whether the model has collision boxes
     if (_cBoxes.empty())
         throw std::string("Model has no Collision Box ! Impossible to generate one.");

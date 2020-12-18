@@ -15,13 +15,12 @@ const std::vector<std::vector<int> > StaticMesh::_indicesCBox = {
 	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1} 
 };
 
-StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
-					   const OnBeginOverlapFunction& function, bool hasCollision, bool stopMovement)
+StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, CollisionLayout cBoxLayout)
 	: _model(model), _position(position), _shader(ResourceManager::Get().GetShader(shaderName)),
 	  _modelMatrix(glm::mat4(1.0f)), 
-	  _hasCollision(hasCollision), _collisionFunction(function), _stopMovement(stopMovement), _cBox(nullptr)
+	  _cBoxLayout(cBoxLayout), _cBox(nullptr)
 {
-	if (_hasCollision)
+	if (_cBoxLayout.HasCollision())
 	{
 		// Try to generate a collision box, if there is one.
 		try
@@ -68,6 +67,8 @@ void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 	if (_cBox)
 	{
 		_globalRotation += alpha;
+		if ((int)_globalRotation % 90 != 0 || _globalRotation < 0 || _globalRotation > 270)
+			throw std::string("Impossible to rotate to this angle due to the Collision Box.");
 		_angleCBox = (RotationCBox)(_globalRotation / 90.0f);
 		updateCBox();
 	}
@@ -96,7 +97,7 @@ void StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox)
 	float d = abs(verticesCBox[i_d].position.z - verticesCBox[i_origin].position.z);
 
 	// Create and return the Collision Box
-	_cBox = std::make_shared<CollisionBox>(origin, w, h, d, _collisionFunction, _stopMovement);
+	_cBox = std::make_shared<CollisionBox>(origin, w, h, d, _cBoxLayout.Function(), _cBoxLayout.CanStopMovement());
 
 	CollisionManager::Get().AddBox(_cBox);
 }

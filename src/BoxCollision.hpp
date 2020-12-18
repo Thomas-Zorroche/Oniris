@@ -7,11 +7,41 @@
 
 typedef void(*OnBeginOverlapFunction)(void);
 
+// All data that define how the cBox will behave
+class CollisionLayout
+{
+public:
+	CollisionLayout(bool collision = false, bool stopMovement = false, 
+					bool dynamic = false, OnBeginOverlapFunction function = [] {})
+		: _hasCollision(collision), _canStopMovement(stopMovement),
+		  _dynamicBox(dynamic), _collisionFunction(function) {}
+
+	bool HasCollision() const { return _hasCollision; }
+	bool CanStopMovement() const { return _canStopMovement; }
+	bool HasDynamicBox() const { return _dynamicBox; }
+	OnBeginOverlapFunction Function() const { return _collisionFunction; }
+
+private:
+	// Whether cBox has Collision event or not
+	bool _hasCollision;
+
+	// Whether cBox can stop movement of the player or not
+	bool _canStopMovement;
+
+	// Whether cBox is able to transform (trans, rot and scale)
+	bool _dynamicBox;
+
+	// Function called when the player hits the cBox, default is an empty lambda
+	OnBeginOverlapFunction _collisionFunction;
+};
+
+
 enum HitCollisionAxis
 {
 	NONE = 0, X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG
 };
 
+// Struct used for collision test
 struct HitResult
 {
 	bool IsHitting;
@@ -39,6 +69,7 @@ public:
 	const std::unordered_map<CollisionGridCase, int>& Indices() const { return _indices; }
 	std::unordered_map<CollisionGridCase, int>& Indices() { return _indices; }
 	void AddIndex(CollisionGridCase gridCase, int index);
+	void CollisionBox::DecreaseIndexCase(CollisionGridCase gridCase);
 
 private:
 	float _x = 0.0f, _y = 0.0f, _z = 0.0f;

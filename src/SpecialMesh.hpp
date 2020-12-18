@@ -16,8 +16,7 @@ class StaticMesh
 {
 public:
 	// Constructor
-	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
-			   const OnBeginOverlapFunction& function = [] {}, bool hasCollision = false, bool stopMovement = false);
+	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, CollisionLayout cBoxLayout = CollisionLayout());
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
@@ -37,6 +36,9 @@ public:
 		R_0, R_90, R_180, R_270
 	};
 
+	static void FunctionTest()  { std::cout << "Ramasser Objet\n"; }
+
+
 private:
 	Model _model;
 	glm::vec3 _position;
@@ -44,10 +46,8 @@ private:
 	std::shared_ptr<Shader> _shader;
 	float _globalRotation = 0.0f;
 
-	OnBeginOverlapFunction _collisionFunction;
+	CollisionLayout _cBoxLayout;
 	RotationCBox _angleCBox = R_0;
-	bool _hasCollision;
-	bool _stopMovement;
 	std::shared_ptr<CollisionBox> _cBox;
 	
 	static const std::vector<std::vector<int> > _indicesCBox;
