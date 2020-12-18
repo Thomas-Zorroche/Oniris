@@ -4,10 +4,17 @@
 #include "Shader.h"
 #include "Renderer.hpp"
 #include <string>
+#include <vector>
 
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+
+
+
+const std::vector<std::vector<int> > StaticMesh::_indicesCBox = { 
+	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1} 
+};
 
 StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
 					   const OnBeginOverlapFunction& function, bool hasCollision)
@@ -60,7 +67,11 @@ void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 {
 	_modelMatrix = _modelMatrix * glm::rotate(glm::mat4(1.0f), glm::radians(alpha), axis);
 	if (_cBox)
+	{
+		_globalRotation += alpha;
+		_angleCBox = (RotationCBox)(_globalRotation / 90.0f);
 		updateCBox();
+	}
 }
 
 /*
@@ -68,16 +79,22 @@ void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 */
 void StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox)
 {
+	// Indices
+	size_t i_origin = _indicesCBox[(int)_angleCBox][0];
+	size_t i_w = _indicesCBox[(int)_angleCBox][1];
+	size_t i_d = _indicesCBox[(int)_angleCBox][2];
+	size_t i_h = _indicesCBox[(int)_angleCBox][3];
+	
 	// Retrieve x, y, z of the fist vertex
 	glm::vec3 origin;
-	origin.x = verticesCBox[0].position.x;
-	origin.y = verticesCBox[0].position.y;
-	origin.z = verticesCBox[0].position.z;
+	origin.x = verticesCBox[i_origin].position.x;
+	origin.y = verticesCBox[i_origin].position.y;
+	origin.z = verticesCBox[i_origin].position.z;
 
 	// Compute w, h, d
-	float w = abs(verticesCBox[11].position.x - verticesCBox[0].position.x);
-	float h = abs(verticesCBox[1].position.y - verticesCBox[0].position.y);
-	float d = abs(verticesCBox[3].position.z - verticesCBox[0].position.z);
+	float w = abs(verticesCBox[i_w].position.x - verticesCBox[i_origin].position.x);
+	float h = abs(verticesCBox[i_h].position.y - verticesCBox[i_origin].position.y);
+	float d = abs(verticesCBox[i_d].position.z - verticesCBox[i_origin].position.z);
 
 	// Create and return the Collision Box
 	_cBox = std::make_shared<CollisionBox>(origin, w, h, d, _collisionFunction);

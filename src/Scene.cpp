@@ -82,9 +82,18 @@ void Scene::Init(const std::string& pathScene)
 
 	OnBeginOverlapFunction f = cBoxTestFunction;
 	Model m_house("res/models/houses/houses.obj");
+
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", f, true));
 	_staticMeshes[1]->Scale(5.0);
-	_staticMeshes[1]->Rotate(0, glm::vec3(0, 1, 0));
+	_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
+
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", f, true));
+	_staticMeshes[2]->Scale(3.0);
+	_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
+
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(750, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", f, true));
+	_staticMeshes[3]->Scale(4.0);
+	_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
 
 }
 
