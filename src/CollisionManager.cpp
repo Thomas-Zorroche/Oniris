@@ -5,7 +5,7 @@
 #include <memory>
 #include <iterator>
 
-void CollisionManager::Init(FreeflyCamera * camera)
+void CollisionManager::Init(FreeflyCamera* camera)
 {
 	_camera = camera;
 
@@ -32,18 +32,26 @@ void CollisionManager::CheckCollisions()
 	//
 
 	// Check all collisions between boxes and camera
+	bool hitSomething = false;
 	for (size_t i = 0; i < activeBoxes.size(); i++)
 	{
-		if (activeBoxes[i]->IsColliding(cameraCBox))
+		HitResult hit = activeBoxes[i]->IsColliding(cameraCBox);
+		if (hit.IsHitting)
 		{
 			// If colliding, execute appropriate event
+			hitSomething = true;
+			if (_camera->BlockAxis() == NONE)
+				_camera->BlockMovement(hit.axis);
 			activeBoxes[i]->OnBeginOverlap();
 			_countCollision++;
 		}
 	}
 
-	std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
-			  << " ; " << activeBoxes.size() <<  std::endl;
+	if (!hitSomething)
+		_camera->BlockMovement(NONE);
+
+	//std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
+	//		  << " ; " << activeBoxes.size() <<  std::endl;
 }
 
 void CollisionManager::AddBox(const std::shared_ptr<CollisionBox>& box)

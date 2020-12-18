@@ -17,7 +17,7 @@ class StaticMesh
 public:
 	// Constructor
 	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
-			   const OnBeginOverlapFunction& function = [] {}, bool hasCollision = false);
+			   const OnBeginOverlapFunction& function = [] {}, bool hasCollision = false, bool stopMovement = false);
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
@@ -47,8 +47,8 @@ private:
 	OnBeginOverlapFunction _collisionFunction;
 	RotationCBox _angleCBox = R_0;
 	bool _hasCollision;
+	bool _stopMovement;
 	std::shared_ptr<CollisionBox> _cBox;
 	
-	//static const float _indicesCBox[4][4];
 	static const std::vector<std::vector<int> > _indicesCBox;
 };

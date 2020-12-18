@@ -9,16 +9,17 @@
 #include "ParticuleSystem.hpp"
 #include "CollisionManager.hpp"
 
-
 #include <memory>
 #include <string>
 #include <vector>
 #include <iostream>
 
-void cBoxTestFunction()
+
+void cBoxFunc_SimpleHit()
 {
-	std::cout << "Hit Collision LOLILOL" << std::endl;
+	std::cout << "HIT" << std::endl;
 }
+
 
 
 Scene::Scene(const std::string& pathScene)
@@ -80,18 +81,18 @@ void Scene::Init(const std::string& pathScene)
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 	_staticMeshes[0]->Scale(5.0);
 
-	OnBeginOverlapFunction f = cBoxTestFunction;
+	OnBeginOverlapFunction f = cBoxFunc_SimpleHit;
 	Model m_house("res/models/houses/houses.obj");
 
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", f, true));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", f, true, true));
 	_staticMeshes[1]->Scale(5.0);
 	_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
 
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", f, true));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", f, true, true));
 	_staticMeshes[2]->Scale(3.0);
 	_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
 
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(750, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", f, true));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(750, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", f, true, true));
 	_staticMeshes[3]->Scale(4.0);
 	_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
 

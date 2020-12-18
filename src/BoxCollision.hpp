@@ -7,14 +7,25 @@
 
 typedef void(*OnBeginOverlapFunction)(void);
 
+enum HitCollisionAxis
+{
+	NONE = 0, X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG
+};
+
+struct HitResult
+{
+	bool IsHitting;
+	HitCollisionAxis axis;
+};
+
 class CollisionBox
 {
 public:
-	CollisionBox(const glm::vec3& origin, float w, float h, float d, 
-		const OnBeginOverlapFunction& collisionFunction = []{});
+	CollisionBox(const glm::vec3& origin, float w, float h, float d,
+		const OnBeginOverlapFunction& collisionFunction = [] {}, bool stopMovement = false);
 
 	void OnBeginOverlap();
-	bool IsColliding(const std::shared_ptr<CollisionBox>& box);
+	HitResult IsColliding(const std::shared_ptr<CollisionBox>& box);
 
 
 	float X() const { return _x; }
@@ -35,4 +46,5 @@ private:
 
 	OnBeginOverlapFunction _collisionFunction;
 	std::unordered_map<CollisionGridCase, int> _indices;
+	bool _stopMovement = false;
 };

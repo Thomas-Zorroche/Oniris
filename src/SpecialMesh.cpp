@@ -11,16 +11,15 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 
-
 const std::vector<std::vector<int> > StaticMesh::_indicesCBox = { 
 	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1} 
 };
 
 StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
-					   const OnBeginOverlapFunction& function, bool hasCollision)
+					   const OnBeginOverlapFunction& function, bool hasCollision, bool stopMovement)
 	: _model(model), _position(position), _shader(ResourceManager::Get().GetShader(shaderName)),
 	  _modelMatrix(glm::mat4(1.0f)), 
-	  _hasCollision(hasCollision), _collisionFunction(function), _cBox(nullptr)
+	  _hasCollision(hasCollision), _collisionFunction(function), _stopMovement(stopMovement), _cBox(nullptr)
 {
 	if (_hasCollision)
 	{
@@ -97,7 +96,7 @@ void StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox)
 	float d = abs(verticesCBox[i_d].position.z - verticesCBox[i_origin].position.z);
 
 	// Create and return the Collision Box
-	_cBox = std::make_shared<CollisionBox>(origin, w, h, d, _collisionFunction);
+	_cBox = std::make_shared<CollisionBox>(origin, w, h, d, _collisionFunction, _stopMovement);
 
 	CollisionManager::Get().AddBox(_cBox);
 }

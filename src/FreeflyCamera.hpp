@@ -4,11 +4,14 @@
 #define M_PI 3.14
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Terrain.hpp"
 #include "BoxCollision.hpp"
+
+#define NOMINAX // Avoid conflicts between min and max constants in Windef.h
 
 class FreeflyCamera
 {
@@ -40,14 +43,14 @@ private:
 
 	// Box Collision
 	float _cBoxWidth = 5.0f;
-	float _cBoxDepth = 5.0f;
 	std::shared_ptr<CollisionBox> _cBox;
+	HitCollisionAxis _blockAxis = NONE;
 
 public:
 	FreeflyCamera()
 		: _Position(512, _HeightCamera, 487), _phi(M_PI), _theta(0), _CanTurn(false),
 		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f), 
-		_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxDepth))
+		_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth))
 	{
 		computeDirectionVectors();
 	}
@@ -78,14 +81,16 @@ private:
 
 	void updateBox()
 	{
-		_cBox->SetX(_Position.x);
+		_cBox->SetX(_Position.x - (_cBoxWidth / 2.0));
 		_cBox->SetY(_Position.y - _HeightCamera);
-		_cBox->SetZ(_Position.z);
+		_cBox->SetZ(_Position.z + (_cBoxWidth / 2.0));
 	}
+
 
 public:
 	void Move(const std::shared_ptr<Terrain>& terrain)
 	{
+
 		switch (_ActiveKey)
 		{
 		case 'Z':
@@ -103,18 +108,52 @@ public:
 		case 'A':
 			break;
 		}
+
 		updateBox();
 	}
 
-	void moveFront(float t, const std::shared_ptr<Terrain>& terrain)
+	void moveFront(float dir, const std::shared_ptr<Terrain>& terrain)
 	{ 
-		_Position += t * _FrontVector; 
+		std::cout << dir << std::endl;
+		switch (_blockAxis)
+		{
+		case NONE:
+			_Position += dir * _FrontVector;
+			break;
+		case X_POS:
+			_Position.z += dir * _FrontVector.z;
+			if (dir < 0)
+				_Position.x += dir * _FrontVector.x;
+			break;
+		case X_NEG:
+			_Position.z += dir * _FrontVector.z;
+			if (dir < 0)
+				_Position.x += dir * _FrontVector.x;
+			break;
+		case Z_POS:
+			_Position.x += dir * _FrontVector.x;
+			if (dir < 0)
+				_Position.z += dir * _FrontVector.z;
+			break;
+		case Z_NEG:
+			_Position.x += dir * _FrontVector.x;
+			if (dir < 0)
+				_Position.z += dir * _FrontVector.z;
+			break;
+		}
+
 		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
 	void moveLeft(float t, const std::shared_ptr<Terrain>& terrain)
 	{ 
-		_Position += t * _LeftVector; 
+		if (_blockAxis == X_POS || _blockAxis == X_NEG)
+			_Position.z += t * _LeftVector.z;
+		else if (_blockAxis == Z_POS || _blockAxis == Z_NEG)
+			_Position.x += t * _LeftVector.x;
+		else
+			_Position += t * _LeftVector;
+
 		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
@@ -143,10 +182,13 @@ public:
 	char GetActiveKey() const  { return _ActiveKey; };
 	float GetSpeed() const  { return _Speed; };
 	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
+	inline HitCollisionAxis BlockAxis() const { return _blockAxis; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
 	void SetLastX(float x) { _lastX = x; }
 	void SetLastY(float y) { _lastY = y; }
 	virtual void SetActiveKey(char key) { _ActiveKey = key; };
+
+	void BlockMovement(HitCollisionAxis axis) { _blockAxis = axis; }
 };
