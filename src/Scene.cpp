@@ -85,8 +85,8 @@ void Scene::Init(const std::string& pathScene)
 	// =============
 	Model m_portail("res/models/portail/portail.obj");
 	Model m_house("res/models/houses/houses.obj");
-	Model m_key("res/models/key/key.obj");
-	Model m_map("res/models/map/map.obj");
+	//Model m_key("res/models/key/key.obj");
+	//Model m_map("res/models/map/map.obj");
 
 
 
@@ -98,10 +98,12 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Objects
 	// ==============
-	std::shared_ptr<Object> o_key = std::make_shared<UsableObject>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), cLayout_UsableObj);
-	std::shared_ptr<Object> o_map = std::make_shared<NarrativeObject>(m_map, glm::vec3(350, _terrain->GetHeightOfTerrain(350, 250), 250), cLayout_UsableObj);
-	AddObject(o_key);
-	AddObject(o_map);
+	//std::shared_ptr<Object> o_key = std::make_shared<UsableObject>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), cLayout_UsableObj);
+	//std::shared_ptr<Object> o_map = std::make_shared<NarrativeObject>(m_map, glm::vec3(350, _terrain->GetHeightOfTerrain(350, 250), 250), cLayout_UsableObj);
+	//AddObject(o_key);
+	//AddObject(o_map);
+
+	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
 
 	// Create Static Meshes
 	// ====================
@@ -158,8 +160,15 @@ void Scene::Draw()
 		_particuleSystem[i]->Draw();
 	}
 
-	_objects[0]->Draw();
-	_objects[1]->Draw();
+
+	//Render all Objects (Narratives & Usable)
+	//========================================
+	for (size_t i = 0; i < _objects.size(); i++)
+	{
+		_objects[i]->Draw();
+	}
+	
+
 	// Render the Skybox
 	// =================
 	_skybox->Draw();
