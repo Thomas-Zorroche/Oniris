@@ -1,17 +1,18 @@
 #pragma once
-#include "Mesh.hpp"
 #include "StaticMesh.hpp"
 #include "Terrain.hpp"
 
-
+//
+// Object is an Interface (pure virtual fonction) 
+//
 class Object
 {
 public:
-	Object(const std::string& path, const std::shared_ptr<Terrain>& terrain);
+	Object(const Model& model, glm::vec3 position, CollisionLayout cLayout);
 	virtual ~Object();
 
-	virtual void Draw();
-	//virtual void Use();
+	void Draw();
+	//virtual void Use() = 0;
 
 protected:
 	std::shared_ptr<StaticMesh> _Mesh;
