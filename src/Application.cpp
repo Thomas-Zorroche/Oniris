@@ -2,32 +2,21 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <string>
-#include <memory>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-
-#include "Shader.h"
 #include "Renderer.hpp"
-#include "Sphere.hpp"
 #include "FreeflyCamera.hpp"
+#include "Inputs.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
 #include "SpecialMesh.hpp"
 #include "Terrain.hpp"
 #include "Scene.hpp"
-#include "ResourceManager.hpp"
-#include "Hud.hpp"
-#include "Game.hpp"
+#include "CollisionManager.hpp"
 #include "InputHandler.hpp"
+#include "Game.hpp"
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 #include <unordered_map> 
-
 
 
 void mainloop(GLFWwindow* window)
@@ -41,7 +30,10 @@ void mainloop(GLFWwindow* window)
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
-    glEnable(GL_DEPTH_TEST); 
+    // Initialisation Collision Manager
+    CollisionManager::Get().Init(&camera);
+
+    glEnable(GL_DEPTH_TEST);  
 
     // Callback
     Game game = Game(&camera, &scene.GetHudPtr());
@@ -53,6 +45,12 @@ void mainloop(GLFWwindow* window)
     {
         // Handle Inputs
         InputHandler::Get().ProcessInput(window, camera, scene.TerrainPtr());
+
+        // Check Collisions
+        CollisionManager::Get().CheckCollisions();
+
+        // Camera movement according to Inputs
+        camera.Move(scene.TerrainPtr());
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();

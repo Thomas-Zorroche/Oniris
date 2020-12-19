@@ -4,10 +4,14 @@
 #define M_PI 3.14
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Terrain.hpp"
+#include "BoxCollision.hpp"
+
+#define NOMINAX // Avoid conflicts between min and max constants in Windef.h
 
 class FreeflyCamera
 {
@@ -27,8 +31,8 @@ private:
 	// Input Data
 	float _sensitivity;
 	char _ActiveKey = 'A';
-	float _Speed = .5f;
-	float _HeightCamera = 10.0f;
+	float _Speed = 1.5f;
+	float _HeightCamera = 15.0f;
 
 	// Technical Data
 	float _fov = 45.0f;
@@ -37,10 +41,16 @@ private:
 	float _nearPlane = 0.1f;
 	float _farPlane = 5000.0f;
 
+	// Box Collision
+	float _cBoxWidth = 5.0f;
+	std::shared_ptr<CollisionBox> _cBox;
+	HitCollisionAxis _blockAxis = NONE;
+
 public:
 	FreeflyCamera()
-		: _Position(300, 1, 170), _phi(M_PI), _theta(0), _CanTurn(false),
-		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f) 
+		: _Position(512, _HeightCamera, 487), _phi(M_PI), _theta(0), _CanTurn(false),
+		_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f), 
+		_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth))
 	{
 		computeDirectionVectors();
 	}
@@ -69,18 +79,81 @@ private:
 		_UpVector = glm::cross(_FrontVector, _LeftVector);
 	}
 
-public:
+	void updateBox()
+	{
+		_cBox->SetX(_Position.x - (_cBoxWidth / 2.0));
+		_cBox->SetY(_Position.y - _HeightCamera);
+		_cBox->SetZ(_Position.z + (_cBoxWidth / 2.0));
+	}
 
-	void MoveFront(const std::shared_ptr<Terrain>& terrain, int dir) // 1 if front -1 if back
+
+public:
+	void Move(const std::shared_ptr<Terrain>& terrain)
+	{
+
+		switch (_ActiveKey)
+		{
+		case 'Z':
+			moveFront(_Speed, terrain);
+			break;
+		case 'Q':
+			moveLeft(_Speed, terrain);
+			break;
+		case 'S':
+			moveFront(-_Speed, terrain);
+			break;
+		case 'D':
+			moveLeft(-_Speed, terrain);
+			break;
+		case 'A':
+			break;
+		}
+
+		updateBox();
+	}
+
+	void moveFront(float dir, const std::shared_ptr<Terrain>& terrain)
 	{ 
-		_Position += _Speed * _FrontVector * float(dir); 
+		switch (_blockAxis)
+		{
+		case NONE:
+			_Position += dir * _FrontVector;
+			break;
+		case X_POS:
+			_Position.z += dir * _FrontVector.z;
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(1, 0, 0)) < 0)
+				_Position.x += dir * _FrontVector.x;
+			break;
+		case X_NEG:
+			_Position.z += dir * _FrontVector.z;
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(1, 0, 0)) > 0)
+				_Position.x += dir * _FrontVector.x;
+			break;
+		case Z_POS:
+			_Position.x += dir * _FrontVector.x;
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(0, 0, 1)) < 0)
+				_Position.z += dir * _FrontVector.z;
+			break;
+		case Z_NEG:
+			_Position.x += dir * _FrontVector.x;
+			if (dir < 0 || glm::dot(_FrontVector, glm::vec3(0, 0, 1)) > 0)
+				_Position.z += dir * _FrontVector.z;
+			break;
+		}
+
 		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
-	void MoveLeft(const std::shared_ptr<Terrain>& terrain, int dir) // 1 if left -1 if back
+	void moveLeft(float t, const std::shared_ptr<Terrain>& terrain)
 	{ 
-		_Position += _Speed * _LeftVector * float(dir); 
-		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;;
+		if (_blockAxis == X_POS || _blockAxis == X_NEG)
+			_Position.z += t * _LeftVector.z;
+		else if (_blockAxis == Z_POS || _blockAxis == Z_NEG)
+			_Position.x += t * _LeftVector.x;
+		else
+			_Position += t * _LeftVector;
+
+		_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 		computeDirectionVectors();
 	}
 
@@ -107,10 +180,14 @@ public:
 	float GetSensitivity() const  { return _sensitivity; }
 	char GetActiveKey() const  { return _ActiveKey; };
 	float GetSpeed() const  { return _Speed; };
+	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
+	inline HitCollisionAxis BlockAxis() const { return _blockAxis; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
 	void SetLastX(float x) { _lastX = x; }
 	void SetLastY(float y) { _lastY = y; }
 	virtual void SetActiveKey(char key) { _ActiveKey = key; };
+
+	void BlockMovement(HitCollisionAxis axis) { _blockAxis = axis; }
 };

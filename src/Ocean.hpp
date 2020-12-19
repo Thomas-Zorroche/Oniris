@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "SpecialMesh.hpp"
 
 class Ocean

@@ -7,6 +7,7 @@
 #include "Mesh.hpp"
 #include "Texture.h"
 #include "Shader.h"
+#include "common.hpp"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -19,19 +20,24 @@ public:
 	Model(const std::string& path);
 	void Model::Draw(std::shared_ptr<Shader>& shader, bool isParticuleInstance = false, int countParticule = 0);
 
-	// Retrieve mesh vbo (when there is a single mesh in the model)
+	// Retrieve mesh vao (when there is a single mesh in the model)
 	// Useful for particule system
 	unsigned int GetVAO() const { return _meshes[0].GetVAO(); }
 
+	std::vector<ShapeVertex>& Model::VerticesCBox();
+
+	std::vector<Mesh>& CBoxes() { return _cBoxes; }
+
 private:
 	std::vector<Mesh> _meshes;
+	std::vector<Mesh> _cBoxes;
 	std::string _directory;
 	std::vector<Texture> _textures_loaded;
 
 
 	void LoadModel(const std::string& path);
 	void processNode(aiNode* node, const aiScene* scene);
-	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+	Mesh processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 
 };

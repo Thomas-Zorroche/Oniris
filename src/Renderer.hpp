@@ -79,11 +79,10 @@ public:
 		shader->Unbind();
 	}
 
-	void SetCamera(FreeflyCamera* camera)
+	void SetCamera(FreeflyCamera * camera)
 	{
 		_camera = camera;
 	}
-
 
 private:
 	Renderer() = default;
