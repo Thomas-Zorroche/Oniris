@@ -100,7 +100,7 @@ std::shared_ptr<CollisionBox> StaticMesh::GenerateCBox(const std::vector<ShapeVe
 	float d = abs(verticesCBox[i_d].position.z - verticesCBox[i_origin].position.z);
 
 	// Create the Collision Box
-	return std::make_shared<CollisionBox>(origin, w, h, d, _cBoxLayout.Function(), _cBoxLayout.CanStopMovement());
+	return std::make_shared<CollisionBox>(origin, w, h, d, _cBoxLayout);
 }
 
 void StaticMesh::updateCBox()

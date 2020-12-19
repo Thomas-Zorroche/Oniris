@@ -121,11 +121,7 @@ void Camera::BlockMovement(const std::vector<HitCollisionAxis>& Axis)
 		_blockAxis[i] = false;
 
 	for (auto axis : Axis)
-	{
 		_blockAxis[axis] = true;
-		std::cout << axis << " ";
-	}
-	std::cout << std::endl;
 }
 
 /*

@@ -36,7 +36,7 @@ public:
 		R_0, R_90, R_180, R_270
 	};
 
-	static void FunctionTest()  { std::cout << "Ramasser Objet\n"; }
+	static void FunctionTest()  { std::cout << "Hit Wall\n"; }
 
 
 private:

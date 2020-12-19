@@ -16,9 +16,9 @@
 #include <vector>
 #include <iostream>
 
-void cBoxFunc_SimpleHit()
+void cBoxFunc_Portail()
 {
-	//std::cout << "HIT" << std::endl;
+	std::cout << "Ramasser l'objet" << std::endl;
 }
 
 Scene::Scene(const std::string& pathScene)
@@ -84,7 +84,7 @@ void Scene::Init(const std::string& pathScene)
 	// =============
 	Model m_portail("res/models/portail/portail.obj");
 	Model m_house("res/models/houses/houses.obj");
-	Model m_portailCol("res/models/PortailTestCollision.obj");
+	Model m_key("res/models/key/key.obj");
 
 	// Create Objects
 	// ==============
@@ -94,6 +94,7 @@ void Scene::Init(const std::string& pathScene)
 	// Define Collisions Layout for Static Mesh's cBox
 	// ===============================================
 	CollisionLayout cLayout_House(true, true, false, StaticMesh::FunctionTest);
+	CollisionLayout cLayout_Key(true, false, false, cBoxFunc_Portail);
 
 	// Create Static Meshes
 	// ====================
@@ -101,7 +102,7 @@ void Scene::Init(const std::string& pathScene)
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portailCol, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_Key));
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
@@ -114,7 +115,7 @@ void Scene::Init(const std::string& pathScene)
 		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
 		_staticMeshes[3]->Scale(4.0);
 		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
-		_staticMeshes[4]->Scale(8.0);
+		//_staticMeshes[4]->Scale(1.0);
 	}
 	catch (const std::string& e)
 	{

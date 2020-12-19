@@ -6,16 +6,16 @@
 #include "glm/glm.hpp"
 
 CollisionBox::CollisionBox(const glm::vec3& origin, float w, float h, float d,
-    const OnBeginOverlapFunction& collisionFunction, bool stopMovement)
+    const CollisionLayout& cLayout)
 	: _x(origin.x), _y(origin.y), _z(origin.z), _w(w), _h(h), _d(d), 
-      _collisionFunction(collisionFunction), _stopMovement(stopMovement), _debugMesh(Mesh())
+      _debugMesh(Mesh()), _cLayout(cLayout)
 {
     updateDebugMesh();
 }
 
 void CollisionBox::OnBeginOverlap()
 {
-    _collisionFunction();
+    _cLayout.Function()();
 }
 
 // Check whether the box overlaps with another box
@@ -31,7 +31,7 @@ HitResult CollisionBox::IsColliding(const std::shared_ptr<CollisionBox>& box)
     else
     {
         // if cBox blocks the mouvement, find the correct axis
-        if (_stopMovement)
+        if (_cLayout.CanStopMovement())
         {
             if (box->_z - box->_d <= _z - _d)
                 return { true, Z_POS };
@@ -42,6 +42,8 @@ HitResult CollisionBox::IsColliding(const std::shared_ptr<CollisionBox>& box)
             if (box->_x + box->_w >= _x + _w)
                 return { true, X_NEG };
         }
+        
+        return { true, NONE };
     }
 }
 

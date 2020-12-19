@@ -36,7 +36,8 @@ void CollisionManager::CheckCollisions()
 		if (hit.IsHitting)
 		{
 			// If colliding, execute appropriate event
-			AxisHit.push_back(hit.Axis);
+			if (activeBoxes[i]->StopMovement())
+				AxisHit.push_back(hit.Axis);
 			activeBoxes[i]->OnBeginOverlap();
 			_countCollision++;
 		}

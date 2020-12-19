@@ -53,8 +53,7 @@ struct HitResult
 class CollisionBox
 {
 public:
-	CollisionBox(const glm::vec3& origin, float w, float h, float d,
-		const OnBeginOverlapFunction& collisionFunction = [] {}, bool stopMovement = false);
+	CollisionBox(const glm::vec3& origin, float w, float h, float d, const CollisionLayout& cLayout = CollisionLayout());
 
 	void OnBeginOverlap();
 	HitResult IsColliding(const std::shared_ptr<CollisionBox>& box);
@@ -75,13 +74,15 @@ public:
 	void updateDebugMesh();
 	void Draw();
 
+	bool StopMovement() const { return _cLayout.CanStopMovement(); }
+
 private:
 	float _x = 0.0f, _y = 0.0f, _z = 0.0f;
 	float _w = 10.0f, _h = 10.0f, _d = 10.0f;
 
-	OnBeginOverlapFunction _collisionFunction;
 	std::unordered_map<CollisionGridCase, int> _indices;
-	bool _stopMovement = false;
+
+	CollisionLayout _cLayout;
 
 	Mesh _debugMesh;
 };
