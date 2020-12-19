@@ -7,6 +7,7 @@
 #include "Ocean.hpp"
 #include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
+#include "UsableObject.hpp"
 
 #include <memory>
 #include <string>
@@ -65,6 +66,10 @@ void Scene::Init(const std::string& pathScene)
 		AddParticuleSystem(_particuleSystem[i]);
 	}
 
+
+	std::shared_ptr<Object> newObject = std::make_shared<UsableObject>("/key/key.obj", _terrain);
+	AddObject(newObject);
+
 	//ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Trees.frag", "Trees");
 	//Model m_tree("res/models/trees/Sapin_01.obj");
 	//AddStaticMesh(std::make_shared<StaticMesh>(m_tree, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), "Trees"));
@@ -100,6 +105,7 @@ void Scene::Draw()
 		_particuleSystem[i]->Draw();
 	}
 
+	_objects[0]->Draw();
 	// Render the Skybox
 	_skybox->Draw();
 	_hud.Draw();
@@ -117,3 +123,7 @@ void Scene::AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particule
 	_particuleSystemCount++;
 }
 
+void Scene::AddObject(const std::shared_ptr<Object>& object) {
+	_objects.push_back(object);
+
+}
