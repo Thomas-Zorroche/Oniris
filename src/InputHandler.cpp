@@ -1,11 +1,11 @@
 #include "InputHandler.hpp"
-#include "FreeflyCamera.hpp"
+#include "Camera.hpp"
 #include "Game.hpp"
 #include <iostream>
 #include "GLFW/glfw3.h"
 
 
-void InputHandler::ProcessInput(GLFWwindow* window, FreeflyCamera& camera,const std::shared_ptr<Terrain> terrain)
+void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera,const std::shared_ptr<Terrain>& terrain)
 {
     /* Close Window */
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -19,13 +19,15 @@ void InputHandler::ProcessInput(GLFWwindow* window, FreeflyCamera& camera,const 
 
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
-        camera.MoveFront(terrain, 1);
+        camera.MoveFront(1, terrain);
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
-        camera.MoveFront(terrain, -1);
+        camera.MoveFront(-1, terrain);
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
-        camera.MoveLeft(terrain, 1);
+        camera.MoveLeft(1, terrain);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
-        camera.MoveLeft(terrain, -1);
+        camera.MoveLeft(-1, terrain);
+
+    camera.updateBox();
 }
 
 void InputHandler::SetCallback(GLFWwindow* window, Game* game) {
@@ -38,7 +40,7 @@ void InputHandler::SetCallback(GLFWwindow* window, Game* game) {
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    FreeflyCamera* camera = ((Game*)glfwGetWindowUserPointer(window))->camera;
+    Camera* camera = ((Game*)glfwGetWindowUserPointer(window))->camera;
     float xoffset = xpos - camera->GetLastX();
     float yoffset = ypos - camera->GetLastY();
     camera->SetLastX(xpos);

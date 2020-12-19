@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Shader.h"
-#include "FreeflyCamera.hpp"
+#include "Camera.hpp"
 #include "ResourceManager.hpp"
 
 
@@ -24,7 +24,7 @@ public:
 	void Panel::Draw() const;
 
 	// A appeler à chaque tour de boucle de rendu
-	void Panel::Update(FreeflyCamera* camera);
+	void Panel::Update(Camera* camera);
 
 	inline bool Panel::IsVisible() const { return _visibility; };
 	void Panel::TranslateTexture(int dir);

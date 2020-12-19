@@ -2,7 +2,7 @@
 
 #include "Model.hpp"
 #include "Shader.h"
-#include "BoxCollision.hpp"
+#include "CollisionBox.hpp"
 
 #include <string>
 #include <memory>

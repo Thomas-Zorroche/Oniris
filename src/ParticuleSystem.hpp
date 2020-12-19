@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "glm/glm.hpp"
 #include "Texture.h"
 #include "Terrain.hpp"

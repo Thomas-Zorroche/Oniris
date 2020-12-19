@@ -2,7 +2,7 @@
 #include "ParticuleSystem.hpp"
 #include "ResourceManager.hpp"
 #include "Terrain.hpp"
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "Model.hpp"
 #include "Shader.h"
 

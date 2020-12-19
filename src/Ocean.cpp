@@ -1,5 +1,5 @@
 #include "Ocean.hpp"
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "ResourceManager.hpp"
 
 #include <GLFW/glfw3.h>

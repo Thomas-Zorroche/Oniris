@@ -20,8 +20,6 @@ void cBoxFunc_SimpleHit()
 	std::cout << "HIT" << std::endl;
 }
 
-
-
 Scene::Scene(const std::string& pathScene)
 	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr)
 {
@@ -84,6 +82,9 @@ void Scene::Init(const std::string& pathScene)
 	// =============
 	Model m_portail("res/models/portail/portail.obj");
 	Model m_house("res/models/houses/houses.obj");
+
+	// Create Objects
+	// ==============
 	std::shared_ptr<Object> newObject = std::make_shared<UsableObject>("/key/key.obj", _terrain);
 	AddObject(newObject);
 
@@ -168,5 +169,4 @@ void Scene::AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particule
 
 void Scene::AddObject(const std::shared_ptr<Object>& object) {
 	_objects.push_back(object);
-
 }

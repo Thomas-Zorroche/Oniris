@@ -4,11 +4,10 @@
 #include <GLFW/glfw3.h>
 
 #include "Renderer.hpp"
-#include "FreeflyCamera.hpp"
-#include "Inputs.hpp"
+#include "Camera.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "Terrain.hpp"
 #include "Scene.hpp"
 #include "CollisionManager.hpp"
@@ -25,8 +24,8 @@ void mainloop(GLFWwindow* window)
     Scene scene("worldScene.txt");
 
     // Camera
-    FreeflyCamera camera;
-    camera.MoveFront(scene.TerrainPtr(), 1);
+    Camera camera;
+    camera.MoveFront(1, scene.TerrainPtr());
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
@@ -36,7 +35,7 @@ void mainloop(GLFWwindow* window)
     glEnable(GL_DEPTH_TEST);  
 
     // Callback
-    Game game = Game(&camera, &scene.GetHudPtr());
+    Game game = Game(&camera, &scene.GetHud());
     InputHandler::Get().SetCallback(window, &game);
 
 
@@ -50,7 +49,7 @@ void mainloop(GLFWwindow* window)
         CollisionManager::Get().CheckCollisions();
 
         // Camera movement according to Inputs
-        camera.Move(scene.TerrainPtr());
+        //camera.Move(scene.TerrainPtr());
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();

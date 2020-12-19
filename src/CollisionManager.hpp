@@ -1,10 +1,10 @@
 #pragma once
 
-#include "BoxCollision.hpp"
+#include "CollisionBox.hpp"
 #include "CollisionGrid.hpp"
 #include "CollisionGrid.hpp"
 
-#include "FreeflyCamera.hpp"
+#include "Camera.hpp"
 
 #include <vector>
 #include <memory>
@@ -28,7 +28,7 @@ public:
 	void CheckCollisions();
 	void AddBox(const std::shared_ptr<CollisionBox>& box);
 	void DeleteBox(const std::shared_ptr<CollisionBox>& box);
-	void Init(FreeflyCamera* camera);
+	void Init(Camera* camera);
 	
 private:
 	CollisionManager() = default;
@@ -38,7 +38,7 @@ private:
 
 	CollisionGrid _grid;
 	std::unordered_map<CollisionGridCase, std::vector<std::shared_ptr<CollisionBox> >> _boxes;
-	FreeflyCamera * _camera;
+	Camera * _camera;
 	int _countCollision = 0;
 };
 

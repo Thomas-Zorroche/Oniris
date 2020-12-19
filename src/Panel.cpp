@@ -42,7 +42,7 @@ Panel::Panel(const std::string texture, std::string name, float x, float y, floa
 
 }
 
-void Panel::Update(FreeflyCamera* camera)
+void Panel::Update(Camera* camera)
 {
 	//to do ou pas 
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "Mesh.hpp"
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "Terrain.hpp"
 
 

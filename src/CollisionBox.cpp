@@ -1,4 +1,4 @@
-#include "BoxCollision.hpp"
+#include "CollisionBox.hpp"
 #include "glm/glm.hpp"
 
 CollisionBox::CollisionBox(const glm::vec3& origin, float w, float h, float d,

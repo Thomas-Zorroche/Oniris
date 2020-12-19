@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "FreeflyCamera.hpp"
+#include "Camera.hpp"
 #include "Terrain.hpp"
 #include "Game.hpp"
 #include <iostream>
@@ -20,7 +20,7 @@ public:
 	InputHandler(const InputHandler&) = delete;
 	InputHandler& operator=(const InputHandler&) = delete;
 
-	void InputHandler::ProcessInput(GLFWwindow* window, FreeflyCamera& camera, const std::shared_ptr<Terrain> terrain);
+	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
 	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
 
 private:

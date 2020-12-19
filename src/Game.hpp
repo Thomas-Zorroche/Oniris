@@ -1,13 +1,13 @@
 #pragma once
-#include "FreeflyCamera.hpp"
+#include "Camera.hpp"
 #include "Hud.hpp"
 
 struct Game
 {
-    FreeflyCamera* camera;
+    Camera* camera;
     Hud* hud;
 
-    Game(FreeflyCamera* c, Hud* h)
+    Game(Camera* c, Hud* h)
     {
         hud = h;
         camera = c;

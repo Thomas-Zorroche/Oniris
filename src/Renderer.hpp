@@ -3,9 +3,9 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "FreeflyCamera.hpp"
+#include "Camera.hpp"
 
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "Shader.h"
 #include "Terrain.hpp"
 #include "ResourceManager.hpp"
@@ -79,7 +79,7 @@ public:
 		shader->Unbind();
 	}
 
-	void SetCamera(FreeflyCamera * camera)
+	void SetCamera(Camera * camera)
 	{
 		_camera = camera;
 	}
@@ -88,7 +88,7 @@ private:
 	Renderer() = default;
 	~Renderer() = default;
 
-	FreeflyCamera* _camera;
+	Camera* _camera;
 	glm::mat4 _projection;
 	glm::mat4 _view;
 };

@@ -1,6 +1,6 @@
 #include "CollisionGrid.hpp"
-#include "BoxCollision.hpp"
-#include "FreeflyCamera.hpp"
+#include "CollisionBox.hpp"
+#include "Camera.hpp"
 
 
 #include <vector>

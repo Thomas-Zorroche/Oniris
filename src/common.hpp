@@ -20,7 +20,6 @@ static void GLCheckError()
 }
 
 
-
 struct ShapeVertex {
     glm::vec3 position;
     glm::vec3 normal;
@@ -38,4 +37,3 @@ struct ShapeVertex {
         position(glm::vec3(0.0)), normal(glm::vec3(0.0)), texCoords(glm::vec3(0.0)) {
     }
 };
-

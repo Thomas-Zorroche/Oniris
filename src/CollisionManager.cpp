@@ -1,11 +1,11 @@
 #include "CollisionManager.hpp"
 #include "CollisionGrid.hpp"
-#include "BoxCollision.hpp"
+#include "CollisionBox.hpp"
 
 #include <memory>
 #include <iterator>
 
-void CollisionManager::Init(FreeflyCamera* camera)
+void CollisionManager::Init(Camera* camera)
 {
 	_camera = camera;
 
@@ -50,8 +50,8 @@ void CollisionManager::CheckCollisions()
 	if (!hitSomething)
 		_camera->BlockMovement(NONE);
 
-	std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
-			  << " ; " << activeBoxes.size() <<  std::endl;
+	/*std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
+			  << " ; " << activeBoxes.size() <<  std::endl;*/
 }
 
 void CollisionManager::AddBox(const std::shared_ptr<CollisionBox>& box)

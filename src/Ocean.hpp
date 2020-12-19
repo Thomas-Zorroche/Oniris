@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 
 class Ocean
 {

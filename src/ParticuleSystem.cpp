@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "ResourceManager.hpp"
 #include "Texture.h"
 #include "Terrain.hpp"

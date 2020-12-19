@@ -1,4 +1,4 @@
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "ResourceManager.hpp"
 #include "CollisionManager.hpp"
 #include "Shader.h"

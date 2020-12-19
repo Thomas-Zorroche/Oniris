@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "SpecialMesh.hpp"
+#include "StaticMesh.hpp"
 #include "Terrain.hpp"
 #include "Hud.hpp"
 #include "Ocean.hpp"
@@ -27,7 +27,7 @@ public:
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 
 	int StaticMeshesCount() const { return _staticMeshesCount; }
-	Hud& GetHudPtr() { return _hud; }
+	Hud& GetHud() { return _hud; }
 
 
 private:
