@@ -4,6 +4,7 @@
 #include "CollisionGrid.hpp"
 #include "Mesh.hpp"
 #include <memory>
+#include <vector>
 #include <unordered_map>
 
 typedef void(*OnBeginOverlapFunction)(void);
@@ -39,14 +40,14 @@ private:
 
 enum HitCollisionAxis
 {
-	NONE = 0, X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG
+	NONE = 0, X_POS, X_NEG, Z_POS, Z_NEG
 };
 
 // Struct used for collision test
 struct HitResult
 {
 	bool IsHitting;
-	HitCollisionAxis axis;
+	HitCollisionAxis Axis;
 };
 
 class CollisionBox

@@ -33,7 +33,6 @@ void mainloop(GLFWwindow* window)
 
     // Initialisation Collision Manager
     CollisionManager::Get().Init(&camera);
-    CollisionManager::Get().DebugMode(true);
 
     glEnable(GL_DEPTH_TEST);  
 

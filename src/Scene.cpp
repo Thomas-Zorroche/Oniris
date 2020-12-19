@@ -18,7 +18,7 @@
 
 void cBoxFunc_SimpleHit()
 {
-	std::cout << "HIT" << std::endl;
+	//std::cout << "HIT" << std::endl;
 }
 
 Scene::Scene(const std::string& pathScene)

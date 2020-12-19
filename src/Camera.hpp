@@ -44,14 +44,14 @@ public:
 	float GetSpeed() const  { return _Speed; };
 	// Getters Collision Data
 	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
-	inline HitCollisionAxis BlockAxis() const { return _blockAxis; }
+	//const std::vector<HitCollisionAxis>& BlockAxis() const { return _blockAxis; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
 	void SetLastX(float x) { _lastX = x; }
 	void SetLastY(float y) { _lastY = y; }
 	virtual void SetActiveKey(char key) { _ActiveKey = key; };
-	void BlockMovement(HitCollisionAxis axis) { _blockAxis = axis; }
+	void BlockMovement(const std::vector<HitCollisionAxis>& axis);
 
 
 private:
@@ -85,5 +85,7 @@ private:
 	// Box Collision
 	float _cBoxWidth = 2.0f;
 	std::shared_ptr<CollisionBox> _cBox;
-	HitCollisionAxis _blockAxis = NONE;
+	//std::vector<HitCollisionAxis> _blockAxis = { NONE };
+
+	bool _blockAxis[5] = { false };
 };

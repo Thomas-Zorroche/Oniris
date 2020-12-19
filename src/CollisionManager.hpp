@@ -33,7 +33,7 @@ public:
 	
 	
 	void DrawCBoxes();
-	void DebugMode(bool mode) { _drawCBoxes = mode; }
+	void DebugMode();
 	
 private:
 	CollisionManager() = default;
@@ -46,7 +46,7 @@ private:
 	Camera * _camera;
 
 	// Debug Attributes
-	bool _drawCBoxes = false;
+	bool _debugMode = false;
 	int _countCollision = 0;
 };
 

@@ -34,7 +34,7 @@ HitResult CollisionBox::IsColliding(const std::shared_ptr<CollisionBox>& box)
         if (_stopMovement)
         {
             if (box->_z - box->_d <= _z - _d)
-               return { true, Z_POS };
+                return { true, Z_POS };
             if (box->_z >= _z)
                 return { true, Z_NEG };
             if (box->_x <= _x)

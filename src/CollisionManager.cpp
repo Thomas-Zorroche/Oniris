@@ -27,30 +27,27 @@ void CollisionManager::CheckCollisions()
 	auto cameraCBox = _camera->GetCollisionBox();
 	CollisionGridCase playerCase = _grid.BoxCase(cameraCBox);
 	auto& activeBoxes = _boxes[playerCase];
-	//
-	// [TODO] :: Short vector loop range
-	//
 
 	// Check all collisions between boxes and camera
-	bool hitSomething = false;
+	std::vector<HitCollisionAxis> AxisHit;
 	for (size_t i = 0; i < activeBoxes.size(); i++)
 	{
 		HitResult hit = activeBoxes[i]->IsColliding(cameraCBox);
 		if (hit.IsHitting)
 		{
 			// If colliding, execute appropriate event
-			hitSomething = true;
-			if (_camera->BlockAxis() == NONE)
-				_camera->BlockMovement(hit.axis);
+			AxisHit.push_back(hit.Axis);
 			activeBoxes[i]->OnBeginOverlap();
 			_countCollision++;
 		}
 	}
 
-	if (!hitSomething)
-		_camera->BlockMovement(NONE);
+	if (AxisHit.empty())
+		AxisHit.push_back(NONE);
+	
+	_camera->BlockMovement(AxisHit);
 
-	if (_drawCBoxes)
+	if (_debugMode)
 		DrawCBoxes();
 
 	//std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
@@ -119,3 +116,10 @@ void CollisionManager::DrawCBoxes()
 	}
 }
 
+void CollisionManager::DebugMode()
+{
+	if (_debugMode)
+		_debugMode = false;
+	else
+		_debugMode = true;
+}
