@@ -30,6 +30,11 @@ public:
 	void DeleteBox(const std::shared_ptr<CollisionBox>& box);
 	void Init(Camera* camera);
 	
+	
+	
+	void DrawCBoxes();
+	void DebugMode(bool mode) { _drawCBoxes = mode; }
+	
 private:
 	CollisionManager() = default;
 	~CollisionManager() = default;
@@ -39,6 +44,9 @@ private:
 	CollisionGrid _grid;
 	std::unordered_map<CollisionGridCase, std::vector<std::shared_ptr<CollisionBox> >> _boxes;
 	Camera * _camera;
+
+	// Debug Attributes
+	bool _drawCBoxes = false;
 	int _countCollision = 0;
 };
 

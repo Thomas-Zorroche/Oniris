@@ -118,7 +118,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
     if (IscBox)
     {
         const auto cBoxMaterial = ResourceManager::Get().CachePBRColorMaterial("cBox", glm::vec3(1.0, 0.0, 0.0));
-        return Mesh(vertices, cBoxMaterial, &indices);
+        return Mesh(vertices, cBoxMaterial, indices);
     }
 
     // process materials
@@ -129,7 +129,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
     // If material is already cached, return Mesh with this material
     const auto cachedMaterial = ResourceManager::Get().GetMaterial(name.C_Str());
     if (cachedMaterial != nullptr)
-        return Mesh(vertices, cachedMaterial, &indices);
+        return Mesh(vertices, cachedMaterial, indices);
 
     // Otherwise, create new material with textures
     // 1. diffuse maps
@@ -151,18 +151,17 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
 
 
     // return a mesh object created from the extracted mesh data
-    return Mesh(vertices, newMaterial, &indices);
+    return Mesh(vertices, newMaterial, indices);
 }
 
 
-std::vector<ShapeVertex>& Model::VerticesCBox()
+std::vector<ShapeVertex>& Model::VerticesCBox(size_t index)
 {
-    // Return just the first cBox of the model !
     // Check whether the model has collision boxes
     if (_cBoxes.empty())
         throw std::string("Model has no Collision Box ! Impossible to generate one.");
 
-    return _cBoxes[0].Vertices();
+    return _cBoxes[index].Vertices();
 }
 
 

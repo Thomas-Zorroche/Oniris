@@ -9,6 +9,7 @@
 #include "ParticuleSystem.hpp"
 #include "UsableObject.hpp"
 #include "CollisionManager.hpp"
+#include "ShapeCube.hpp"
 
 #include <memory>
 #include <string>
@@ -48,6 +49,7 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
 
 	// Create Terrain
 	// ==============
@@ -82,6 +84,7 @@ void Scene::Init(const std::string& pathScene)
 	// =============
 	Model m_portail("res/models/portail/portail.obj");
 	Model m_house("res/models/houses/houses.obj");
+	Model m_portailCol("res/models/PortailTestCollision.obj");
 
 	// Create Objects
 	// ==============
@@ -92,14 +95,13 @@ void Scene::Init(const std::string& pathScene)
 	// ===============================================
 	CollisionLayout cLayout_House(true, true, false, StaticMesh::FunctionTest);
 
-
 	// Create Static Meshes
 	// ====================
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(700, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portailCol, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
@@ -112,13 +114,14 @@ void Scene::Init(const std::string& pathScene)
 		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
 		_staticMeshes[3]->Scale(4.0);
 		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
-		_staticMeshes[4]->Scale(6.0);
-		_staticMeshes[4]->Rotate(270, glm::vec3(0, 1, 0));
+		_staticMeshes[4]->Scale(8.0);
 	}
 	catch (const std::string& e)
 	{
 		std::cerr << "[StaticMesh] :: " << e << std::endl;
 	}
+
+
 }
 
 void Scene::Draw()
@@ -148,7 +151,11 @@ void Scene::Draw()
 		_particuleSystem[i]->Draw();
 	}
 
+	// Render objects
+	// ==============
 	_objects[0]->Draw();
+
+
 	// Render the Skybox
 	// =================
 	_skybox->Draw();

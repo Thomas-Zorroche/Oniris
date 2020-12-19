@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 #include "CollisionGrid.hpp"
+#include "Mesh.hpp"
 #include <memory>
 #include <unordered_map>
 
@@ -70,6 +71,8 @@ public:
 	std::unordered_map<CollisionGridCase, int>& Indices() { return _indices; }
 	void AddIndex(CollisionGridCase gridCase, int index);
 	void CollisionBox::DecreaseIndexCase(CollisionGridCase gridCase);
+	void updateDebugMesh();
+	void Draw();
 
 private:
 	float _x = 0.0f, _y = 0.0f, _z = 0.0f;
@@ -78,4 +81,6 @@ private:
 	OnBeginOverlapFunction _collisionFunction;
 	std::unordered_map<CollisionGridCase, int> _indices;
 	bool _stopMovement = false;
+
+	Mesh _debugMesh;
 };

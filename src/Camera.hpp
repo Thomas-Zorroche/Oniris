@@ -83,7 +83,7 @@ private:
 	float _farPlane = 5000.0f;
 
 	// Box Collision
-	float _cBoxWidth = 5.0f;
+	float _cBoxWidth = 2.0f;
 	std::shared_ptr<CollisionBox> _cBox;
 	HitCollisionAxis _blockAxis = NONE;
 };

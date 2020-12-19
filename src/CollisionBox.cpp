@@ -1,11 +1,16 @@
 #include "CollisionBox.hpp"
+#include "ShapeCube.hpp"
+#include "ResourceManager.hpp"
+#include "Renderer.hpp"
+#include "Mesh.hpp"
 #include "glm/glm.hpp"
 
 CollisionBox::CollisionBox(const glm::vec3& origin, float w, float h, float d,
     const OnBeginOverlapFunction& collisionFunction, bool stopMovement)
-	: _x(origin.x), _y(origin.y), _z(origin.z), _w(w), _h(h), _d(d), _collisionFunction(collisionFunction), _stopMovement(stopMovement)
+	: _x(origin.x), _y(origin.y), _z(origin.z), _w(w), _h(h), _d(d), 
+      _collisionFunction(collisionFunction), _stopMovement(stopMovement), _debugMesh(Mesh())
 {
-
+    updateDebugMesh();
 }
 
 void CollisionBox::OnBeginOverlap()
@@ -48,6 +53,20 @@ void CollisionBox::AddIndex(CollisionGridCase gridCase, int index)
 void CollisionBox::DecreaseIndexCase(CollisionGridCase gridCase)
 {
     _indices[gridCase] -= 1;
+}
+
+void CollisionBox::updateDebugMesh()
+{
+    ShapeCube debugShape(ShapeCube(glm::vec3(_x, _y, _z), _w, _h, _d));
+    _debugMesh = Mesh(debugShape.Vertices(), ResourceManager::Get().CachePBRColorMaterial("cubeDebug", glm::vec3(1, 0, 0)), debugShape.Indices());
+}
+
+void CollisionBox::Draw()
+{
+    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), ResourceManager::Get().GetShader("CBox"));
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    _debugMesh.Draw(ResourceManager::Get().GetShader("CBox"));
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 

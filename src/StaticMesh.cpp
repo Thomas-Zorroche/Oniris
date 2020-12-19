@@ -18,14 +18,17 @@ const std::vector<std::vector<int> > StaticMesh::_indicesCBox = {
 StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, CollisionLayout cBoxLayout)
 	: _model(model), _position(position), _shader(ResourceManager::Get().GetShader(shaderName)),
 	  _modelMatrix(glm::mat4(1.0f)), 
-	  _cBoxLayout(cBoxLayout), _cBox(nullptr)
+	  _cBoxLayout(cBoxLayout), _cBoxes(std::vector<std::shared_ptr<CollisionBox> >())
 {
 	if (_cBoxLayout.HasCollision())
 	{
-		// Try to generate a collision box, if there is one.
+		// Try to generate collision boxes
 		try
 		{
-			GenerateCBox(_model.VerticesCBox());
+			for (size_t i = 0; i < _model.CBoxes().size(); i++)
+			{
+				_cBoxes.push_back(GenerateCBox(_model.VerticesCBox(i)));
+			}
 		}
 		catch (const std::string& e)
 		{
@@ -50,21 +53,21 @@ void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 void StaticMesh::Scale(float alpha)
 {
 	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(alpha));
-	if (_cBox)
+	if (_cBoxLayout.HasCollision())
 		updateCBox();
 }
 
 void StaticMesh::Translate(const glm::vec3& delta)
 {
 	_modelMatrix = _modelMatrix * glm::translate(glm::mat4(1.0f), delta);
-	if (_cBox)
+	if (_cBoxLayout.HasCollision())
 		updateCBox();
 }
 
 void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 {
 	_modelMatrix = _modelMatrix * glm::rotate(glm::mat4(1.0f), glm::radians(alpha), axis);
-	if (_cBox)
+	if (_cBoxLayout.HasCollision())
 	{
 		_globalRotation += alpha;
 		if ((int)_globalRotation % 90 != 0 || _globalRotation < 0 || _globalRotation > 270)
@@ -77,7 +80,7 @@ void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 /*
 * Collision Box
 */
-void StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox)
+std::shared_ptr<CollisionBox> StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox)
 {
 	// Indices
 	size_t i_origin = _indicesCBox[(int)_angleCBox][0];
@@ -96,25 +99,31 @@ void StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox)
 	float h = abs(verticesCBox[i_h].position.y - verticesCBox[i_origin].position.y);
 	float d = abs(verticesCBox[i_d].position.z - verticesCBox[i_origin].position.z);
 
-	// Create and return the Collision Box
-	_cBox = std::make_shared<CollisionBox>(origin, w, h, d, _cBoxLayout.Function(), _cBoxLayout.CanStopMovement());
-
-	CollisionManager::Get().AddBox(_cBox);
+	// Create the Collision Box
+	return std::make_shared<CollisionBox>(origin, w, h, d, _cBoxLayout.Function(), _cBoxLayout.CanStopMovement());
 }
 
 void StaticMesh::updateCBox()
 {
-	// Transform cBox Mesh
-	std::vector<ShapeVertex> newVertices;
-	for (const auto& vertex : _model.VerticesCBox())
+	for (size_t i = 0; i < _model.CBoxes().size(); i++)
 	{
-		newVertices.push_back(glm::vec3(_modelMatrix * glm::vec4(vertex.position, 1)));
+		// Transform cBox Mesh
+		std::vector<ShapeVertex> newVertices;
+		for (const auto& vertex : _model.VerticesCBox(i))
+		{
+			newVertices.push_back(glm::vec3(_modelMatrix * glm::vec4(vertex.position, 1)));
+		}
+
+		// Remove cBox inside all the cases where the cBox was
+		CollisionManager::Get().DeleteBox(_cBoxes[i]);
+
+		// Compute the new cBox
+		_cBoxes[i] = GenerateCBox(newVertices);
+
+		//std::vector<std::shared_ptr<CollisionBox> >::iterator it = _cBoxes.end();
+		CollisionManager::Get().AddBox(_cBoxes[i]);
+
+		_cBoxes[i]->updateDebugMesh();
 	}
-
-	// Remove cBox inside all the cases where the cBox was
-	CollisionManager::Get().DeleteBox(_cBox);
-
-	// Compute the new cBox
-	GenerateCBox(newVertices);
 }
 

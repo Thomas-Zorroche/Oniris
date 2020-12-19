@@ -15,7 +15,7 @@ public:
 
 	Mesh(const std::vector<ShapeVertex> & vertices, 
 		 const std::shared_ptr<Material>& material,
-		 std::vector<unsigned int>      * indices  = nullptr);   // Optional Argument
+		 const std::vector<unsigned int>& indices  = std::vector<unsigned int>());   // Optional Argument
 
 	//Mesh(const Mesh& m);
 	
