@@ -5,6 +5,7 @@
 #include <memory>
 #include "ParticuleSystem.hpp"
 #include "Terrain.hpp"
+#include "Object.hpp"
 
 class EntityImporter
 {
@@ -19,6 +20,7 @@ public:
 	EntityImporter& operator=(const EntityImporter&) = delete;
 
 	std::vector<std::shared_ptr<ParticuleSystem> > ParticuleSystems(const std::string& data, std::shared_ptr<Terrain>& terrain) const;
+	std::vector<std::shared_ptr<Object> > Objects(const std::string& data, std::shared_ptr<Terrain>& terrain) const;
 	std::vector<std::shared_ptr<StaticMesh> > StaticMeshes() const;
 
 private:

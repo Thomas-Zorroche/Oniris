@@ -48,7 +48,7 @@ private:
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;
-	
+
 	// VARIABLE TEST
 	unsigned int _idSky = 0;
 	unsigned int _VAOSky = 0;
