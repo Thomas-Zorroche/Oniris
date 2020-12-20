@@ -18,10 +18,8 @@
 #include <vector>
 #include <iostream>
 
-void cBoxFunc_Portail()
-{
-	std::cout << "Ramasser l'objet" << std::endl;
-}
+
+
 
 Scene::Scene(const std::string& pathScene)
 	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr)
@@ -95,9 +93,8 @@ void Scene::Init(const std::string& pathScene)
 
 	// Define Collisions Layout for Static Mesh's cBox
 	// ===============================================
-	CollisionLayout cLayout_House(true, true, false, StaticMesh::FunctionTest);
-	CollisionLayout cLayout_NarrativeObj(true, false, false, NarrativeObject::FunctionTest);
-	CollisionLayout cLayout_UsableObj(true, false, false, UsableObject::FunctionTest);
+	CollisionLayout cLayout_House(true, true, false);
+
 
 	// Create Objects
 	// ==============

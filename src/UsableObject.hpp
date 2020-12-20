@@ -11,14 +11,16 @@ enum UsableObjectType
 class UsableObject : public Object
 {
 public:
-	UsableObject(const Model& model, const glm::vec3& position, const std::string& panelName, const CollisionLayout& cLayout);
+	UsableObject(const Model& model, const glm::vec3& position, const std::string& panelName);
 	~UsableObject();
 
 	void Use();
 
-	static void FunctionTest() {
-		std::cout << "HIT USABLE OBJ \n";
+	void OnOverlap() override 
+	{
+		std::cout << "Usable Object\n";
 	}
+
 	
 private:
 	UsableObjectType _Type = KEY;

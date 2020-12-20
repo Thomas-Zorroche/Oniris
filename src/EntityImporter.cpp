@@ -126,11 +126,6 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 	std::string objPath;
 	glm::vec3 position = glm::vec3();
 
-
-	CollisionLayout cLayout_NarrativeObj(true, false, false, NarrativeObject::FunctionTest);
-	CollisionLayout cLayout_UsableObj(true, false, false, UsableObject::FunctionTest);
-
-
 	while (getline(stream, line))
 	{
 		if (line.find("#Objects") == std::string::npos && firstline)
@@ -196,9 +191,9 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
 			if ( type == "Um" || type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
-				object = std::make_shared<UsableObject>(model, position, "p_" + name , cLayout_UsableObj);
+				object = std::make_shared<UsableObject>(model, position, "p_" + name);
 			else if (type == "N")
-				object = std::make_shared<NarrativeObject>(model, position, "p_" + name, cLayout_NarrativeObj);
+				object = std::make_shared<NarrativeObject>(model, position, "p_" + name);
 			
 				
 			objects.push_back(object);

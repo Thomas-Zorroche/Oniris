@@ -1,9 +1,11 @@
 #include "Object.hpp"
 #include "ResourceManager.hpp"
+#include "StaticMesh.hpp"
 
-Object::Object(const Model& model, const glm::vec3& position, const CollisionLayout& cLayout) {
+Object::Object(const Model& model, const glm::vec3& position) 
+	:_staticMesh(std::make_shared<StaticMesh>(model, position, "Key", CollisionLayout(true, false, false, this)))
+{
 
-	_Mesh = std::make_shared<StaticMesh>(model, position, "Key", cLayout);
 }
 
 Object::~Object() {
@@ -11,5 +13,5 @@ Object::~Object() {
 }
 
 void Object::Draw() {
-	_Mesh->Draw();
+	_staticMesh->Draw();
 }
