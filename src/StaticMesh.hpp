@@ -36,10 +36,6 @@ public:
 		R_0, R_90, R_180, R_270
 	};
 
-	static void FunctionTest()  { std::cout << "Hit Wall\n"; }
-
-
-private:
 	Model _model;
 	glm::vec3 _position;
 	glm::mat4 _modelMatrix;

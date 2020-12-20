@@ -82,6 +82,8 @@ void Camera::MoveFront(float dir, const std::shared_ptr<Terrain>& terrain)
 
 	_Position.y = terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
 	computeDirectionVectors();
+
+	std::cout << _Position.x << " " << _Position.z << std::endl;
 }
 void Camera::MoveLeft(float dir, const std::shared_ptr<Terrain>& terrain)
 {

@@ -56,7 +56,7 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Terrain
 	// ==============
-	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16.png");
+	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16-v2.png");
 
 	// Create Ocean
 	// ============
@@ -91,10 +91,9 @@ void Scene::Init(const std::string& pathScene)
 	//Model m_map("res/models/map/map.obj");
 
 
-
 	// Define Collisions Layout for Static Mesh's cBox
 	// ===============================================
-	CollisionLayout cLayout_House(true, true, false, StaticMesh::FunctionTest);
+	CollisionLayout cLayout_House(true, true, false);
 	CollisionLayout cLayout_NarrativeObj(true, false, false, NarrativeObject::FunctionTest);
 	CollisionLayout cLayout_UsableObj(true, false, false, UsableObject::FunctionTest);
 
@@ -105,28 +104,26 @@ void Scene::Init(const std::string& pathScene)
 	//AddObject(o_key);
 	//AddObject(o_map);
 
-	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
+	//_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
 
 	// Create Static Meshes
 	// ====================
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_Key));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(300, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
+	//AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
+	//AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
+	//AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
 	try
 	{
-		_staticMeshes[0]->Scale(5.0);
-		_staticMeshes[1]->Scale(5.0);
-		_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
-		_staticMeshes[2]->Scale(3.0);
-		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
-		_staticMeshes[3]->Scale(4.0);
-		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
-		//_staticMeshes[4]->Scale(1.0);
+		//_staticMeshes[0]->Scale(5.0);
+		//_staticMeshes[1]->Scale(5.0);
+		//_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
+		//_staticMeshes[2]->Scale(3.0);
+		//_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
+		//_staticMeshes[3]->Scale(4.0);
+		//_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
 	}
 	catch (const std::string& e)
 	{
@@ -152,7 +149,6 @@ void Scene::Draw()
 	// ============================
 	for (size_t i = 0; i < _staticMeshesCount; i++)
 	{
-		//Renderer::Get().SendModelMatrixUniforms(_staticMeshes[i]->GetModelMatrix(), _staticMeshes[i]->GetShader());
 		_staticMeshes[i]->Draw();
 	}
 
@@ -163,14 +159,12 @@ void Scene::Draw()
 		_particuleSystem[i]->Draw();
 	}
 
-
 	//Render all Objects (Narratives & Usable)
 	//========================================
 	for (size_t i = 0; i < _objects.size(); i++)
 	{
 		_objects[i]->Draw();
 	}
-	
 
 	// Render the Skybox
 	// =================

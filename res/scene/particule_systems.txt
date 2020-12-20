@@ -2,7 +2,5 @@
 [name] Trees
 [obj] res/models/trees/Sapin_01.obj
 [count] 20
-[cp] 250 190 1 50
-[cp] 650 302 1 50
-[cp] 544 750 1 50
+[cp] 100 100 1 50
 [end]

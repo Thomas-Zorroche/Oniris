@@ -6,7 +6,7 @@
 #include "glm/glm.hpp"
 
 Ocean::Ocean()
-	: _staticMesh(Model("res/models/ocean/ocean.obj"), glm::vec3(500, 12.5, 500), "Ocean")
+	: _staticMesh(Model("res/models/ocean/ocean.obj"), glm::vec3(500, 10, 500), "Ocean")
 {
 	_staticMesh.Scale(1000.0f);
 }

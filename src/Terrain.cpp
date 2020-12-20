@@ -100,11 +100,10 @@ float Terrain::GetHeightmapValue(int x, int z) const
 	if (x < 0 || x >= _heightmap.Height() || z < 0 || z >= _heightmap.Height())
 		return 0;
 
-	float redValue = _heightmap.GetRGB(z, x);
+	float redValue = _heightmap.GetRGB(x, z);
 	float height = (redValue / 255.0f) * _MaxHeight;
 	
 	return height;
-
 }
 
 float Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
