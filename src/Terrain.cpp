@@ -88,7 +88,7 @@ Mesh Terrain::generateMesh()
 	
 	const auto newMaterial = ResourceManager::Get().CacheBasicMaterial("Terrain", _texture.Path());
 	
-	return Mesh(vertices, newMaterial, &indices);
+	return Mesh(vertices, newMaterial, indices);
 }
 
 

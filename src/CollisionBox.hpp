@@ -2,7 +2,9 @@
 
 #include "glm/glm.hpp"
 #include "CollisionGrid.hpp"
+#include "Mesh.hpp"
 #include <memory>
+#include <vector>
 #include <unordered_map>
 
 typedef void(*OnBeginOverlapFunction)(void);
@@ -38,21 +40,20 @@ private:
 
 enum HitCollisionAxis
 {
-	NONE = 0, X_POS, X_NEG, Y_POS, Y_NEG, Z_POS, Z_NEG
+	NONE = 0, X_POS, X_NEG, Z_POS, Z_NEG
 };
 
 // Struct used for collision test
 struct HitResult
 {
 	bool IsHitting;
-	HitCollisionAxis axis;
+	HitCollisionAxis Axis;
 };
 
 class CollisionBox
 {
 public:
-	CollisionBox(const glm::vec3& origin, float w, float h, float d,
-		const OnBeginOverlapFunction& collisionFunction = [] {}, bool stopMovement = false);
+	CollisionBox(const glm::vec3& origin, float w, float h, float d, const CollisionLayout& cLayout = CollisionLayout());
 
 	void OnBeginOverlap();
 	HitResult IsColliding(const std::shared_ptr<CollisionBox>& box);
@@ -70,12 +71,18 @@ public:
 	std::unordered_map<CollisionGridCase, int>& Indices() { return _indices; }
 	void AddIndex(CollisionGridCase gridCase, int index);
 	void CollisionBox::DecreaseIndexCase(CollisionGridCase gridCase);
+	void updateDebugMesh();
+	void Draw();
+
+	bool StopMovement() const { return _cLayout.CanStopMovement(); }
 
 private:
 	float _x = 0.0f, _y = 0.0f, _z = 0.0f;
 	float _w = 10.0f, _h = 10.0f, _d = 10.0f;
 
-	OnBeginOverlapFunction _collisionFunction;
 	std::unordered_map<CollisionGridCase, int> _indices;
-	bool _stopMovement = false;
+
+	CollisionLayout _cLayout;
+
+	Mesh _debugMesh;
 };

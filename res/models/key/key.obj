@@ -1,4 +1,4 @@
-# Blender v2.91.0 OBJ File: 'key.blend'
+# Blender v2.91.0 OBJ File: ''
 # www.blender.org
 mtllib key.mtl
 o key_key_Cube.002
@@ -194,7 +194,7 @@ vn 0.0000 0.0000 -1.0000
 vn 0.5439 0.0000 -0.8391
 vn -0.5439 0.0000 -0.8391
 usemtl texture
-s off
+s 1
 f 1/1/1 2/2/1 3/3/1 4/4/1
 f 5/5/2 6/6/2 7/7/2 8/8/2
 f 8/9/3 7/10/3 9/11/3 10/12/3

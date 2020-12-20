@@ -1,6 +1,7 @@
 
 #include "Panel.hpp"
 #include "Material.hpp"
+#include "Mesh.hpp"
 
 
 Panel::Panel(const std::string texture, std::string name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
@@ -33,7 +34,7 @@ Panel::Panel(const std::string texture, std::string name, float x, float y, floa
 		1,3,2
 	};
 
-	Mesh newMesh = Mesh(vertices, material, &indices);
+	Mesh newMesh = Mesh(vertices, material, indices);
 	_mesh = std::make_shared<Mesh>(newMesh);
 
 	ComputeModelMatrix(x,y,scale);

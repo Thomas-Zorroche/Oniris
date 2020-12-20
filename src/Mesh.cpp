@@ -5,18 +5,21 @@
 #include <string>
 #include <iostream>
 #include "Material.hpp"
+#include "ResourceManager.hpp"
 
 Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Material>& material,
-           std::vector<unsigned int>* indices)
-	: _vertices(vertices), _material(material)
+           const std::vector<unsigned int>& indices)
+    : _vertices(vertices), _material(material), _indices(indices)
 {
-    //
-    // [TODO] :: constructeur par d�faut de vecteur
-    //
-    if (indices)
-        _indices = *indices;
-
     SetupMesh();
+}
+
+Mesh::Mesh()
+    : _vertices(std::vector<ShapeVertex>()), 
+      _material(ResourceManager::Get().CachePBRColorMaterial("Default", glm::vec3(1.0, 1.0, 1.0))),
+      _indices(std::vector<unsigned int>())
+{
+
 }
 
 
@@ -60,7 +63,6 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance, int c
     // Textures 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
     for (unsigned int i = 0; i < _material->TextureCount(); i++)
     {

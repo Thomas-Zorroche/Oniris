@@ -13,6 +13,8 @@
 #include "CollisionManager.hpp"
 #include "InputHandler.hpp"
 #include "Game.hpp"
+#include "ShapeCube.hpp"
+
 
 
 #include <unordered_map> 
@@ -38,18 +40,11 @@ void mainloop(GLFWwindow* window)
     Game game = Game(&camera, &scene.GetHud());
     InputHandler::Get().SetCallback(window, &game);
 
-
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         // Handle Inputs
         InputHandler::Get().ProcessInput(window, camera, scene.TerrainPtr());
-
-        // Check Collisions
-        CollisionManager::Get().CheckCollisions();
-
-        // Camera movement according to Inputs
-        //camera.Move(scene.TerrainPtr());
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
@@ -57,6 +52,9 @@ void mainloop(GLFWwindow* window)
         // 84, 199, 195
         glClearColor(0.15f, 0.25f, 0.32f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        // Check Collisions
+        CollisionManager::Get().CheckCollisions();
 
         // Render scene here
         scene.Draw();

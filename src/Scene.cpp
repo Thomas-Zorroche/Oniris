@@ -10,15 +10,16 @@
 #include "UsableObject.hpp"
 #include "NarrativeObject.hpp"
 #include "CollisionManager.hpp"
+#include "ShapeCube.hpp"
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <iostream>
 
-void cBoxFunc_SimpleHit()
+void cBoxFunc_Portail()
 {
-	std::cout << "HIT" << std::endl;
+	std::cout << "Ramasser l'objet" << std::endl;
 }
 
 Scene::Scene(const std::string& pathScene)
@@ -49,6 +50,7 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Key");
 
 
@@ -111,7 +113,7 @@ void Scene::Init(const std::string& pathScene)
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(700, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_Key));
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
@@ -124,13 +126,14 @@ void Scene::Init(const std::string& pathScene)
 		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
 		_staticMeshes[3]->Scale(4.0);
 		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
-		_staticMeshes[4]->Scale(6.0);
-		_staticMeshes[4]->Rotate(270, glm::vec3(0, 1, 0));
+		//_staticMeshes[4]->Scale(1.0);
 	}
 	catch (const std::string& e)
 	{
 		std::cerr << "[StaticMesh] :: " << e << std::endl;
 	}
+
+
 }
 
 void Scene::Draw()

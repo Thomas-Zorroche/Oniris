@@ -1,21 +1,16 @@
 #include "InputHandler.hpp"
 #include "Camera.hpp"
 #include "Game.hpp"
+#include "CollisionManager.hpp"
+
 #include <iostream>
 #include "GLFW/glfw3.h"
-
 
 void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera,const std::shared_ptr<Terrain>& terrain)
 {
     /* Close Window */
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    //if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE || glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE
-    //    || glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE || glfwGetKey(window, GLFW_KEY_D) == GLFW_RELEASE)
-    //{
-    //    camera.SetActiveKey('A');
-    //}
 
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
@@ -26,6 +21,10 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera,const std::sh
         camera.MoveLeft(1, terrain);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
         camera.MoveLeft(-1, terrain);
+
+    // Collision Debug Mode
+    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)        // C Qwerty = C Azerty
+        CollisionManager::Get().DebugMode();
 
     camera.updateBox();
 }

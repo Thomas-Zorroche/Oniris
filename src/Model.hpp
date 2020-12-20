@@ -24,7 +24,7 @@ public:
 	// Useful for particule system
 	unsigned int GetVAO() const { return _meshes[0].GetVAO(); }
 
-	std::vector<ShapeVertex>& Model::VerticesCBox();
+	std::vector<ShapeVertex>& Model::VerticesCBox(size_t index);
 
 	std::vector<Mesh>& CBoxes() { return _cBoxes; }
 
