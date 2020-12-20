@@ -6,7 +6,6 @@
 
 #include "StaticMesh.hpp"
 #include "Terrain.hpp"
-#include "Hud.hpp"
 #include "Ocean.hpp"
 #include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
@@ -27,7 +26,6 @@ public:
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 
 	int StaticMeshesCount() const { return _staticMeshesCount; }
-	Hud& GetHud() { return _hud; }
 
 
 private:
@@ -41,7 +39,6 @@ private:
 	std::vector<std::shared_ptr<ParticuleSystem> > _particuleSystem;
 	std::vector<std::shared_ptr<Object> > _objects;
 	std::shared_ptr<Terrain> _terrain;
-	Hud _hud;
 	std::shared_ptr<Ocean> _ocean;
 	std::shared_ptr<Skybox> _skybox;
 

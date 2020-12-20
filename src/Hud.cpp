@@ -1,6 +1,6 @@
 #include "Hud.hpp"
 
-Hud::Hud()
+void Hud::Init()
 {
 	Panel panel1("res/img/ui_use.png", "ui_use", 0.0, -0.9, 1.0, 132, 1, false);
 	Panel panel2("res/img/ui_observe.png", "ui_observe", -0.3, -0.9, 1.0, 147, 1, false);
@@ -18,9 +18,7 @@ Hud::Hud()
 
 }
 
-Hud::~Hud()
-{
-}
+
 
 void Hud::Draw() const
 {
@@ -44,4 +42,14 @@ void Hud::Scroll(int dir) {
 
 	//_panels["key"].TranslateTexture(dir);
 	//_panels["map"].TranslateTexture(dir);
+}
+
+
+void Hud::AddPanel(const std::string& name, const Panel& panel) {
+	_panels.insert({ name, panel });
+
+}
+
+void Hud::SetVisible(const std::string& name) {
+	_panels.find(name)->second.setVisible();
 }

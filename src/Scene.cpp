@@ -11,6 +11,7 @@
 #include "NarrativeObject.hpp"
 #include "CollisionManager.hpp"
 #include "ShapeCube.hpp"
+#include "Hud.hpp"
 
 #include <memory>
 #include <string>
@@ -42,7 +43,7 @@ void Scene::Init(const std::string& pathScene)
 	// Ui shader loading & Hud creation
 	// ================================
 	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
-	Hud _hud();
+	Hud::Get().Init();
 
 	// Load all Shaders
 	// ================
@@ -113,7 +114,6 @@ void Scene::Init(const std::string& pathScene)
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_Key));
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
@@ -126,7 +126,6 @@ void Scene::Init(const std::string& pathScene)
 		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
 		_staticMeshes[3]->Scale(4.0);
 		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
-		//_staticMeshes[4]->Scale(1.0);
 	}
 	catch (const std::string& e)
 	{
@@ -175,7 +174,7 @@ void Scene::Draw()
 	// Render the Skybox
 	// =================
 	_skybox->Draw();
-	_hud.Draw();
+	Hud::Get().Draw();
 }
 
 void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)

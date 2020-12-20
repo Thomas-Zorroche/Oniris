@@ -5,11 +5,9 @@
 struct Game
 {
     Camera* camera;
-    Hud* hud;
 
-    Game(Camera* c, Hud* h)
+    Game(Camera* c)
     {
-        hud = h;
         camera = c;
     }
 };

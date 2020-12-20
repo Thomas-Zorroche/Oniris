@@ -54,7 +54,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    Hud* hud = ((Game*)glfwGetWindowUserPointer(window))->hud;
-    hud->Scroll(int(yoffset));
+    Hud::Get().Scroll(yoffset);
     std::cout << "scroll   :  " << yoffset << std::endl;
 }

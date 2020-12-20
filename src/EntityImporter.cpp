@@ -7,6 +7,8 @@
 #include "Shader.h"
 #include "NarrativeObject.hpp"
 #include "UsableObject.hpp"
+#include "Panel.hpp"
+#include "Hud.hpp"
 
 #include "glm/glm.hpp"
 
@@ -184,15 +186,19 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 			ResourceManager::Get().LoadShader("res/shaders/3DTex.vert",
 				"res/shaders/model.frag", "Key" );
 
+			Panel panel = Panel("res/img/uiplaceholder.png", "p_" + name, 0, 0, 1, 1280, 1, false);
+			Hud::Get().AddPanel("p_" + name, panel);
+
 			//
-			// [TO DO] :: trie des shaders - quel shader mettre aux objects
+			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects
 			//
+
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
 			if ( type == "Um" || type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
-				object = std::make_shared<UsableObject>(model, position, cLayout_UsableObj);
+				object = std::make_shared<UsableObject>(model, position, "p_" + name , cLayout_UsableObj);
 			else if (type == "N")
-				object = std::make_shared<NarrativeObject>(model, position, cLayout_NarrativeObj);
+				object = std::make_shared<NarrativeObject>(model, position, "p_" + name, cLayout_NarrativeObj);
 			
 				
 			objects.push_back(object);

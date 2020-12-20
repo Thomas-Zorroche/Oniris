@@ -8,7 +8,7 @@
 class Object
 {
 public:
-	Object(const Model& model, glm::vec3 position, CollisionLayout cLayout);
+	Object(const Model& model, const glm::vec3& position, const CollisionLayout& cLayout);
 	virtual ~Object();
 
 	void Draw();

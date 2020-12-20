@@ -37,7 +37,7 @@ void mainloop(GLFWwindow* window)
     glEnable(GL_DEPTH_TEST);  
 
     // Callback
-    Game game = Game(&camera, &scene.GetHud());
+    Game game = Game(&camera);
     InputHandler::Get().SetCallback(window, &game);
 
     /* Loop until the user closes the window */

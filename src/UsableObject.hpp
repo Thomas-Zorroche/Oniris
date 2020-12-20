@@ -11,7 +11,7 @@ enum UsableObjectType
 class UsableObject : public Object
 {
 public:
-	UsableObject(const Model& model, glm::vec3 position, CollisionLayout cLayout);
+	UsableObject(const Model& model, const glm::vec3& position, const std::string& panelName, const CollisionLayout& cLayout);
 	~UsableObject();
 
 	void Use();
@@ -25,6 +25,8 @@ private:
 	bool _InInventory = false;
 
 	bool IsInInventory() { return _InInventory; }
+
+	std::string _panelName;
 	
 };
 
