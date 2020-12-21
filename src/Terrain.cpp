@@ -205,6 +205,9 @@ void Terrain::Draw(const std::shared_ptr<Fog>& fog)
 	_shader->SetUniform3f("u_SkyColor", fog->Color());
 	_shader->SetUniform1f("u_fogDensity", fog->Density());
 	_shader->SetUniform1f("u_fogGradient", fog->Gradient());
+	_shader->SetUniform1f("u_fogHeight", fog->Height());
+	_shader->SetUniform1f("u_lowerLimitFog", fog->LowerLimit());
+	_shader->SetUniform1f("u_upperLimitFog", fog->UpperLimit());
 	_mesh.Draw(_shader);
 }
 

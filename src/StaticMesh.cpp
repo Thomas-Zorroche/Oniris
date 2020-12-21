@@ -95,6 +95,9 @@ void StaticMesh::SendUniforms()
 		_shader->SetUniform3f("u_SkyColor", _fog->Color());
 		_shader->SetUniform1f("u_fogDensity", _fog->Density());
 		_shader->SetUniform1f("u_fogGradient", _fog->Gradient());
+		_shader->SetUniform1f("u_fogHeight", _fog->Height());
+		_shader->SetUniform1f("u_lowerLimitFog", _fog->LowerLimit());
+		_shader->SetUniform1f("u_upperLimitFog", _fog->UpperLimit());
 	}
 }
 

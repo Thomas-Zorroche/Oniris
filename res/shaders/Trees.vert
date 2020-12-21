@@ -9,14 +9,16 @@ layout(location = 4) in float aScale;
 uniform mat4 uMVPMatrix;
 uniform mat4 uMVMatrix;
 uniform mat4 uNormalMatrix;
+uniform mat4 uModelMatrix;
 
 out vec3 vPosition_vs;
 out vec3 vNormals_vs;
 out vec2 vVertexTexcoords;
-out float vVisibility;
+out vec3 vWorldPosition;
 
 uniform float u_fogDensity;
 uniform float u_fogGradient;
+uniform float u_fogHeight;
 
 //uniform vec2 offsets[100];
 
@@ -35,14 +37,11 @@ void main()
     vec4 vertexPosition = vec4(aVertexPosition, 1);
     vec4 vertexNormal = vec4(aVertexNormal, 0);
 
-    vPosition_vs = vec3(uMVMatrix * vertexPosition);
+    vWorldPosition = vec3(uModelMatrix * translate(aOffset) * scale(aScale) * vertexPosition);
+
+    vPosition_vs = vec3(uMVMatrix * translate(aOffset) * scale(aScale) * vertexPosition);
     vNormals_vs = vec3(uNormalMatrix * vertexNormal);
     vVertexTexcoords = aVertexTexcoords;
 
     gl_Position =  uMVPMatrix * translate(aOffset) * scale(aScale) * vertexPosition;
-
-
-    float distance = length(gl_Position.xyz);
-    vVisibility = exp(-pow((distance * u_fogDensity), u_fogGradient));
-    vVisibility = clamp(vVisibility, 0.0, 1.0);
 }

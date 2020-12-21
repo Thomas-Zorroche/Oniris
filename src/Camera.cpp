@@ -92,6 +92,7 @@ void Camera::MoveFront(float dir)
 	computeDirectionVectors();
 
 	//std::cout << _Position.x << " " << _Position.z << std::endl;
+	std::cout << _Position.y << std::endl;
 }
 void Camera::MoveLeft(float dir)
 {

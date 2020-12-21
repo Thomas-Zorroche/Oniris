@@ -7,7 +7,6 @@ out vec3 TexCoords;
 uniform mat4 uMVPMatrix;
 uniform mat4 uMVMatrix;
 uniform mat4 uNormalMatrix;
-uniform float lolV;
 
 void main()
 {
