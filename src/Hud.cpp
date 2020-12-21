@@ -21,26 +21,19 @@ void Hud::Init()
 
 void Hud::Update()
 {
-	for (auto pairs : _panels)
+	for (auto& pairs : _panels)
 	{
 		pairs.second.setVisibility(false);
 	}
 
-	//switch (_state)
-	//{
-	//case ScreenState::INGAME:
-	//	_panels.find("health")->second.setVisibility(true);
-	//	_panels.find("crystal")->second.setVisibility(true);
-	//	_panels.find("key")->second.setVisibility(true);
-	//	_panels.find("map")->second.setVisibility(true);
-	//	break;
-	//case ScreenState::OBJMENU:
-
-	//	break;
-	//default:
-	//	break;
-	//}
-
+	if (_state != ScreenState::OBJMENU)
+	{
+	_panels.find("health")->second.setVisibility(true);
+	_panels.find("crystal")->second.setVisibility(true);
+	_panels.find("key")->second.setVisibility(true);
+	_panels.find("map")->second.setVisibility(true);
+	}
+	
 }
 
 
@@ -55,7 +48,7 @@ void Hud::Draw() const
 	glEnable(GL_DEPTH_TEST);
 
 	// Disable interactive panels
-	Hud::Get().SetVisibility("use", false);
+	//Hud::Get().SetVisibility("use", false);
 }
 
 void Hud::Scroll(int dir) {

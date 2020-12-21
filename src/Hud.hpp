@@ -27,6 +27,8 @@ public:
 	void Hud::SetVisibility(const std::string& name, bool visibility);
 	bool Hud::IsVisible(const std::string& name) { return _panels.find(name)->second.IsVisible(); };
 	void Hud::Update();
+	ScreenState Hud::GetState() const { return _state; }
+	void Hud::SetState(ScreenState state) { _state = state; }
 
 private:
 	Hud() = default;
@@ -34,5 +36,6 @@ private:
 	std::unordered_map<std::string, Panel> _panels;
 
 	ScreenState _state = ScreenState::INGAME;
+
 };
 

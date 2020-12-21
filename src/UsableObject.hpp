@@ -17,11 +17,10 @@ public:
 
 	void Use();
 
-	void OnOverlap() override 
+	void OnOverlap() override
 	{
-		//_OnBeginOverlap = true;
-		Hud::Get().SetVisibility("observe", true);
-		
+		Hud::Get().SetVisibility("use", true);
+
 	}
 
 	

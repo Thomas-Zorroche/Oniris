@@ -1,7 +1,6 @@
 #pragma once
 #include "Object.hpp"
 #include "Hud.hpp"
-#include "InputHandler.hpp"
 
 enum NarrativeObjectType
 {
@@ -20,13 +19,17 @@ public:
 
 	void OnOverlap() override
 	{	
-		// A décaler dans Object
-		if (InputHandler::Get().GetState() == ScreenState::OBJMENU)
+
+		if (Hud::Get().GetState() != ScreenState::OBJMENU)
+		Hud::Get().SetVisibility("observe", true);
+		
+		if (Hud::Get().GetState() == ScreenState::OBJMENU)
 			Hud::Get().SetVisibility(_panelName, true);
 		else
 			Hud::Get().SetVisibility(_panelName, false);
+		
+		//Hud::Get().SetState(ScreenState::ONOVERLAP);
 
-		Hud::Get().SetVisibility("use", true);
 	}
 
 private:

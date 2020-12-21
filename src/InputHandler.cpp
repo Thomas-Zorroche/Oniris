@@ -15,7 +15,9 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::s
     /*std::cout << "State_" << (int)_state << std::endl;
     std::cout << "Key___" << (int)_ActiveKey << std::endl;*/
 
-    if (_state != ScreenState::OBJMENU)
+    ScreenState state = Hud::Get().GetState();
+
+    if (state != ScreenState::OBJMENU)
         Movement(window, camera, terrain);
 
     camera.updateBox();
@@ -33,16 +35,19 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::s
 
     // Object Panel Mode
     // ===================================================================================================
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+    if (Hud::Get().IsVisible("observe") || state == ScreenState::OBJMENU)
     {
-        _ActiveKey = ActiveKey::E;
-        if (_state == ScreenState::OBJMENU)
-            _state = ScreenState::INGAME;
-        else
-            _state = ScreenState::OBJMENU;
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        {
+            _ActiveKey = ActiveKey::E;
+            if (state == ScreenState::OBJMENU)
+                Hud::Get().SetState(ScreenState::INGAME);
+            else
+                Hud::Get().SetState(ScreenState::OBJMENU);
+        }
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
+            _ActiveKey = ActiveKey::NONE;
     }
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
-        _ActiveKey = ActiveKey::NONE;
 
     // Interactive Mode
     // ===================================================================================================
@@ -81,7 +86,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     xoffset *= camera->GetSensitivity();
     yoffset *= camera->GetSensitivity();
 
-    if (InputHandler::Get().GetState() != ScreenState::OBJMENU)
+    if (Hud::Get().GetState() != ScreenState::OBJMENU)
     {
         camera->rotateLeft(xoffset);
         camera->rotateUp(yoffset);

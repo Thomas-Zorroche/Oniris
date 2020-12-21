@@ -30,8 +30,7 @@ public:
 	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
 	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
 	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
-	void InputHandler::SetState(ScreenState state) { _state = state; };
-	ScreenState InputHandler::GetState() { return _state; };
+
 
 private:
 	// Prevent using constructors
@@ -39,8 +38,6 @@ private:
 	~InputHandler() = default;
 
 	ActiveKey _ActiveKey = ActiveKey::NONE;
-	ScreenState _state = ScreenState::INGAME;
-
 
 	void Movement(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
 };

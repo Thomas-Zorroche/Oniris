@@ -17,7 +17,6 @@ public:
 	void Draw();
 
 	virtual void OnOverlap() = 0;
-
 	//virtual void Use() = 0;
 
 protected:
