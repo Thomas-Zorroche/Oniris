@@ -19,6 +19,7 @@ public:
 	
 	float GetHeightmapValue(int x, int y) const;
 	float GetHeightOfTerrain(int worldX, int worldZ) const;
+	glm::vec3 GetNormal(int worldX, int worldZ) const;
 
 	std::shared_ptr<Shader>& GetShader() { return _shader; }
 
@@ -35,6 +36,7 @@ private:
 	Texture _heightmap;
 
 	std::vector<std::vector<float>> _heights;
+	std::vector<std::vector<glm::vec3>> _normals;
 
 	Mesh    _mesh;
 	int     _VertexSideCount;

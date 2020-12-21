@@ -13,16 +13,18 @@
 
 #define NOMINAX // Avoid conflicts between min and max constants in Windef.h
 
+class Terrain;
+
 class Camera
 {
 public:
-	Camera();
+	Camera(const std::shared_ptr<Terrain>& terrain);
 	~Camera() {}
 
 	void updateBox();
 
-	void MoveFront(float dir, const std::shared_ptr<Terrain>& terrain);
-	void MoveLeft(float t, const std::shared_ptr<Terrain>& terrain);
+	void MoveFront(float dir);
+	void MoveLeft(float t);
 
 	void rotateUp(float angle);
 	void rotateLeft(float angle);
@@ -56,6 +58,10 @@ public:
 
 private:
 	void computeDirectionVectors();
+	void MoveX(float dir);
+	void MoveZ(float dir);
+	bool CheckNormal();
+
 
 	glm::vec3 _Position;	  // Position of the camera
 	float _phi;
@@ -74,6 +80,7 @@ private:
 	char _ActiveKey = 'A';
 	float _Speed = 0.5f;
 	float _HeightCamera = 5.0f;
+	float _limitNormal = 2.0f; // Limit value normal where the player can move
 
 	// Technical Data
 	float _fov = 45.0f;
@@ -88,4 +95,7 @@ private:
 	//std::vector<HitCollisionAxis> _blockAxis = { NONE };
 
 	bool _blockAxis[5] = { false };
+
+	// Pointer to Terrain
+	std::shared_ptr<Terrain> _terrain;
 };

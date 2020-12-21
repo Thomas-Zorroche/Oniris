@@ -6,7 +6,7 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
-void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera,const std::shared_ptr<Terrain>& terrain)
+void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera)
 {
     /* Close Window */
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -14,13 +14,13 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera,const std::sh
 
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
-        camera.MoveFront(1, terrain);
+        camera.MoveFront(1);
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
-        camera.MoveFront(-1, terrain);
+        camera.MoveFront(-1);
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
-        camera.MoveLeft(1, terrain);
+        camera.MoveLeft(1);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
-        camera.MoveLeft(-1, terrain);
+        camera.MoveLeft(-1);
 
     // Collision Debug Mode
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)        // C Qwerty = C Azerty

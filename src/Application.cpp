@@ -26,8 +26,8 @@ void mainloop(GLFWwindow* window)
     Scene scene("worldScene.txt");
 
     // Camera
-    Camera camera;
-    camera.MoveFront(1, scene.TerrainPtr());
+    Camera camera(scene.TerrainPtr());
+    camera.MoveFront(1);
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
@@ -44,7 +44,7 @@ void mainloop(GLFWwindow* window)
     while (!glfwWindowShouldClose(window))
     {
         // Handle Inputs
-        InputHandler::Get().ProcessInput(window, camera, scene.TerrainPtr());
+        InputHandler::Get().ProcessInput(window, camera);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();

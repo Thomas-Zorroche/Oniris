@@ -41,6 +41,7 @@ Mesh Terrain::generateMesh()
 	for (int i = 0; i < _VertexSideCount; i++) 
 	{
 		_heights.push_back(std::vector<float> {});
+		_normals.push_back(std::vector<glm::vec3> {});
 
 		for (int j = 0; j < _VertexSideCount; j++) 
 		{
@@ -48,7 +49,6 @@ Mesh Terrain::generateMesh()
 
 			// Height
 			float height = GetHeightmapValue(i, j);
-			//_heights[j][i] = height;
 			_heights[i].push_back(height);
 			
 			// Positions
@@ -58,6 +58,7 @@ Mesh Terrain::generateMesh()
 
 			// Normals
 			glm::vec3 normal = CalculateNormals(i, j);
+			_normals[i].push_back(normal);
 			vertex.normal.x = normal.x;
 			vertex.normal.y = normal.y;
 			vertex.normal.z = normal.z;
@@ -163,6 +164,25 @@ glm::vec3 Terrain::CalculateNormals(int x, int z)
 	glm::normalize(normal);
 	return normal;
 }
+
+glm::vec3 Terrain::GetNormal(int worldX, int worldZ) const
+{
+	glm::vec3 normal(0.0f);
+
+	// World Position of the player relative to the terrain
+	float terrainX = worldX - _x;
+	float terrainZ = worldZ - _z;
+
+	// In which case of the terrain the player is currently on
+	int gridX = (int)floor(terrainX / _GridSquareSize);
+	int gridZ = (int)floor(terrainZ / _GridSquareSize);
+
+	if (gridX < 0 || gridX >= _VertexSideCount - 1 || gridZ < 0 || gridZ >= _VertexSideCount - 1)
+		return normal;
+	else
+		return _normals[gridX][gridZ];
+}
+
 
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos) 
