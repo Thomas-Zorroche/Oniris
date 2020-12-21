@@ -20,7 +20,7 @@ public:
 	InputHandler(const InputHandler&) = delete;
 	InputHandler& operator=(const InputHandler&) = delete;
 
-	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera);
+	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime);
 	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
 
 private:

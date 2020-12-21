@@ -20,7 +20,6 @@ void Camera::updateBox()
 
 void Camera::MoveFront(float dir)
 {
-	dir *= _Speed;
 	float dirX = glm::dot(_FrontVector, glm::vec3(1, 0, 0));
 	float dirZ = glm::dot(_FrontVector, glm::vec3(0, 0, 1));
 

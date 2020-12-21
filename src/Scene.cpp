@@ -54,7 +54,8 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Terrain
 	// ==============
-	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16-v2.png");
+	//_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16-v2.png");
+	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap_1k.png");
 
 	// Create Ocean
 	// ============

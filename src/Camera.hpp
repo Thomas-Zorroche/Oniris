@@ -78,7 +78,7 @@ private:
 	// Input Data
 	float _sensitivity;
 	char _ActiveKey = 'A';
-	float _Speed = 0.5f;
+	float _Speed = 15.0;
 	float _HeightCamera = 5.0f;
 	float _limitNormal = 2.0f; // Limit value normal where the player can move
 

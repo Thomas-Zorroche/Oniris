@@ -15,9 +15,8 @@
 #include <iostream>
 #include <string>
 
-const float Terrain::_Size = 1000.0f;
+const float Terrain::_Size = 1024.0f;
 const float Terrain::_MaxHeight = 100.0f;
-const float Terrain::_MaxPixelColour = 256 * 256 * 256;
 
 float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
 

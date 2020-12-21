@@ -6,21 +6,23 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
-void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera)
+void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime)
 {
+    float moveAmount = camera.GetSpeed() * deltaTime;
+    
     /* Close Window */
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
-        camera.MoveFront(1);
+        camera.MoveFront(moveAmount);
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
-        camera.MoveFront(-1);
+        camera.MoveFront(-moveAmount);
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
-        camera.MoveLeft(1);
+        camera.MoveLeft(moveAmount);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
-        camera.MoveLeft(-1);
+        camera.MoveLeft(-moveAmount);
 
     // Collision Debug Mode
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)        // C Qwerty = C Azerty

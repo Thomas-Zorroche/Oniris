@@ -40,11 +40,18 @@ void mainloop(GLFWwindow* window)
     Game game = Game(&camera, &scene.GetHud());
     InputHandler::Get().SetCallback(window, &game);
 
+    float deltaTime = 0.0f;	// Time between current frame and last frame
+    float lastFrame = 0.0f; // Time of last frame
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        
         // Handle Inputs
-        InputHandler::Get().ProcessInput(window, camera);
+        InputHandler::Get().ProcessInput(window, camera, deltaTime);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();

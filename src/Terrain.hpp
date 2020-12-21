@@ -27,7 +27,6 @@ public:
 private:
 	static const float _Size;
 	static const float _MaxHeight;
-	static const float _MaxPixelColour;
 
 	float   _height = 0.0f;
 	float   _x;
