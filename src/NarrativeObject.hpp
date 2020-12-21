@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.hpp"
 #include "Hud.hpp"
+#include "InputHandler.hpp"
 
 enum NarrativeObjectType
 {
@@ -18,8 +19,26 @@ public:
 	void Read();
 
 	void OnOverlap() override
-	{
-		std::cout << "Narrative Object\n";
+	{	
+
+		if (InputHandler::Get().GetActiveKey() == ActiveKey::E )
+		{
+
+			Hud::Get().SetVisibility(_panelName, true);
+			InputHandler::Get().SetState(ScreenState::OBJMENU);
+		}
+
+		if (!InputHandler::Get().IsState(ScreenState::OBJMENU))
+		{
+			Hud::Get().SetVisibility(_panelName, false);
+			InputHandler::Get().SetState(ScreenState::ONOVERLAP);
+		}
+
+
+		//if (InputHandler::Get().GetActiveKey() == ActiveKey::E && Hud::Get().IsVisible(_panelName))
+		//	Hud::Get().SetVisibility(_panelName, false);
+
+		Hud::Get().SetVisibility("use", true);
 	}
 
 private:

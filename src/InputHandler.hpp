@@ -6,6 +6,13 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
+enum class ActiveKey {
+	NONE, 
+	C,	// show cBOx
+	E,	// enter menu
+	A	// use object
+};
+
 class InputHandler
 {
 public:
@@ -22,12 +29,23 @@ public:
 
 	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
 	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
+	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
+	bool InputHandler::IsState(ScreenState state) { return (_state == state); };
+	void InputHandler::SetState(ScreenState state) { _state = state; };
 
 private:
 	// Prevent using constructors
 	InputHandler() = default;
 	~InputHandler() = default;
 
+	ActiveKey _ActiveKey = ActiveKey::NONE;
+	ScreenState _state = ScreenState::INGAME;
+
+
+	void Movement(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
+	void inGameInput(GLFWwindow* window);
+	void OnOverlapInput(GLFWwindow* window);
+	void ObjMenuInput(GLFWwindow* window);
 
 };
 //

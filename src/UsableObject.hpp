@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.hpp"
+#include "Hud.hpp"
 
 
 enum UsableObjectType
@@ -18,7 +19,9 @@ public:
 
 	void OnOverlap() override 
 	{
-		std::cout << "Usable Object\n";
+		//_OnBeginOverlap = true;
+		Hud::Get().SetVisibility("observe", true);
+		
 	}
 
 	

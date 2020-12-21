@@ -3,6 +3,12 @@
 #include "Panel.hpp"
 #include "ResourceManager.hpp"
 
+enum class ScreenState
+{
+	INGAME,
+	ONOVERLAP,
+	OBJMENU
+};
 
 class Hud
 {
@@ -20,12 +26,16 @@ public:
 	void Hud::Scroll(int dir);
 	void Hud::Init();
 	void Hud::AddPanel(const std::string& name, const Panel& panel);
-	void Hud::SetVisible(const std::string& name);
+	void Hud::SetVisibility(const std::string& name, bool visibility);
+	bool Hud::IsVisible(const std::string& name) { return _panels.find(name)->second.IsVisible(); };
+	void Hud::Update();
 
 
 private:
 	Hud() = default;
 	~Hud() = default ;
 	std::unordered_map<std::string, Panel> _panels;
+
+	ScreenState _state = ScreenState::INGAME;
 };
 

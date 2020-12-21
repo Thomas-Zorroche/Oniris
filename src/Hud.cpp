@@ -3,7 +3,7 @@
 void Hud::Init()
 {
 	Panel panel1("res/img/ui_use.png", "ui_use", 0.0, -0.9, 1.0, 132, 1, false);
-	Panel panel2("res/img/ui_observe.png", "ui_observe", -0.3, -0.9, 1.0, 147, 1, false);
+	Panel panel2("res/img/ui_observe.png", "ui_observe", 0.0, -0.9, 1.0, 147, 1, false);
 	Panel panel3("res/img/ui_crystal.png", "ui_crystal", 0.8, -0.7, 1.0, 163, 5, true);
 	Panel panel4("res/img/ui_health.png", "ui_health", 0.8, -0.7, 1.0, 163, 8, true);
 	Panel panel5("res/img/ui_key.png", "ui_key", 0.9, -0.1, 0.6, 80, 3, true);
@@ -18,6 +18,30 @@ void Hud::Init()
 
 }
 
+
+void Hud::Update()
+{
+	for (auto pairs : _panels)
+	{
+		pairs.second.setVisibility(false);
+	}
+
+	//switch (_state)
+	//{
+	//case ScreenState::INGAME:
+	//	_panels.find("health")->second.setVisibility(true);
+	//	_panels.find("crystal")->second.setVisibility(true);
+	//	_panels.find("key")->second.setVisibility(true);
+	//	_panels.find("map")->second.setVisibility(true);
+	//	break;
+	//case ScreenState::OBJMENU:
+
+	//	break;
+	//default:
+	//	break;
+	//}
+
+}
 
 
 void Hud::Draw() const
@@ -50,6 +74,6 @@ void Hud::AddPanel(const std::string& name, const Panel& panel) {
 
 }
 
-void Hud::SetVisible(const std::string& name) {
-	_panels.find(name)->second.setVisible();
+void Hud::SetVisibility(const std::string& name, bool visibility) {
+	_panels.find(name)->second.setVisibility(visibility);
 }

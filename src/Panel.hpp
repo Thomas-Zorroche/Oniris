@@ -27,7 +27,7 @@ public:
 	void Panel::Update(Camera* camera);
 
 	inline bool Panel::IsVisible() const { return _visibility; };
-	void Panel::setVisible() { _visibility = true; };
+	void Panel::setVisibility(bool visbility) { _visibility = visbility ; };
 	void Panel::TranslateTexture(int dir);
 
 private:

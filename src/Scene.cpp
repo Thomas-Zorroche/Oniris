@@ -98,11 +98,6 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Objects
 	// ==============
-	//std::shared_ptr<Object> o_key = std::make_shared<UsableObject>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), cLayout_UsableObj);
-	//std::shared_ptr<Object> o_map = std::make_shared<NarrativeObject>(m_map, glm::vec3(350, _terrain->GetHeightOfTerrain(350, 250), 250), cLayout_UsableObj);
-	//AddObject(o_key);
-	//AddObject(o_map);
-
 	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
 
 	// Create Static Meshes

@@ -48,6 +48,9 @@ void mainloop(GLFWwindow* window)
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
+
+        //Hud update
+        Hud::Get().Update();
         
         // 84, 199, 195
         glClearColor(0.15f, 0.25f, 0.32f, 1.0f);

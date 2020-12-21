@@ -22,5 +22,6 @@ public:
 
 protected:
 	std::shared_ptr<StaticMesh> _staticMesh;
+	//bool _OnBeginOverlap = false;
 };
 
