@@ -5,9 +5,7 @@
 
 enum class ScreenState
 {
-	INGAME,
-	ONOVERLAP,
-	OBJMENU
+	INGAME = 0,	ONOVERLAP, OBJMENU
 };
 
 class Hud
@@ -29,7 +27,6 @@ public:
 	void Hud::SetVisibility(const std::string& name, bool visibility);
 	bool Hud::IsVisible(const std::string& name) { return _panels.find(name)->second.IsVisible(); };
 	void Hud::Update();
-
 
 private:
 	Hud() = default;

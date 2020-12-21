@@ -53,6 +53,9 @@ void Hud::Draw() const
 		}
 	}
 	glEnable(GL_DEPTH_TEST);
+
+	// Disable interactive panels
+	Hud::Get().SetVisibility("use", false);
 }
 
 void Hud::Scroll(int dir) {

@@ -20,23 +20,11 @@ public:
 
 	void OnOverlap() override
 	{	
-
-		if (InputHandler::Get().GetActiveKey() == ActiveKey::E )
-		{
-
+		// A décaler dans Object
+		if (InputHandler::Get().GetState() == ScreenState::OBJMENU)
 			Hud::Get().SetVisibility(_panelName, true);
-			InputHandler::Get().SetState(ScreenState::OBJMENU);
-		}
-
-		if (!InputHandler::Get().IsState(ScreenState::OBJMENU))
-		{
+		else
 			Hud::Get().SetVisibility(_panelName, false);
-			InputHandler::Get().SetState(ScreenState::ONOVERLAP);
-		}
-
-
-		//if (InputHandler::Get().GetActiveKey() == ActiveKey::E && Hud::Get().IsVisible(_panelName))
-		//	Hud::Get().SetVisibility(_panelName, false);
 
 		Hud::Get().SetVisibility("use", true);
 	}

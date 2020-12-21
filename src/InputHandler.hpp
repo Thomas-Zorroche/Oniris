@@ -30,8 +30,8 @@ public:
 	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
 	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
 	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
-	bool InputHandler::IsState(ScreenState state) { return (_state == state); };
 	void InputHandler::SetState(ScreenState state) { _state = state; };
+	ScreenState InputHandler::GetState() { return _state; };
 
 private:
 	// Prevent using constructors
@@ -43,10 +43,6 @@ private:
 
 
 	void Movement(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
-	void inGameInput(GLFWwindow* window);
-	void OnOverlapInput(GLFWwindow* window);
-	void ObjMenuInput(GLFWwindow* window);
-
 };
 //
 // callbacks functions
