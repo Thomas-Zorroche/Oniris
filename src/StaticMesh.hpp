@@ -12,11 +12,14 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+class Fog;
+
 class StaticMesh
 {
 public:
 	// Constructor
-	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, CollisionLayout cBoxLayout = CollisionLayout());
+	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
+		const std::shared_ptr<Fog>& fog, CollisionLayout cBoxLayout = CollisionLayout());
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
@@ -36,6 +39,9 @@ public:
 		R_0, R_90, R_180, R_270
 	};
 
+private:
+	void SendUniforms();
+
 	Model _model;
 	glm::vec3 _position;
 	glm::mat4 _modelMatrix;
@@ -47,4 +53,6 @@ public:
 	std::vector<std::shared_ptr<CollisionBox> > _cBoxes;
 	
 	static const std::vector<std::vector<int> > _indicesCBox;
+
+	std::shared_ptr<Fog> _fog;
 };

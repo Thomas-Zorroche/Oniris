@@ -3,8 +3,10 @@
 #include "Texture.h"
 #include "Mesh.hpp"
 #include "Shader.h"
+#include "Fog.hpp"
 #include "common.hpp"
 #include "ResourceManager.hpp"
+#include "Renderer.hpp"
 #include "Material.hpp"
 
 #include "glm/glm.hpp"
@@ -175,10 +177,14 @@ float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 
 
 /* DRAW THE TERRAIN */
-void Terrain::Draw()
+void Terrain::Draw(const std::shared_ptr<Fog>& fog)
 {
+	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader);
+	Renderer::Get().SendBlinnPhongUniforms(_shader);
 	_shader->Bind();
-	_shader->SetUniform3f("u_SkyColor", 0.32f, 0.78f, 0.76f);
+	_shader->SetUniform3f("u_SkyColor", fog->Color());
+	_shader->SetUniform1f("u_fogDensity", fog->Density());
+	_shader->SetUniform1f("u_fogGradient", fog->Gradient());
 	_mesh.Draw(_shader);
 }
 

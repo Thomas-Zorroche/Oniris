@@ -72,8 +72,8 @@ private:
 	// Input Data
 	float _sensitivity;
 	char _ActiveKey = 'A';
-	float _Speed = 1.5f;
-	float _HeightCamera = 15.0f;
+	float _Speed = 0.5f;
+	float _HeightCamera = 5.0f;
 
 	// Technical Data
 	float _fov = 45.0f;

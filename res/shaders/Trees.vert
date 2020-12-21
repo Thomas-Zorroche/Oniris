@@ -15,8 +15,8 @@ out vec3 vNormals_vs;
 out vec2 vVertexTexcoords;
 out float vVisibility;
 
-const float density = 0.0035;
-const float gradient = 2.0;
+uniform float u_fogDensity;
+uniform float u_fogGradient;
 
 //uniform vec2 offsets[100];
 
@@ -43,6 +43,6 @@ void main()
 
 
     float distance = length(gl_Position.xyz);
-    vVisibility = exp(-pow((distance * density), gradient));
+    vVisibility = exp(-pow((distance * u_fogDensity), u_fogGradient));
     vVisibility = clamp(vVisibility, 0.0, 1.0);
 }

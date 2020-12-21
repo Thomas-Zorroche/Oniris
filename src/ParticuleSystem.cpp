@@ -44,7 +44,7 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
         }
 
         // Random Scales
-        std::uniform_int_distribution<int> uniformIntDistribution(2, 4);
+        std::uniform_int_distribution<int> uniformIntDistribution(0.5, 2);
         for (size_t i = 0; i < _count / (float)_controlPoints.size(); i++)
         {
             scales.push_back(uniformIntDistribution(generator));
@@ -76,10 +76,5 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
 
 void ParticuleSystem::Draw()
 {
-    Renderer::Get().SendBlinnPhongUniforms(_instance.GetShader()); 
-    auto shader = _instance.GetShader();
-    shader->Bind();
-    shader->SetUniform3f("u_SkyColor", 0.32f, 0.78f, 0.76f);
-
     _instance.Draw(true, _count);
 }

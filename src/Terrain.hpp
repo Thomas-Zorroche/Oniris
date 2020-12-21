@@ -9,6 +9,7 @@
 #include "Shader.h"
 
 class Material;
+class Fog;
 
 class Terrain
 {
@@ -21,7 +22,7 @@ public:
 
 	std::shared_ptr<Shader>& GetShader() { return _shader; }
 
-	void Draw();
+	void Draw(const std::shared_ptr<Fog>& fog);
 private:
 	static const float _Size;
 	static const float _MaxHeight;

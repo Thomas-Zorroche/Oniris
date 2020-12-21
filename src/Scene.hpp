@@ -3,14 +3,16 @@
 #include <vector>
 #include <memory>
 #include <string>
-
-#include "StaticMesh.hpp"
-#include "Terrain.hpp"
 #include "Hud.hpp"
-#include "Ocean.hpp"
-#include "Skybox.hpp"
-#include "ParticuleSystem.hpp"
-#include "Object.hpp"
+#include "glm/glm.hpp"
+
+class Object;
+class Ocean;
+class ParticuleSystem;
+class StaticMesh;
+class Skybox;
+class Terrain;
+class Fog;
 
 
 class Scene
@@ -29,7 +31,6 @@ public:
 	int StaticMeshesCount() const { return _staticMeshesCount; }
 	Hud& GetHud() { return _hud; }
 
-
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);
 	void AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particuleSystem);
@@ -44,12 +45,10 @@ private:
 	Hud _hud;
 	std::shared_ptr<Ocean> _ocean;
 	std::shared_ptr<Skybox> _skybox;
-
+	std::shared_ptr<Fog> _fog;
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;
 
-	// VARIABLE TEST
-	unsigned int _idSky = 0;
-	unsigned int _VAOSky = 0;
 };
+

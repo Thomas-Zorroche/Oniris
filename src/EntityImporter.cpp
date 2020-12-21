@@ -5,6 +5,7 @@
 #include "StaticMesh.hpp"
 #include "Model.hpp"
 #include "Shader.h"
+#include "Fog.hpp"
 #include "NarrativeObject.hpp"
 #include "UsableObject.hpp"
 
@@ -17,7 +18,8 @@
 #include <memory>
 
 
-std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(const std::string& filepath, std::shared_ptr<Terrain>& terrain) const
+std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(const std::string& filepath, 
+	std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Fog>& fog) const
 {
 	std::vector<std::shared_ptr<ParticuleSystem> > particuleSystems;
 	std::vector<ControlPointParticule> controlPoints;
@@ -97,7 +99,7 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 			ResourceManager::Get().LoadShader("res/shaders/" + name + ".vert", 
 											  "res/shaders/" + name + ".frag", name);
 
-			StaticMesh staticMesh = StaticMesh(model, glm::vec3(0, terrain->GetHeightOfTerrain(0, 0), 0), name);
+			StaticMesh staticMesh = StaticMesh(model, glm::vec3(0, terrain->GetHeightOfTerrain(0, 0), 0), name, fog);
 			particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, controlPoints, terrain)));
 			name = "";
 			objPath = "";
