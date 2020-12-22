@@ -125,7 +125,7 @@ void Scene::Draw()
 
 	// Render the Ocean
 	// ================
-	//_ocean->Draw();
+	_ocean->Draw();
 
 	// Render all the static meshes
 	// ============================

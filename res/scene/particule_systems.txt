@@ -2,6 +2,7 @@
 [name] Trees
 [obj] res/models/trees/Sapin_02.obj
 [count] 300
+[size] 1.7 0.5
 [cp] 300 700 1 60
 [cp] 300 600 1 60
 [cp] 200 600 1 70
@@ -14,6 +15,20 @@
 [name] Trees
 [obj] res/models/trees/Sapin_01.obj
 [count] 150
+[size] 1.7 0.5
+[cp] 300 700 1 60
+[cp] 300 600 1 60
+[cp] 200 600 1 70
+[cp] 400 700 1 60
+[cp] 600 700 1 60
+[cp] 600 800 1 70
+[cp] 600 600 1 60
+[end]
+
+[name] Grass
+[obj] res/models/particules/grass.obj
+[count] 5000
+[size] 0.8 0.2
 [cp] 300 700 1 60
 [cp] 300 600 1 60
 [cp] 200 600 1 70

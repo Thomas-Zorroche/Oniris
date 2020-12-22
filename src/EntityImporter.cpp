@@ -31,6 +31,8 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 	std::string name;
 	std::string objPath;
 	int count = 10;
+	float size = 1.0f;
+	float randomSize = 0.0f;
 
 	while (getline(stream, line))
 	{
@@ -55,6 +57,22 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 		if (line.find("[count]") != std::string::npos)
 		{
 			count = std::stoi(line.substr(std::string("[count]").length() + 1));
+		}
+
+		if (line.find("[size]") != std::string::npos)
+		{
+			line.erase(0, std::string("[size]").length() + 1);
+			std::string delimiter = " ";
+
+			// Retrieve first scale
+			size_t pos = line.find(delimiter);
+			std::string token = line.substr(0, pos);
+			size = std::stof(token);
+			line.erase(0, pos + delimiter.length());
+			// Retrieve second scale
+			pos = line.find(delimiter);
+			token = line.substr(0, pos);
+			randomSize = std::stof(token);
 		}
 
 		if (line.find("[cp]") != std::string::npos)
@@ -96,14 +114,16 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 		if (line.find("[end]") != std::string::npos)
 		{
 			Model model = Model(objPath);
-			ResourceManager::Get().LoadShader("res/shaders/" + name + ".vert", 
+			ResourceManager::Get().LoadShader("res/shaders/Particule.vert", 
 											  "res/shaders/" + name + ".frag", name);
 
 			StaticMesh staticMesh = StaticMesh(model, glm::vec3(0, terrain->GetHeightOfTerrain(0, 0), 0), name, fog);
-			particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, controlPoints, terrain)));
+			particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));
 			name = "";
 			objPath = "";
 			count = 0;
+			size = 0.0f;
+			randomSize = 0.0f;
 			controlPoints.clear();
 		}
 			
