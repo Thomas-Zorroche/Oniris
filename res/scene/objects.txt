@@ -9,8 +9,15 @@
 [obj] res/models/map/map.obj
 [pos] 250 250
 [end]
-[name] nar
+[name] notes
 [type] N
 [obj] res/models/map/map.obj
-[pos] 450 250
+[tex] res/img/object/liste.jpg
+[pos] 550 250
+[end]
+[name] liste
+[type] N
+[obj] res/models/map/map.obj
+[tex] res/img/object/panneau.jpg
+[pos] 650 250
 [end]

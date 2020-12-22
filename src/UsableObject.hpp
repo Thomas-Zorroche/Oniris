@@ -18,7 +18,7 @@ public:
 	{
 		if (_InWorld)
 		{
-			Hud::Get().SetVisibility("use", true);
+			Hud::Get().SetVisibility("e_pickup", true);
 		}
 		if (InputHandler::Get().GetActiveKey() == ActiveKey::E)
 		{

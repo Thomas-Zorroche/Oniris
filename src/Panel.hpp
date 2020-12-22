@@ -11,8 +11,8 @@ class Panel
 {
 public:
 	// Constructeur
-	Panel::Panel(const std::string texture,  
-		const std::string name,
+	Panel::Panel(const std::string& texture,  
+		const std::string& name,
 		float x, 
 		float y, 
 		float scale,

@@ -124,6 +124,7 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 	std::string name;
 	std::string type;
 	std::string objPath;
+	std::string texPath;
 	glm::vec3 position = glm::vec3();
 
 	while (getline(stream, line))
@@ -149,6 +150,11 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 		if (line.find("[obj]") != std::string::npos)
 		{
 			objPath = line.substr(std::string("[obj]").length() + 1);
+		}
+
+		if (line.find("[tex]") != std::string::npos)
+		{
+			texPath = line.substr(std::string("[tex]").length() + 1);
 		}
 
 		if (line.find("[pos]") != std::string::npos)
@@ -181,13 +187,11 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			ResourceManager::Get().LoadShader("res/shaders/3DTex.vert",
 				"res/shaders/model.frag", "Key" );
 
-			Panel panel = Panel("res/img/uiplaceholder.png", "p_" + name, 0, 0, 1, 1280, 1, false);
-			Hud::Get().AddPanel("p_" + name, panel);
+			
 
 			//
 			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects
 			//
-
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
 			if (type == "Um") // [TO DO] if map or key add an argument / constructor is not updates yet
@@ -195,7 +199,11 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			else if (type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
 				object = std::make_shared<UsableObject>(model, position, "p_" + name, "key");
 			else if (type == "N")
+			{
+				Panel panel = Panel(texPath, "p_" + name, 0, 0, 1, 512, 1, false);
+				Hud::Get().AddPanel("p_" + name, panel);
 				object = std::make_shared<NarrativeObject>(model, position, "p_" + name);
+			}
 			
 				
 			objects.insert({ name, object });
@@ -204,6 +212,7 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			name = "";
 			type = "";
 			objPath = "";
+			texPath = "";
 			position = glm::vec3();
 		}
 

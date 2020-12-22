@@ -3,19 +3,21 @@
 
 void Hud::Init()
 {
-	Panel panel1("res/img/ui_use.png", "ui_use", 0.0, -0.9, 1.0, 132, 1, false);
-	Panel panel2("res/img/ui_observe.png", "ui_observe", 0.0, -0.9, 1.0, 147, 1, false);
-	Panel panel3("res/img/ui_crystal.png", "ui_crystal", 0.8, -0.7, 1.0, 163, 5, true);
-	Panel panel4("res/img/ui_health.png", "ui_health", 0.8, -0.7, 1.0, 163, 8, true);
-	Panel panel5("res/img/ui_key.png", "ui_key", 0.9, -0.1, 0.6, 80, 3, true);
-	Panel panel6("res/img/ui_map.png", "ui_map", 0.9, -0.3, 0.6, 80, 3, true);
+	Panel panel1("res/img/e_pickup.png", "e_pickup", 0.0, -0.9, 1.0, 288, 1, false);
+	Panel panel2("res/img/e_observe.png", "e_observe", 0.0, -0.9, 1.0, 288, 1, false);
+	Panel panel3("res/img/ui_crystal.png", "ui_crystal", 0.8, -0.7, 1.0, 128, 5, true);
+	Panel panel4("res/img/ui_health.png", "ui_health", 0.8, -0.7, 1.0, 128, 9, true);
+	Panel panel5("res/img/inv_key.png", "inv_key", 0.9, -0.1, 0.6, 128, 3, true);
+	Panel panel6("res/img/inv_map.png", "inv_map", 0.9, -0.3, 0.6, 128, 3, true);
+	Panel panel7("res/img/background.png", "background", 0, 0, 1, 1280, 1, false);
 
-	_panels.insert({ "use", panel1 });
-	_panels.insert({ "observe", panel2 });
+	_panels.insert({ "pickup", panel1 });
+	_panels.insert({ "oberve", panel2 });
 	_panels.insert({ "crystal", panel3 });
 	_panels.insert({ "health", panel4 });
 	_panels.insert({ "key", panel5 });
-	_panels.insert({ "map", panel6});
+	_panels.insert({ "map", panel6 });
+	_panels.insert({ "background", panel7 });
 
 }
 
@@ -29,10 +31,14 @@ void Hud::Update()
 
 	if (_state != ScreenState::OBJMENU)
 	{
-	_panels.find("health")->second.setVisibility(true);
-	_panels.find("crystal")->second.setVisibility(true);
-	_panels.find("key")->second.setVisibility(true);
-	_panels.find("map")->second.setVisibility(true);
+		_panels.find("health")->second.setVisibility(true);
+		_panels.find("crystal")->second.setVisibility(true);
+		_panels.find("key")->second.setVisibility(true);
+		_panels.find("map")->second.setVisibility(true);
+	}
+	else
+	{
+		_panels.find("background")->second.setVisibility(true);
 	}
 	
 }
