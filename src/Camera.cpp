@@ -88,8 +88,12 @@ void Camera::MoveFront(float deltaTime)
 	}
 
 	_Position.y = Lerp(_Position.y, _terrain->GetHeightOfTerrain(_Position.x, _Position.z) +_HeightCamera, abs(deltaTime) * _responsiveness);
-	computeDirectionVectors();
+	
+	_cameraTime += abs(deltaTime);
+	float offset_factor = sin(_cameraTime * _frequenceShake) * _amplitudeShake;
 
+	rotateUp(offset_factor);
+	
 	computeDirectionVectors();
 
 	//std::cout << _Position.x << " " << _Position.z << std::endl;
@@ -148,6 +152,7 @@ void Camera::computeDirectionVectors()
 	_LeftVector = glm::vec3((glm::sin(glm::radians(_phi) + (M_PI / 2))),
 		0,
 		glm::cos(glm::radians(_phi) + (M_PI / 2)));
+
 	// Up
 	_UpVector = glm::cross(_FrontVector, _LeftVector);
 }
