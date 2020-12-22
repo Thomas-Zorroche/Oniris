@@ -60,6 +60,7 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 	// Load image in a local buffer
 	int width, height, BPP;
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &BPP, 4);
+
 	if (!localBuffer) {
 		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
 		stbi_image_free(localBuffer);
@@ -69,45 +70,47 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 		assert("FAILED TO LOAD TEXTURE"); 
 	}
 
-	// Fill imageData in order to retrieve pixel color later
-	// 
-	// [TODO 1] :: Just do this for heightmaps
-	//
-	std::vector<unsigned char> imageData(localBuffer, localBuffer + height * height * 4);
-	
-	GLenum format = 0;
-	switch (BPP) {
-	case 1:
-		format = GL_RED;
-		break;
-	case 3:
-		format = GL_RGB;
-		break;
-	case 4:
-		format = GL_RGBA;
-		break;
-	}
-
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, localBuffer);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-
-	stbi_image_free(localBuffer);
 
 	std::cout << "Resource Manager: loaded texture: " << path << std::endl;
 
-	Texture texture(textureID, type, imageData, path, width, height);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, localBuffer);
 
+	Texture texture(textureID, type, std::vector<unsigned char>(), path, width, height);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	stbi_image_free(localBuffer);
 	_textureCache.insert({ path, texture });
-
 	return texture;
+}
+
+std::vector<unsigned short> ResourceManager::LoadHeightmap(const std::string& path, TextureType type)
+{
+	// Load image in a local buffer
+	int width, height, BPP;
+	unsigned short* localBuffer = stbi_load_16(path.c_str(), &width, &height, &BPP, 1);
+
+	if (!localBuffer) {
+		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
+		stbi_image_free(localBuffer);
+		// 
+		// [TODO 2] :: A remplacer par une execption
+		//
+		assert("FAILED TO LOAD TEXTURE");
+	}
+	// Fill imageData in order to retrieve pixel color later
+	std::vector<unsigned short> imageData(localBuffer, localBuffer + height * height);
+
+	std::cout << "Resource Manager: loaded texture: " << path << std::endl;
+
+	stbi_image_free(localBuffer);
+
+	return imageData;
 }
 
 unsigned int ResourceManager::LoadCubemap(const std::vector<std::string>& faces) const

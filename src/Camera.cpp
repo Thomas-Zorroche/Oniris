@@ -1,11 +1,12 @@
 #include "Camera.hpp"
 #include "Terrain.hpp"
 
+float Lerp(float start, float end, float t);
+
 Camera::Camera(const std::shared_ptr<Terrain>& terrain)
-	: _Position(300, _HeightCamera, 800), _phi(M_PI), _theta(0), _CanTurn(false),
+	: _terrain(terrain), _Position(300, _terrain->GetHeightOfTerrain(300, 800) + 5.0f, 800), _phi(M_PI), _theta(0), _CanTurn(false),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f),
-	_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth)),
-	_terrain(terrain)
+	_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth))	
 {
 	_blockAxis[NONE] = true;
 	computeDirectionVectors();
@@ -18,12 +19,12 @@ void Camera::updateBox()
 	_cBox->SetZ(_Position.z + (_cBoxWidth / 2.0));
 }
 
-void Camera::MoveFront(float dir)
+void Camera::MoveFront(float deltaTime)
 {
 	float dirX = glm::dot(_FrontVector, glm::vec3(1, 0, 0));
 	float dirZ = glm::dot(_FrontVector, glm::vec3(0, 0, 1));
 
-	std::cout << _terrain->GetNormal(_Position.x, _Position.z).x << " " << _terrain->GetNormal(_Position.x, _Position.z).z << std::endl;
+	float dir = deltaTime * _Speed;
 
 	// None of the axis are blocked
 	if (_blockAxis[NONE])
@@ -86,12 +87,13 @@ void Camera::MoveFront(float dir)
 			MoveZ(dir);
 	}
 
-	_Position.y = _terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
-	
+	_Position.y = Lerp(_Position.y, _terrain->GetHeightOfTerrain(_Position.x, _Position.z) +_HeightCamera, abs(deltaTime) * _responsiveness);
+	computeDirectionVectors();
+
 	computeDirectionVectors();
 
 	//std::cout << _Position.x << " " << _Position.z << std::endl;
-	std::cout << _Position.y << std::endl;
+	//std::cout << _Position.y << std::endl;
 }
 void Camera::MoveLeft(float dir)
 {
@@ -105,9 +107,7 @@ void Camera::MoveLeft(float dir)
 		else
 			_Position += dir * _LeftVector;
 	}
-
 	_Position.y = _terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
-	computeDirectionVectors();
 }
 
 void Camera::rotateUp(float angle)
@@ -173,4 +173,10 @@ bool Camera::CheckNormal()
 	if (abs(normal.x) > _limitNormal || abs(normal.z) > _limitNormal)
 		return true;
 	return false;
+}
+
+
+float Lerp(float start, float end, float t)
+{
+	return start * (1 - t) + end * t;
 }

@@ -13,25 +13,43 @@
 
 #include <vector>
 #include <iostream>
+#include <cmath>
 #include <string>
 
 const float Terrain::_Size = 1024.0f;
 const float Terrain::_MaxHeight = 100.0f;
 
-float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
+double Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
+double ModuloFloat(double a, double b);
 
 Terrain::Terrain(float x, float z, const std::string& diffusePath, const std::string& heightmapPath)
 	: _x(x), _z(z), 
 	  _texture(ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE)),
-	  _heightmap(ResourceManager::Get().LoadTexture(heightmapPath, DIFFUSE)),
+	  _dataHeightmap(ResourceManager::Get().LoadHeightmap(heightmapPath, HEIGHTMAP)),
 	  _mesh(generateMesh()), 
 	  _shader(ResourceManager::Get().GetShader("Terrain"))
 {
+
+}
+
+/* DRAW THE TERRAIN */
+void Terrain::Draw(const std::shared_ptr<Fog>& fog)
+{
+	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader);
+	Renderer::Get().SendBlinnPhongUniforms(_shader);
+	_shader->Bind();
+	_shader->SetUniform3f("u_SkyColor", fog->Color());
+	_shader->SetUniform1f("u_fogDensity", fog->Density());
+	_shader->SetUniform1f("u_fogGradient", fog->Gradient());
+	_shader->SetUniform1f("u_fogHeight", fog->Height());
+	_shader->SetUniform1f("u_lowerLimitFog", fog->LowerLimit());
+	_shader->SetUniform1f("u_upperLimitFog", fog->UpperLimit());
+	_mesh.Draw(_shader);
 }
 
 Mesh Terrain::generateMesh()
 {	
-	_VertexSideCount = _heightmap.Height();
+	_VertexSideCount = 512;
 	_GridSquareSize = _Size / (float)(_VertexSideCount - 1);
 
 	std::vector<ShapeVertex> vertices;
@@ -45,11 +63,10 @@ Mesh Terrain::generateMesh()
 		for (int j = 0; j < _VertexSideCount; j++) 
 		{
 			ShapeVertex vertex;
-
-			// Height
-			float height = GetHeightmapValue(i, j);
-			_heights[i].push_back(height);
 			
+			double height = GetHeightmapValue(i, j);
+			_heights[i].push_back(height);
+
 			// Positions
 			vertex.position.x = (float)i / ((float)(_VertexSideCount - 1)) * _Size;
 			vertex.position.y = height;
@@ -68,8 +85,15 @@ Mesh Terrain::generateMesh()
 
 			vertices.push_back(vertex);
 		}
-	}
-	
+	}	
+
+	//Lerp();
+
+	//for (int j = 0; j < _VertexSideCount; j++)
+	//{
+	//	std::cout << _heights[200][j] << "," << std::endl;
+	//}
+
 	// Indices
 	std::vector<unsigned int> indices(6 * (_VertexSideCount - 1) * (_VertexSideCount - 1));
 	int pointer = 0;
@@ -99,22 +123,22 @@ Mesh Terrain::generateMesh()
 */
 float Terrain::GetHeightmapValue(int x, int z) const
 {
-	if (x < 0 || x >= _heightmap.Height() || z < 0 || z >= _heightmap.Height())
+	if (x < 0 || x >= _VertexSideCount || z < 0 || z >= _VertexSideCount)
 		return 0;
 
-	float redValue = _heightmap.GetRGB(x, z);
-	float height = (redValue / 255.0f) * _MaxHeight;
+	unsigned short grayscaleValue = _dataHeightmap[z * _VertexSideCount + x];
+	float height = ((float)grayscaleValue / (256.0f * 256.0)) * _MaxHeight;
 	
 	return height;
 }
 
-float Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
+double Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
 {
-	float height = 0.0f;
+	double height = 0.0f;
 
 	// World Position of the player relative to the terrain
-	float terrainX = worldX - _x;
-	float terrainZ = worldZ - _z;
+	double terrainX = worldX - _x;
+	double terrainZ = worldZ - _z;
 
 	// In which case of the terrain the player is currently on
 	int gridX = (int) floor(terrainX / _GridSquareSize);
@@ -124,17 +148,17 @@ float Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
 		return height;
 
 	// X and Z coordinates relative to the current square (between 0 and 1)
-	float xCoord, zCoord;
-	if (_GridSquareSize < 1)
+	double xCoord, zCoord;
+	if (_GridSquareSize < 1.0)
 		throw "Math error: Attempted to divide by Zero\n";
 	else
 	{
-		xCoord = ((int)terrainX % (int)_GridSquareSize) / _GridSquareSize;
-		zCoord = ((int)terrainZ % (int)_GridSquareSize) / _GridSquareSize;
+		xCoord = ModuloFloat(terrainX, _GridSquareSize) / _GridSquareSize;
+		zCoord = ModuloFloat(terrainZ, _GridSquareSize) / _GridSquareSize;
 	}
 
 	// In which triangle of the square the player is currently on
-	if (xCoord <= 1 - zCoord) 
+	if (xCoord <= 1.0 - zCoord) 
 	{
 		height = Barycentre(glm::vec3(0, _heights[gridX][gridZ], 0), 
 							glm::vec3(1, _heights[gridX + 1][gridZ], 0), 
@@ -148,8 +172,17 @@ float Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
 							glm::vec3(0, _heights[gridX][gridZ + 1], 1),
 							glm::vec2(xCoord, zCoord));
 	}
-
 	return height;
+}
+
+float Terrain::GetHeightSmooth(float x, float z)
+{
+	float radius = 1.0f;
+	return ((GetHeightOfTerrain(x, z)
+		+ GetHeightOfTerrain(x + radius, z)
+		+ GetHeightOfTerrain(x - radius, z)
+		+ GetHeightOfTerrain(x, z + radius)
+		+ GetHeightOfTerrain(x, z - radius)) / 5.0f);
 }
 
 glm::vec3 Terrain::CalculateNormals(int x, int z)
@@ -183,30 +216,42 @@ glm::vec3 Terrain::GetNormal(int worldX, int worldZ) const
 }
 
 
-
-float Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos) 
+double Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 {
-	float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
-	float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
-	float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
-	float l3 = 1.0f - l1 - l2;
+	double det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+	double l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
+	double l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
+	double l3 = 1.0f - l1 - l2;
 
 	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 }
 
-
-/* DRAW THE TERRAIN */
-void Terrain::Draw(const std::shared_ptr<Fog>& fog)
+double ModuloFloat(double a, double b)
 {
-	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader);
-	Renderer::Get().SendBlinnPhongUniforms(_shader);
-	_shader->Bind();
-	_shader->SetUniform3f("u_SkyColor", fog->Color());
-	_shader->SetUniform1f("u_fogDensity", fog->Density());
-	_shader->SetUniform1f("u_fogGradient", fog->Gradient());
-	_shader->SetUniform1f("u_fogHeight", fog->Height());
-	_shader->SetUniform1f("u_lowerLimitFog", fog->LowerLimit());
-	_shader->SetUniform1f("u_upperLimitFog", fog->UpperLimit());
-	_mesh.Draw(_shader);
+	double mod;
+	// Handling negative values 
+	if (a < 0)
+		mod = -a;
+	else
+		mod = a;
+	if (b < 0)
+		b = -b;
+
+	// Finding mod by repeated subtraction 
+
+	while (mod >= b)
+		mod = mod - b;
+
+	// Sign of result typically depends 
+	// on sign of a. 
+	if (a < 0)
+		return -mod;
+
+	return mod;
 }
+
+
+
+
+
 

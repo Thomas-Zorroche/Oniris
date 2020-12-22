@@ -51,8 +51,7 @@ void Texture::Unbind() const
 
 const float Texture::GetRGB(float x, float y) const
 {
-	//y = _height - 1 - y;
-	size_t index = 4 * (y * _height + x);
+	size_t index = y * _height + x;
 	
-	return _imageData[index + 0]; // Return Red Value
+	return _imageData[index]; // Return Red Value
 }

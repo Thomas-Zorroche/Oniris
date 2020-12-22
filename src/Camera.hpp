@@ -23,7 +23,7 @@ public:
 
 	void updateBox();
 
-	void MoveFront(float dir);
+	void MoveFront(float deltaTime);
 	void MoveLeft(float t);
 
 	void rotateUp(float angle);
@@ -62,6 +62,8 @@ private:
 	void MoveZ(float dir);
 	bool CheckNormal();
 
+	// Pointer to Terrain
+	std::shared_ptr<Terrain> _terrain;
 
 	glm::vec3 _Position;	  // Position of the camera
 	float _phi;
@@ -80,7 +82,8 @@ private:
 	char _ActiveKey = 'A';
 	float _Speed = 15.0;
 	float _HeightCamera = 5.0f;
-	float _limitNormal = 2.0f; // Limit value normal where the player can move
+	float _limitNormal = 2.0f;			// Limit value normal where the player can move
+	float _responsiveness = 10.0f;       // Value use for lerp
 
 	// Technical Data
 	float _fov = 45.0f;
@@ -96,6 +99,5 @@ private:
 
 	bool _blockAxis[5] = { false };
 
-	// Pointer to Terrain
-	std::shared_ptr<Terrain> _terrain;
+
 };

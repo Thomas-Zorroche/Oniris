@@ -27,7 +27,6 @@ void mainloop(GLFWwindow* window)
 
     // Camera
     Camera camera(scene.TerrainPtr());
-    camera.MoveFront(1);
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
