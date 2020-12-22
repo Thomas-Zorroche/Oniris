@@ -1,6 +1,6 @@
 #include "InputHandler.hpp"
 #include "Camera.hpp"
-#include "Game.hpp"
+#include "Hud.hpp"
 #include "CollisionManager.hpp"
 
 #include <iostream>
@@ -12,8 +12,8 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::s
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    /*std::cout << "State_" << (int)_state << std::endl;
-    std::cout << "Key___" << (int)_ActiveKey << std::endl;*/
+    //std::cout << "State_" << (int)_state << std::endl;
+    std::cout << "Key___" << (int)_ActiveKey << std::endl;
 
     ScreenState state = Hud::Get().GetState();
 
@@ -22,7 +22,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::s
 
     camera.updateBox();
 
-    // Debug cBox Mode
+    // Print Debug cBox Mode
     // ===================================================================================================
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && _ActiveKey != ActiveKey::C) // C Qwerty = C Azerty
     {
@@ -33,7 +33,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::s
         _ActiveKey = ActiveKey::NONE;
 
 
-    // Object Panel Mode
+    // Open Narrative Object Panel
     // ===================================================================================================
     if (Hud::Get().IsVisible("observe") || state == ScreenState::OBJMENU)
     {
@@ -49,7 +49,20 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::s
             _ActiveKey = ActiveKey::NONE;
     }
 
-    // Interactive Mode
+    // Pick Up Object 
+    // ===================================================================================================
+    if (Hud::Get().IsVisible("use"))
+    {
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        {
+            _ActiveKey = ActiveKey::E;
+        }
+    }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
+        _ActiveKey = ActiveKey::NONE;
+
+
+    // INterract with Object
     // ===================================================================================================
 
 }
@@ -67,17 +80,17 @@ void InputHandler::Movement(GLFWwindow* window, Camera& camera, const std::share
 }
 
 
-void InputHandler::SetCallback(GLFWwindow* window, Game* game) {
+void InputHandler::SetCallback(GLFWwindow* window, Camera* camera) {
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
-    glfwSetWindowUserPointer(window, game);
+    glfwSetWindowUserPointer(window, camera);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    Camera* camera = ((Game*)glfwGetWindowUserPointer(window))->camera;
+    Camera* camera = (Camera*)glfwGetWindowUserPointer(window);
     float xoffset = xpos - camera->GetLastX();
     float yoffset = ypos - camera->GetLastY();
     camera->SetLastX(xpos);

@@ -31,13 +31,13 @@ public:
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);
 	void AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particuleSystem);
-	void AddObject(const std::shared_ptr<Object>& object);
+	//void AddObject(const std::string& name, const std::shared_ptr<Object>& object);
 	//void AddLight();
 
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
 	std::vector<std::shared_ptr<ParticuleSystem> > _particuleSystem;
-	std::vector<std::shared_ptr<Object> > _objects;
+	std::unordered_map<std::string, std::shared_ptr<Object>> _objects;
 	std::shared_ptr<Terrain> _terrain;
 	std::shared_ptr<Ocean> _ocean;
 	std::shared_ptr<Skybox> _skybox;

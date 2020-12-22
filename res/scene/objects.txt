@@ -1,15 +1,15 @@
 #Objects
-[name] Key
+[name] key
 [type] Uk
 [obj] res/models/key/key.obj
 [pos] 350 250
 [end]
-[name] Map
+[name] map
 [type] Um
 [obj] res/models/map/map.obj
 [pos] 250 250
 [end]
-[name] Nar
+[name] nar
 [type] N
 [obj] res/models/map/map.obj
 [pos] 450 250

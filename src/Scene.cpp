@@ -12,6 +12,7 @@
 #include "CollisionManager.hpp"
 #include "ShapeCube.hpp"
 #include "Hud.hpp"
+#include "Game.hpp"
 
 #include <memory>
 #include <string>
@@ -100,6 +101,10 @@ void Scene::Init(const std::string& pathScene)
 	// ==============
 	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
 
+	// Init Game
+	// =========
+	Game::Get().SetRefObjects(&_objects);
+
 	// Create Static Meshes
 	// ====================
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
@@ -157,9 +162,12 @@ void Scene::Draw()
 
 	//Render all Objects (Narratives & Usable)
 	//========================================
-	for (size_t i = 0; i < _objects.size(); i++)
+	for (auto pair : _objects)
 	{
-		_objects[i]->Draw();
+		auto obj = pair.second;
+		//std::cout << pair.first << "-" << obj->IsInWorld() << std::endl;
+		if (obj->IsInWorld())
+			obj->Draw();
 	}
 	
 
@@ -181,6 +189,6 @@ void Scene::AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particule
 	_particuleSystemCount++;
 }
 
-void Scene::AddObject(const std::shared_ptr<Object>& object) {
-	_objects.push_back(object);
-}
+//void Scene::AddObject(const std::string& name, const std::shared_ptr<Object>& object) {
+//	_objects.insert({name, object});
+//}

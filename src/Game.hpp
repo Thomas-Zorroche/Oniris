@@ -1,13 +1,37 @@
 #pragma once
-#include "Camera.hpp"
-#include "Hud.hpp"
 
-struct Game
+class Game
 {
-    Camera* camera;
+public:
+	static Game& Get()
+	{
+		static Game instance;
+		return instance;
+	}
 
-    Game(Camera* c)
-    {
-        camera = c;
-    }
+	Game(const Game&) = delete;
+	Game& operator=(const Game&) = delete;
+
+
+	void SetRefObjects(std::unordered_map<std::string, std::shared_ptr<Object>>* obj) { _objects = obj; }
+	void PickUp(const std::string& type) { 
+		if (type == "key")
+			_HasKey = true;
+		else 
+			_HasMap = true;
+
+		//_objects->erase(type);
+	};
+
+	bool HasKey() const { return _HasKey; };
+	bool Hasmap() const { return _HasMap; };
+
+private:
+
+	Game() = default ;
+	~Game() = default ;
+
+	bool _HasKey = false;
+	bool _HasMap = false;
+	std::unordered_map<std::string, std::shared_ptr<Object>>* _objects = nullptr;
 };

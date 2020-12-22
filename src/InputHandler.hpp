@@ -2,7 +2,6 @@
 
 #include "Camera.hpp"
 #include "Terrain.hpp"
-#include "Game.hpp"
 #include <iostream>
 #include "GLFW/glfw3.h"
 
@@ -28,7 +27,7 @@ public:
 	InputHandler& operator=(const InputHandler&) = delete;
 
 	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
-	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
+	void InputHandler::SetCallback(GLFWwindow* window, Camera* camera);
 	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
 
 

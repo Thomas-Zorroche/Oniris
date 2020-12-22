@@ -1,4 +1,5 @@
 #include "Hud.hpp"
+#include "Game.hpp"
 
 void Hud::Init()
 {
@@ -53,12 +54,19 @@ void Hud::Draw() const
 
 void Hud::Scroll(int dir) {
 
-	auto key = _panels.find("key");
-	auto map = _panels.find("map");
-	if (key != _panels.end() && map != _panels.end()) {
-		key->second.TranslateTexture(dir);
-		map->second.TranslateTexture(dir);
+	if (Game::Get().HasKey())
+	{
+		auto key = _panels.find("key");
+		if (key != _panels.end()) 
+			key->second.TranslateTexture(dir);
+	}	
+	if (Game::Get().Hasmap())
+	{
+		auto map = _panels.find("map");
+		if (map != _panels.end()) 
+			map->second.TranslateTexture(dir);
 	}
+
 
 	//_panels["key"].TranslateTexture(dir);
 	//_panels["map"].TranslateTexture(dir);

@@ -15,12 +15,15 @@ public:
 	virtual ~Object();
 
 	void Draw();
+	bool IsInWorld() const { return _InWorld; }
 
 	virtual void OnOverlap() = 0;
 	//virtual void Use() = 0;
 
 protected:
 	std::shared_ptr<StaticMesh> _staticMesh;
+	bool _InWorld = true;
+
 	//bool _OnBeginOverlap = false;
 };
 

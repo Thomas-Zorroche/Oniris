@@ -114,8 +114,8 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 }
 
 
-std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain) const {
-	std::vector<std::shared_ptr<Object> > objects;
+std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain) const {
+	std::unordered_map<std::string, std::shared_ptr<Object>> objects;
 
 	std::ifstream stream(filepath);
 	std::string line;
@@ -190,13 +190,15 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
-			if ( type == "Um" || type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
-				object = std::make_shared<UsableObject>(model, position, "p_" + name);
+			if (type == "Um") // [TO DO] if map or key add an argument / constructor is not updates yet
+				object = std::make_shared<UsableObject>(model, position, "p_" + name, "map");
+			else if (type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
+				object = std::make_shared<UsableObject>(model, position, "p_" + name, "key");
 			else if (type == "N")
 				object = std::make_shared<NarrativeObject>(model, position, "p_" + name);
 			
 				
-			objects.push_back(object);
+			objects.insert({ name, object });
 
 			// clear data :
 			name = "";
