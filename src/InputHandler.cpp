@@ -12,9 +12,6 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    //std::cout << "State_" << (int)_state << std::endl;
-    std::cout << "Key___" << (int)_ActiveKey << std::endl;
-
     ScreenState state = Hud::Get().GetState();
 
     if (state != ScreenState::OBJMENU)

@@ -55,7 +55,6 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Key");
 
-
 	// Create Terrain
 	// ==============
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap.png");
@@ -89,14 +88,11 @@ void Scene::Init(const std::string& pathScene)
 	// =============
 	Model m_portail("res/models/portail/portail.obj");
 	Model m_house("res/models/houses/houses.obj");
-	//Model m_key("res/models/key/key.obj");
-	//Model m_map("res/models/map/map.obj");
-
+	Model m_light("res/models/streetLightSmall.obj");
 
 	// Define Collisions Layout for Static Mesh's cBox
 	// ===============================================
 	CollisionLayout cLayout_House(true, true, false);
-
 
 	// Create Objects
 	// ==============
@@ -110,6 +106,7 @@ void Scene::Init(const std::string& pathScene)
 	// ====================
 	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(300, _terrain->GetHeightOfTerrain(300, 550), 550), "Portail", nullptr));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(200, _terrain->GetHeightOfTerrain(200, 400), 400), "Portail", nullptr, cLayout_House));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_light, glm::vec3(220, _terrain->GetHeightOfTerrain(220, 420), 420), "Portail", nullptr));
 
 	
 	// Do all the Transformations on Static Meshes
@@ -119,6 +116,7 @@ void Scene::Init(const std::string& pathScene)
 		_staticMeshes[0]->Scale(1.0);
 		_staticMeshes[1]->Scale(2.0);
 		_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
+		_staticMeshes[2]->Scale(0.5);
 	}
 	catch (const std::string& e)
 	{
