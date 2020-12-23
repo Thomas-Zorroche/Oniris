@@ -12,12 +12,12 @@
 [name] notes
 [type] N
 [obj] res/models/map/map.obj
-[tex] res/img/object/liste.jpg
+[tex] res/img/object/liste.png
 [pos] 550 250
 [end]
 [name] liste
 [type] N
 [obj] res/models/map/map.obj
-[tex] res/img/object/panneau.jpg
+[tex] res/img/object/panneau.png
 [pos] 650 250
 [end]

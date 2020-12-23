@@ -3,6 +3,7 @@
 #include "Panel.hpp"
 #include "ResourceManager.hpp"
 #include <unordered_map>
+#include <list>
 
 enum class ScreenState
 {
@@ -35,7 +36,7 @@ private:
 	Hud() = default;
 	~Hud() = default ;
 	std::unordered_map<std::string, Panel> _panels;
-
+	std::list<std::string> _insertionOrder;
 	ScreenState _state = ScreenState::INGAME;
 
 };

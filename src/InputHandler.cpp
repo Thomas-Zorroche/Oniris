@@ -13,7 +13,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
         glfwSetWindowShouldClose(window, true);
 
     //std::cout << "State_" << (int)_state << std::endl;
-    std::cout << "Key___" << (int)_ActiveKey << std::endl;
+    //std::cout << "Key___" << (int)_ActiveKey << std::endl;
 
     ScreenState state = Hud::Get().GetState();
 
@@ -35,15 +35,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Open Narrative Object Panel
     // ===================================================================================================
-    bool panelVisible = false;
-    try {
-        panelVisible = Hud::Get().IsVisible("observe");
-    }
-    catch (const std::string& e) {
-        std::cerr << e << std::endl;
-    }
-
-    if (panelVisible || state == ScreenState::OBJMENU)
+    if (Hud::Get().IsVisible("p_observe") || state == ScreenState::OBJMENU)
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
         {
@@ -59,7 +51,8 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Pick Up Object 
     // ===================================================================================================
-    if (Hud::Get().IsVisible("pickup"))
+    
+    if (Hud::Get().IsVisible("p_pickup"))
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
         {
