@@ -11,16 +11,16 @@
 #include "NarrativeObject.hpp"
 #include "CollisionManager.hpp"
 #include "ShapeCube.hpp"
+#include "Hud.hpp"
+#include "Game.hpp"
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <iostream>
 
-void cBoxFunc_Portail()
-{
-	std::cout << "Ramasser l'objet" << std::endl;
-}
+
+
 
 Scene::Scene(const std::string& pathScene)
 	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr)
@@ -42,7 +42,7 @@ void Scene::Init(const std::string& pathScene)
 	// Ui shader loading & Hud creation
 	// ================================
 	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
-	Hud _hud();
+	Hud::Get().Init();
 
 	// Load all Shaders
 	// ================
@@ -94,18 +94,16 @@ void Scene::Init(const std::string& pathScene)
 
 	// Define Collisions Layout for Static Mesh's cBox
 	// ===============================================
-	CollisionLayout cLayout_House(true, true, false, StaticMesh::FunctionTest);
-	CollisionLayout cLayout_NarrativeObj(true, false, false, NarrativeObject::FunctionTest);
-	CollisionLayout cLayout_UsableObj(true, false, false, UsableObject::FunctionTest);
+	CollisionLayout cLayout_House(true, true, false);
+
 
 	// Create Objects
 	// ==============
-	//std::shared_ptr<Object> o_key = std::make_shared<UsableObject>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 250), cLayout_UsableObj);
-	//std::shared_ptr<Object> o_map = std::make_shared<NarrativeObject>(m_map, glm::vec3(350, _terrain->GetHeightOfTerrain(350, 250), 250), cLayout_UsableObj);
-	//AddObject(o_key);
-	//AddObject(o_map);
-
 	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
+
+	// Init Game
+	// =========
+	Game::Get().SetRefObjects(&_objects);
 
 	// Create Static Meshes
 	// ====================
@@ -113,7 +111,6 @@ void Scene::Init(const std::string& pathScene)
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
 	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_key, glm::vec3(250, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_Key));
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
@@ -126,7 +123,6 @@ void Scene::Init(const std::string& pathScene)
 		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
 		_staticMeshes[3]->Scale(4.0);
 		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
-		//_staticMeshes[4]->Scale(1.0);
 	}
 	catch (const std::string& e)
 	{
@@ -166,16 +162,19 @@ void Scene::Draw()
 
 	//Render all Objects (Narratives & Usable)
 	//========================================
-	for (size_t i = 0; i < _objects.size(); i++)
+	for (auto pair : _objects)
 	{
-		_objects[i]->Draw();
+		auto obj = pair.second;
+		//std::cout << pair.first << "-" << obj->IsInWorld() << std::endl;
+		if (obj->IsInWorld())
+			obj->Draw();
 	}
 	
 
 	// Render the Skybox
 	// =================
 	_skybox->Draw();
-	_hud.Draw();
+	Hud::Get().Draw();
 }
 
 void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)
@@ -190,6 +189,6 @@ void Scene::AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particule
 	_particuleSystemCount++;
 }
 
-void Scene::AddObject(const std::shared_ptr<Object>& object) {
-	_objects.push_back(object);
-}
+//void Scene::AddObject(const std::string& name, const std::shared_ptr<Object>& object) {
+//	_objects.insert({name, object});
+//}

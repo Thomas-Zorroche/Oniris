@@ -4,7 +4,7 @@
 #include "Mesh.hpp"
 
 
-Panel::Panel(const std::string texture, std::string name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
+Panel::Panel(const std::string& texture, const std::string& name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
 	_modelMatrix(glm::mat4(1.0f)), _nbSprite(nbSprite), _visibility(visibility)
 {
 	//

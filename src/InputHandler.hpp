@@ -2,9 +2,15 @@
 
 #include "Camera.hpp"
 #include "Terrain.hpp"
-#include "Game.hpp"
 #include <iostream>
 #include "GLFW/glfw3.h"
+
+enum class ActiveKey {
+	NONE, 
+	C,	// show cBOx
+	E,	// enter menu
+	A	// use object
+};
 
 class InputHandler
 {
@@ -21,14 +27,18 @@ public:
 	InputHandler& operator=(const InputHandler&) = delete;
 
 	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
-	void InputHandler::SetCallback(GLFWwindow* window, Game* game);
+	void InputHandler::SetCallback(GLFWwindow* window, Camera* camera);
+	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
+
 
 private:
 	// Prevent using constructors
 	InputHandler() = default;
 	~InputHandler() = default;
 
+	ActiveKey _ActiveKey = ActiveKey::NONE;
 
+	void Movement(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
 };
 //
 // callbacks functions

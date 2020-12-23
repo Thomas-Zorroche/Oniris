@@ -1,30 +1,43 @@
 #pragma once
 #include "Object.hpp"
+#include "Hud.hpp"
+#include "InputHandler.hpp"
+#include "Game.hpp"
 
 
-enum UsableObjectType
-{
-	KEY,
-	MAP
-};
 
 class UsableObject : public Object
 {
 public:
-	UsableObject(const Model& model, glm::vec3 position, CollisionLayout cLayout);
+	UsableObject(const Model& model, const glm::vec3& position, const std::string& panelName, const std::string& type);
 	~UsableObject();
 
 	void Use();
 
-	static void FunctionTest() {
-		std::cout << "HIT USABLE OBJ \n";
+	void OnOverlap() override
+	{
+		if (_InWorld)
+		{
+			Hud::Get().SetVisibility("e_pickup", true);
+		}
+		if (InputHandler::Get().GetActiveKey() == ActiveKey::E)
+		{
+			if (_InWorld)
+			{
+				std::cout << "pick up\n";
+				Game::Get().PickUp(_Type);
+				_InWorld = false;
+			}
+		}
+		
+
+
 	}
+
 	
 private:
-	UsableObjectType _Type = KEY;
-	bool _InInventory = false;
-
-	bool IsInInventory() { return _InInventory; }
+	std::string _Type = "key";
+	std::string _panelName;
 	
 };
 

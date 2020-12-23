@@ -15,7 +15,7 @@ CollisionBox::CollisionBox(const glm::vec3& origin, float w, float h, float d,
 
 void CollisionBox::OnBeginOverlap()
 {
-    _cLayout.Function()();
+    _cLayout.Function();
 }
 
 // Check whether the box overlaps with another box

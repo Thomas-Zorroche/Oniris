@@ -7,6 +7,8 @@
 #include "Shader.h"
 #include "NarrativeObject.hpp"
 #include "UsableObject.hpp"
+#include "Panel.hpp"
+#include "Hud.hpp"
 
 #include "glm/glm.hpp"
 
@@ -112,8 +114,8 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 }
 
 
-std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain) const {
-	std::vector<std::shared_ptr<Object> > objects;
+std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain) const {
+	std::unordered_map<std::string, std::shared_ptr<Object>> objects;
 
 	std::ifstream stream(filepath);
 	std::string line;
@@ -122,12 +124,8 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 	std::string name;
 	std::string type;
 	std::string objPath;
+	std::string texPath;
 	glm::vec3 position = glm::vec3();
-
-
-	CollisionLayout cLayout_NarrativeObj(true, false, false, NarrativeObject::FunctionTest);
-	CollisionLayout cLayout_UsableObj(true, false, false, UsableObject::FunctionTest);
-
 
 	while (getline(stream, line))
 	{
@@ -152,6 +150,11 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 		if (line.find("[obj]") != std::string::npos)
 		{
 			objPath = line.substr(std::string("[obj]").length() + 1);
+		}
+
+		if (line.find("[tex]") != std::string::npos)
+		{
+			texPath = line.substr(std::string("[tex]").length() + 1);
 		}
 
 		if (line.find("[pos]") != std::string::npos)
@@ -184,23 +187,32 @@ std::vector<std::shared_ptr<Object> > EntityImporter::Objects(const std::string&
 			ResourceManager::Get().LoadShader("res/shaders/3DTex.vert",
 				"res/shaders/model.frag", "Key" );
 
+			
+
 			//
-			// [TO DO] :: trie des shaders - quel shader mettre aux objects
+			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects
 			//
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
-			if ( type == "Um" || type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
-				object = std::make_shared<UsableObject>(model, position, cLayout_UsableObj);
+			if (type == "Um") // [TO DO] if map or key add an argument / constructor is not updates yet
+				object = std::make_shared<UsableObject>(model, position, "p_" + name, "map");
+			else if (type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
+				object = std::make_shared<UsableObject>(model, position, "p_" + name, "key");
 			else if (type == "N")
-				object = std::make_shared<NarrativeObject>(model, position, cLayout_NarrativeObj);
+			{
+				Panel panel = Panel(texPath, "p_" + name, 0, 0, 1, 512, 1, false);
+				Hud::Get().AddPanel("p_" + name, panel);
+				object = std::make_shared<NarrativeObject>(model, position, "p_" + name);
+			}
 			
 				
-			objects.push_back(object);
+			objects.insert({ name, object });
 
 			// clear data :
 			name = "";
 			type = "";
 			objPath = "";
+			texPath = "";
 			position = glm::vec3();
 		}
 

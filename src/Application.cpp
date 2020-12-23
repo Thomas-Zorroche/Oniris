@@ -12,7 +12,7 @@
 #include "Scene.hpp"
 #include "CollisionManager.hpp"
 #include "InputHandler.hpp"
-#include "Game.hpp"
+#include "Hud.hpp"
 #include "ShapeCube.hpp"
 
 
@@ -36,9 +36,8 @@ void mainloop(GLFWwindow* window)
 
     glEnable(GL_DEPTH_TEST);  
 
-    // Callback
-    Game game = Game(&camera, &scene.GetHud());
-    InputHandler::Get().SetCallback(window, &game);
+    // Initialize GLFW Callbacks
+    InputHandler::Get().SetCallback(window, &camera);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -48,6 +47,9 @@ void mainloop(GLFWwindow* window)
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
+
+        //Hud update
+        Hud::Get().Update();
         
         // 84, 199, 195
         glClearColor(0.15f, 0.25f, 0.32f, 1.0f);

@@ -1,7 +1,7 @@
 #include "NarrativeObject.hpp"
 
-NarrativeObject::NarrativeObject(const Model& model, glm::vec3 position, CollisionLayout cLayout)
-	: Object(model, position, cLayout)
+NarrativeObject::NarrativeObject(const Model& model, const glm::vec3& position, const std::string& panelName)
+	: Object(model, position), _panelName(panelName)
 {
 
 }

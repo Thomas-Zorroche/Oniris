@@ -11,8 +11,8 @@ class Panel
 {
 public:
 	// Constructeur
-	Panel::Panel(const std::string texture,  
-		const std::string name,
+	Panel::Panel(const std::string& texture,  
+		const std::string& name,
 		float x, 
 		float y, 
 		float scale,
@@ -27,6 +27,7 @@ public:
 	void Panel::Update(Camera* camera);
 
 	inline bool Panel::IsVisible() const { return _visibility; };
+	void Panel::setVisibility(bool visbility) { _visibility = visbility ; };
 	void Panel::TranslateTexture(int dir);
 
 private:

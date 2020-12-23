@@ -3,25 +3,29 @@
 #include "glm/glm.hpp"
 #include "CollisionGrid.hpp"
 #include "Mesh.hpp"
+#include "Object.hpp"
 #include <memory>
 #include <vector>
 #include <unordered_map>
 
-typedef void(*OnBeginOverlapFunction)(void);
 
 // All data that define how the cBox will behave
 class CollisionLayout
 {
 public:
 	CollisionLayout(bool collision = false, bool stopMovement = false, 
-					bool dynamic = false, OnBeginOverlapFunction function = [] {})
+					bool dynamic = false, Object * object = nullptr)
 		: _hasCollision(collision), _canStopMovement(stopMovement),
-		  _dynamicBox(dynamic), _collisionFunction(function) {}
+		  _dynamicBox(dynamic), _objectPtr(object) {}
 
 	bool HasCollision() const { return _hasCollision; }
 	bool CanStopMovement() const { return _canStopMovement; }
 	bool HasDynamicBox() const { return _dynamicBox; }
-	OnBeginOverlapFunction Function() const { return _collisionFunction; }
+	void Function() const 
+	{ 
+		if (_objectPtr)
+			_objectPtr->OnOverlap(); 
+	}
 
 private:
 	// Whether cBox has Collision event or not
@@ -34,7 +38,10 @@ private:
 	bool _dynamicBox;
 
 	// Function called when the player hits the cBox, default is an empty lambda
-	OnBeginOverlapFunction _collisionFunction;
+	//OnOverlapFct _collisionFunction;
+
+	// Pointer to the corresponding object
+	Object * _objectPtr;
 };
 
 
