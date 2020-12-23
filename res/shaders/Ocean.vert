@@ -14,8 +14,8 @@ out vec2 vVertexTexcoords;
 
 out float vVisibility;
 
-const float density = 0.0035;
-const float gradient = 2.0;
+uniform float u_fogDensity;
+uniform float u_fogGradient;
 
 void main() {
     vec4 vertexPosition = vec4(aVertexPosition, 1);
@@ -28,6 +28,6 @@ void main() {
     gl_Position = uMVPMatrix * vertexPosition;
 
     float distance = length(gl_Position.xyz);
-    vVisibility = exp(-pow((distance * density), gradient));
+    vVisibility = exp(-pow((distance * u_fogDensity), u_fogGradient));
     vVisibility = clamp(vVisibility, 0.0, 1.0);
 }

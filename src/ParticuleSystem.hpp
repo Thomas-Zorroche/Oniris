@@ -28,7 +28,7 @@ private:
 class ParticuleSystem
 {
 public:
-	ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count, 
+	ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count, float size, float randomSize,
 		const std::vector<ControlPointParticule>& controlPoints, std::shared_ptr<Terrain>& terrain);
 
 	void Draw();

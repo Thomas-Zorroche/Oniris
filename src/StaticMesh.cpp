@@ -3,22 +3,26 @@
 #include "CollisionManager.hpp"
 #include "Shader.h"
 #include "Renderer.hpp"
+#include "Fog.hpp"
+
 #include <string>
 #include <vector>
 
-
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+
 
 
 const std::vector<std::vector<int> > StaticMesh::_indicesCBox = { 
 	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1} 
 };
 
-StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, CollisionLayout cBoxLayout)
+StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
+	const std::shared_ptr<Fog>& fog, CollisionLayout cBoxLayout)
 	: _model(model), _position(position), _shader(ResourceManager::Get().GetShader(shaderName)),
 	  _modelMatrix(glm::mat4(1.0f)), 
-	  _cBoxLayout(cBoxLayout), _cBoxes(std::vector<std::shared_ptr<CollisionBox> >())
+	  _cBoxLayout(cBoxLayout), _cBoxes(std::vector<std::shared_ptr<CollisionBox> >()),
+	  _fog(fog)
 {
 	if (_cBoxLayout.HasCollision())
 	{
@@ -42,7 +46,7 @@ StaticMesh::StaticMesh(const Model& model, glm::vec3 position, const std::string
 
 void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 {
-	Renderer::Get().SendModelMatrixUniforms(GetModelMatrix(), _shader);
+	SendUniforms();
 	_model.Draw(_shader, isParticuleInstance, countParticule);
 }
 
@@ -74,6 +78,26 @@ void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 			throw std::string("Impossible to rotate to this angle due to the Collision Box.");
 		_angleCBox = (RotationCBox)(_globalRotation / 90.0f);
 		updateCBox();
+	}
+}
+
+/*
+* Uniforms
+*/
+void StaticMesh::SendUniforms()
+{
+	Renderer::Get().SendModelMatrixUniforms(GetModelMatrix(), _shader);
+	Renderer::Get().SendBlinnPhongUniforms(_shader);
+
+	_shader->Bind();
+	if (_fog)
+	{
+		_shader->SetUniform3f("u_SkyColor", _fog->Color());
+		_shader->SetUniform1f("u_fogDensity", _fog->Density());
+		_shader->SetUniform1f("u_fogGradient", _fog->Gradient());
+		_shader->SetUniform1f("u_fogHeight", _fog->Height());
+		_shader->SetUniform1f("u_lowerLimitFog", _fog->LowerLimit());
+		_shader->SetUniform1f("u_upperLimitFog", _fog->UpperLimit());
 	}
 }
 

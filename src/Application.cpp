@@ -26,8 +26,7 @@ void mainloop(GLFWwindow* window)
     Scene scene("worldScene.txt");
 
     // Camera
-    Camera camera;
-    camera.MoveFront(1, scene.TerrainPtr());
+    Camera camera(scene.TerrainPtr());
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
@@ -39,11 +38,18 @@ void mainloop(GLFWwindow* window)
     // Initialize GLFW Callbacks
     InputHandler::Get().SetCallback(window, &camera);
 
+    float deltaTime = 0.0f;	// Time between current frame and last frame
+    float lastFrame = 0.0f; // Time of last frame
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        
         // Handle Inputs
-        InputHandler::Get().ProcessInput(window, camera, scene.TerrainPtr());
+        InputHandler::Get().ProcessInput(window, camera, deltaTime);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();

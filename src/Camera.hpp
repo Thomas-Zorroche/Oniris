@@ -13,20 +13,21 @@
 
 #define NOMINAX // Avoid conflicts between min and max constants in Windef.h
 
+class Terrain;
+
 class Camera
 {
 public:
-	Camera();
+	Camera(const std::shared_ptr<Terrain>& terrain);
 	~Camera() {}
 
 	void updateBox();
 
-	void MoveFront(float dir, const std::shared_ptr<Terrain>& terrain);
-	void MoveLeft(float t, const std::shared_ptr<Terrain>& terrain);
+	void MoveFront(float deltaTime);
+	void MoveLeft(float t);
 
 	void rotateUp(float angle);
 	void rotateLeft(float angle);
-
 
 	// Getters Camera Data
 	float GetFov() const { return _fov; }
@@ -40,8 +41,8 @@ public:
 	float GetLastX() const  { return _lastX; }
 	float GetLastY() const  { return _lastY; }
 	float GetSensitivity() const  { return _sensitivity; }
-	char GetActiveKey() const  { return _ActiveKey; };
 	float GetSpeed() const  { return _Speed; };
+
 	// Getters Collision Data
 	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
 	//const std::vector<HitCollisionAxis>& BlockAxis() const { return _blockAxis; }
@@ -50,12 +51,17 @@ public:
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
 	void SetLastX(float x) { _lastX = x; }
 	void SetLastY(float y) { _lastY = y; }
-	virtual void SetActiveKey(char key) { _ActiveKey = key; };
 	void BlockMovement(const std::vector<HitCollisionAxis>& axis);
 
 
 private:
 	void computeDirectionVectors();
+	void MoveX(float dir);
+	void MoveZ(float dir);
+	bool CheckNormal();
+
+	// Pointer to Terrain
+	std::shared_ptr<Terrain> _terrain;
 
 	glm::vec3 _Position;	  // Position of the camera
 	float _phi;
@@ -71,9 +77,13 @@ private:
 
 	// Input Data
 	float _sensitivity;
-	char _ActiveKey = 'A';
-	float _Speed = .5f;
-	float _HeightCamera = 15.0f;
+	float _Speed = 15.0;
+	float _HeightCamera = 5.0f;
+	float _limitNormal = 2.0f;			// Limit value normal where the player can move
+	float _responsiveness = 10.0f;       // Value use for lerp
+	float _cameraTime = 0.0f;
+	float _frequenceShake = 18.0f;
+	float _amplitudeShake = 3.5f;
 
 	// Technical Data
 	float _fov = 45.0f;
@@ -88,4 +98,6 @@ private:
 	//std::vector<HitCollisionAxis> _blockAxis = { NONE };
 
 	bool _blockAxis[5] = { false };
+
+
 };

@@ -11,6 +11,8 @@
 #include "NarrativeObject.hpp"
 #include "CollisionManager.hpp"
 #include "ShapeCube.hpp"
+#include "Object.hpp"
+#include "Fog.hpp"
 #include "Hud.hpp"
 #include "Game.hpp"
 
@@ -23,7 +25,7 @@
 
 
 Scene::Scene(const std::string& pathScene)
-	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr)
+	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr), _fog(std::make_shared<Fog>())
 {
 	Init(pathScene);
 }
@@ -56,11 +58,11 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Terrain
 	// ==============
-	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap16.png");
+	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse.jpg", "res/img/heightmap.png");
 
 	// Create Ocean
 	// ============
-	_ocean = std::make_shared<Ocean>();
+	_ocean = std::make_shared<Ocean>(_fog);
 
 	// Create Skybox
 	// =============
@@ -77,10 +79,10 @@ void Scene::Init(const std::string& pathScene)
 	
 	// Particule Systems
 	// =================
-	auto _particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain);
+	auto _particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
 	for (size_t i = 0; i < _particuleSystem.size(); i++)
 	{
-		//AddParticuleSystem(_particuleSystem[i]);
+		AddParticuleSystem(_particuleSystem[i]);
 	}
 
 	// Import Models
@@ -89,7 +91,6 @@ void Scene::Init(const std::string& pathScene)
 	Model m_house("res/models/houses/houses.obj");
 	//Model m_key("res/models/key/key.obj");
 	//Model m_map("res/models/map/map.obj");
-
 
 
 	// Define Collisions Layout for Static Mesh's cBox
@@ -107,22 +108,17 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Static Meshes
 	// ====================
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(450, _terrain->GetHeightOfTerrain(250, 250), 250), "Portail"));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 400), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(550, _terrain->GetHeightOfTerrain(250, 250), 300), "Portail", cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(780, _terrain->GetHeightOfTerrain(250, 250), 350), "Portail", cLayout_House));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(300, _terrain->GetHeightOfTerrain(300, 550), 550), "Portail", nullptr));
+	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(200, _terrain->GetHeightOfTerrain(200, 400), 400), "Portail", nullptr, cLayout_House));
+
 	
 	// Do all the Transformations on Static Meshes
 	// ===========================================
 	try
 	{
-		_staticMeshes[0]->Scale(5.0);
-		_staticMeshes[1]->Scale(5.0);
+		_staticMeshes[0]->Scale(1.0);
+		_staticMeshes[1]->Scale(2.0);
 		_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
-		_staticMeshes[2]->Scale(3.0);
-		_staticMeshes[2]->Rotate(270, glm::vec3(0, 1, 0));
-		_staticMeshes[3]->Scale(4.0);
-		_staticMeshes[3]->Rotate(180, glm::vec3(0, 1, 0));
 	}
 	catch (const std::string& e)
 	{
@@ -136,9 +132,7 @@ void Scene::Draw()
 {
 	// Render the Terrain
 	// ==================
-	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _terrain->GetShader());
-	Renderer::Get().SendBlinnPhongUniforms(_terrain->GetShader());
-	_terrain->Draw();
+	_terrain->Draw(_fog);
 
 	// Render the Ocean
 	// ================
@@ -148,7 +142,6 @@ void Scene::Draw()
 	// ============================
 	for (size_t i = 0; i < _staticMeshesCount; i++)
 	{
-		//Renderer::Get().SendModelMatrixUniforms(_staticMeshes[i]->GetModelMatrix(), _staticMeshes[i]->GetShader());
 		_staticMeshes[i]->Draw();
 	}
 
@@ -159,7 +152,6 @@ void Scene::Draw()
 		_particuleSystem[i]->Draw();
 	}
 
-
 	//Render all Objects (Narratives & Usable)
 	//========================================
 	for (auto pair : _objects)
@@ -169,7 +161,6 @@ void Scene::Draw()
 		if (obj->IsInWorld())
 			obj->Draw();
 	}
-	
 
 	// Render the Skybox
 	// =================

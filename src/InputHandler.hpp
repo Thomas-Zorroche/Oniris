@@ -26,7 +26,7 @@ public:
 	InputHandler(const InputHandler&) = delete;
 	InputHandler& operator=(const InputHandler&) = delete;
 
-	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain);
+	void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime);
 	void InputHandler::SetCallback(GLFWwindow* window, Camera* camera);
 	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
 

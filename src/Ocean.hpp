@@ -2,10 +2,12 @@
 
 #include "StaticMesh.hpp"
 
+class Fog;
+
 class Ocean
 {
 public:
-	Ocean();
+	Ocean(const std::shared_ptr<Fog>& fog);
 
 	void Draw();
 

@@ -56,6 +56,7 @@ public:
 		shader->SetUniformMatrix4fv("uMVPMatrix", MVP);
 		shader->SetUniformMatrix4fv("uMVMatrix", MV);
 		shader->SetUniformMatrix4fv("uNormalMatrix", NormalMatrix);
+		shader->SetUniformMatrix4fv("uModelMatrix", modelMatrix);
 
 		shader->Unbind();
 

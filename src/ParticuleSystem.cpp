@@ -15,9 +15,10 @@
 #include <chrono>
 
 
-ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count,
+ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count, float size, float randomSize,
     const std::vector<ControlPointParticule>& controlPoints, std::shared_ptr<Terrain>& terrain)
-	: _name(name), _instance(mesh), _instanceVAO(mesh.GetVAO()), _count(count), _controlPoints(controlPoints), _terrain(terrain)
+	: _name(name), _instance(mesh), _instanceVAO(mesh.GetVAO()), _count(count), _controlPoints(controlPoints), _terrain(terrain),
+      _size(size), _randomSize(randomSize)
 {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
@@ -44,10 +45,10 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
         }
 
         // Random Scales
-        std::uniform_int_distribution<int> uniformIntDistribution(2, 4);
+        std::uniform_real_distribution<float> uniformRealDistribution(_size - _randomSize, _size + _randomSize);
         for (size_t i = 0; i < _count / (float)_controlPoints.size(); i++)
         {
-            scales.push_back(uniformIntDistribution(generator));
+            scales.push_back(uniformRealDistribution(generator));
         }
     }
 
@@ -76,10 +77,5 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
 
 void ParticuleSystem::Draw()
 {
-    Renderer::Get().SendBlinnPhongUniforms(_instance.GetShader()); 
-    auto shader = _instance.GetShader();
-    shader->Bind();
-    shader->SetUniform3f("u_SkyColor", 0.32f, 0.78f, 0.76f);
-
     _instance.Draw(true, _count);
 }
