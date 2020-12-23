@@ -55,16 +55,25 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     if (Hud::Get().IsVisible("p_pickup"))
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
-        {
             _ActiveKey = ActiveKey::E;
-        }
     }
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
         _ActiveKey = ActiveKey::NONE;
 
 
-    // INterract with Object
+    // Interact with Light
     // ===================================================================================================
+    if (Hud::Get().IsVisible("p_lightup") || Hud::Get().IsVisible("p_lightoff"))
+    {
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        {
+            _ActiveKey = ActiveKey::E;
+        }
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
+            _ActiveKey = ActiveKey::NONE;
+    }
+
+
 
 }
 

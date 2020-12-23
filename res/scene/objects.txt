@@ -9,10 +9,9 @@
 [obj] res/models/map/map.obj
 [pos] 250 250
 [end]
-[name] notes
-[type] N
-[obj] res/models/map/map.obj
-[tex] res/img/object/liste.png
+[name] light
+[type] Il
+[obj] res/models/key/key.obj
 [pos] 550 250
 [end]
 [name] liste

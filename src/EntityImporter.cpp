@@ -8,6 +8,7 @@
 #include "Fog.hpp"
 #include "NarrativeObject.hpp"
 #include "UsableObject.hpp"
+#include "IOLight.hpp"
 #include "Panel.hpp"
 #include "Hud.hpp"
 
@@ -225,6 +226,10 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 				Panel panel = Panel(texPath, "o_" + name, 0.4, 0, 1, 512, 1, false);
 				Hud::Get().AddPanel("o_" + name, panel);
 				object = std::make_shared<NarrativeObject>(model, position, "o_" + name);
+			}
+			else if (type == "Il")
+			{
+				object = std::make_shared<IOLight>(model, position, "p_lightup");
 			}
 			
 				

@@ -16,3 +16,22 @@ void UsableObject::Use() {
 	else if (_Type == "map")
 		std::cout << "map\n";
 }
+
+void UsableObject::OnOverlap() 
+{
+	{
+		if (_InWorld)
+		{
+			Hud::Get().SetVisibility("p_pickup", true);
+		}
+		if (InputHandler::Get().GetActiveKey() == ActiveKey::E)
+		{
+			if (_InWorld)
+			{
+				std::cout << "pick up\n";
+				Game::Get().PickUp(_Type);
+				_InWorld = false;
+			}
+		}
+	}
+}

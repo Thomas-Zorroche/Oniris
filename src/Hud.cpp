@@ -9,6 +9,9 @@ void Hud::Init()
 	std::vector<Panel> panels = {
 		Panel("res/img/e_pickup.png", "p_pickup", 0.0, -0.9, 0.5, 288, 1, false),
 		Panel("res/img/e_observe.png", "p_observe", 0.0, -0.9, 0.5, 288, 1, false),
+		Panel("res/img/e_allumer.png", "p_lightup", 0.0, -0.9, 0.5, 288, 1, false),
+		Panel("res/img/e_ouvrir.png", "p_open", 0.0, -0.9, 0.5, 288, 1, false),
+		Panel("res/img/e_lightoff.png", "p_lightoff", 0.0, -0.9, 0.5, 288, 1, false),
 		Panel("res/img/ui_crystal.png", "p_crystal", 0.8, -0.7, 1.0, 128, 5, true),
 		Panel("res/img/ui_health.png", "p_health", 0.811, -0.7, 1.0, 128, 8, true),
 		Panel("res/img/inv_key.png", "p_key", 0.9, 0.1, 0.4, 128, 3, true),
