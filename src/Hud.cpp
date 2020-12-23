@@ -1,6 +1,9 @@
 #include "Hud.hpp"
 #include "Game.hpp"
 
+#include <string>
+
+
 void Hud::Init()
 {
 	Panel panel1("res/img/e_pickup.png", "e_pickup", 0.0, -0.9, 1.0, 288, 1, false);
@@ -12,7 +15,7 @@ void Hud::Init()
 	Panel panel7("res/img/background.png", "background", 0, 0, 1, 1280, 1, false);
 
 	_panels.insert({ "pickup", panel1 });
-	_panels.insert({ "oberve", panel2 });
+	_panels.insert({ "observe", panel2 });
 	_panels.insert({ "crystal", panel3 });
 	_panels.insert({ "health", panel4 });
 	_panels.insert({ "key", panel5 });
@@ -86,4 +89,18 @@ void Hud::AddPanel(const std::string& name, const Panel& panel) {
 
 void Hud::SetVisibility(const std::string& name, bool visibility) {
 	_panels.find(name)->second.setVisibility(visibility);
+}
+
+bool Hud::IsVisible(const std::string& name) const
+{ 
+	auto it = _panels.find(name);
+
+	if (it != _panels.end())
+		return it->second.IsVisible();
+	else
+		throw std::string("Panel name : " + name + " doesn't exist.");
+
+	// Todo : réparer l'exception
+
+	return false;
 }

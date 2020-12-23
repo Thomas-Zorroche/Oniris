@@ -4,7 +4,7 @@
 #include "InputHandler.hpp"
 
 Object::Object(const Model& model, const glm::vec3& position) 
-	:_staticMesh(std::make_shared<StaticMesh>(model, position, "Key", CollisionLayout(true, false, false, this)))
+	:_staticMesh(std::make_shared<StaticMesh>(model, position, "Key", nullptr, CollisionLayout(true, false, false, this)))
 {
 
 }

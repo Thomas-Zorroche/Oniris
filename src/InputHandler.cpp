@@ -18,7 +18,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     ScreenState state = Hud::Get().GetState();
 
     if (state != ScreenState::OBJMENU)
-        Movement(window, camera, terrain);
+        Movement(window, camera, deltaTime);
 
     camera.updateBox();
 
@@ -35,7 +35,15 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Open Narrative Object Panel
     // ===================================================================================================
-    if (Hud::Get().IsVisible("observe") || state == ScreenState::OBJMENU)
+    bool panelVisible = false;
+    try {
+        panelVisible = Hud::Get().IsVisible("observe");
+    }
+    catch (const std::string& e) {
+        std::cerr << e << std::endl;
+    }
+
+    if (panelVisible || state == ScreenState::OBJMENU)
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
         {
@@ -51,7 +59,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Pick Up Object 
     // ===================================================================================================
-    if (Hud::Get().IsVisible("use"))
+    if (Hud::Get().IsVisible("pickup"))
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
         {
@@ -67,7 +75,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
 }
 
-void InputHandler::Movement(GLFWwindow* window, Camera& camera, const std::shared_ptr<Terrain>& terrain) {
+void InputHandler::Movement(GLFWwindow* window, Camera& camera, float deltaTime) {
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
         camera.MoveFront(deltaTime);
@@ -77,9 +85,11 @@ void InputHandler::Movement(GLFWwindow* window, Camera& camera, const std::share
         camera.MoveLeft(deltaTime);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
         camera.MoveLeft(-deltaTime);
+}
 
 
-void InputHandler::SetCallback(GLFWwindow* window, Camera* camera) {
+void InputHandler::SetCallback(GLFWwindow* window, Camera* camera) 
+{
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetWindowUserPointer(window, camera);

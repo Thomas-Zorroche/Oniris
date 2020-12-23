@@ -21,7 +21,7 @@ public:
 	{	
 
 		if (Hud::Get().GetState() != ScreenState::OBJMENU)
-		Hud::Get().SetVisibility("e_observe", true);
+			Hud::Get().SetVisibility("observe", true);
 		
 		if (Hud::Get().GetState() == ScreenState::OBJMENU)
 			Hud::Get().SetVisibility(_panelName, true);
