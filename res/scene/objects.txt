@@ -9,6 +9,16 @@
 [obj] res/models/map/map.obj
 [pos] 250 250
 [end]
+[name] cristal_0
+[type] Uc
+[obj] res/models/key/key.obj
+[pos] 450 250
+[end]
+[name] cristal_1
+[type] Uc
+[obj] res/models/key/key.obj
+[pos] 450 200
+[end]
 [name] light
 [type] Il
 [obj] res/models/key/key.obj

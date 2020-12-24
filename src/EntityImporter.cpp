@@ -217,10 +217,12 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			//
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
-			if (type == "Um") // [TO DO] if map or key add an argument / constructor is not updates yet
+			if (type == "Um") 
 				object = std::make_shared<UsableObject>(model, position, "o_" + name, "map");
-			else if (type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
+			else if (type == "Uk") 
 				object = std::make_shared<UsableObject>(model, position, "o_" + name, "key");
+			else if (type == "Uc")
+				object = std::make_shared<UsableObject>(model, position, "o_" + name, "crystal");
 			else if (type == "N")
 			{
 				Panel panel = Panel(texPath, "o_" + name, 0.4, 0, 1, 512, 1, false);
