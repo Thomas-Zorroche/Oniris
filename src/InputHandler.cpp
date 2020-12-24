@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 #include "Hud.hpp"
 #include "CollisionManager.hpp"
+#include "Game.hpp"
 
 #include <iostream>
 #include "GLFW/glfw3.h"
@@ -15,11 +16,11 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Retrive Screen State from Hud
     // ===================================================================================================
-    ScreenState state = Hud::Get().GetState();
+    const ScreenState state = Hud::Get().GetState();
 
     // If player observes a narrative object, he can not move
     // ===================================================================================================
-    if (state != ScreenState::OBJMENU)
+    if (state != ScreenState::OBJMENU && state != ScreenState::MAPMENU)
         Movement(window, camera, deltaTime);
 
     camera.updateBox();
@@ -35,6 +36,27 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     {
         _ActiveKey = ActiveKey::NONE;
     }
+
+    // Open map
+    // ===================================================================================================
+
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && _ActiveKey != ActiveKey::A) // Q Qwerty = A Azerty
+    {
+        if (Game::Get().Hasmap())
+        {
+            if (state == ScreenState::INGAME)
+                Hud::Get().SetState(ScreenState::MAPMENU);
+            else
+                Hud::Get().SetState(ScreenState::INGAME);
+        }
+
+        _ActiveKey = ActiveKey::A;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE && _ActiveKey == ActiveKey::A)
+    {
+        _ActiveKey = ActiveKey::NONE;
+    }
+
 
     // Observe Narrative Object Panel
     // ===================================================================================================
@@ -115,7 +137,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     xoffset *= camera->GetSensitivity();
     yoffset *= camera->GetSensitivity();
 
-    if (Hud::Get().GetState() != ScreenState::OBJMENU)
+    if (Hud::Get().GetState() != ScreenState::OBJMENU && Hud::Get().GetState() != ScreenState::MAPMENU)
     {
         camera->rotateLeft(xoffset);
         camera->rotateUp(yoffset);
@@ -123,7 +145,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    Hud::Get().Scroll(yoffset);
-    std::cout << "scroll   :  " << yoffset << std::endl;
+{   
+    if (Game::Get().HasKey())
+        Hud::Get().Translate("key");
+    if (Game::Get().Hasmap())
+        Hud::Get().Translate("map");
 }

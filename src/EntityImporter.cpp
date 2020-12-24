@@ -224,7 +224,7 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			else if (type == "N")
 			{
 				Panel panel = Panel(texPath, "o_" + name, 0.4, 0, 1, 512, 1, false);
-				Hud::Get().AddPanel("o_" + name, panel);
+				Hud::Get().AddPanel("o_" + name, std::make_shared<Panel>(panel));
 				object = std::make_shared<NarrativeObject>(model, position, "o_" + name);
 			}
 			else if (type == "Il")

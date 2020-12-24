@@ -26,15 +26,15 @@ public:
 	// A appeler à chaque tour de boucle de rendu
 	void Update(Camera* camera);
 
-	inline bool Panel::IsVisible() const { return _visibility; };
-	void Panel::setVisibility(bool visbility) { _visibility = visbility ; };
-	void Panel::TranslateTexture(int dir);
+	inline bool IsVisible() const { return _visibility; };
+	void setVisibility(bool visbility) { _visibility = visbility ; };
+	virtual void TranslateTexture(int dir);
 	const std::string& GetName() const { return _name; }
 
 private:
-	void Panel::ComputeModelMatrix(float x, float y, float scale);
-	void Panel::Scale(float x, float y);
-	void Panel::Translate(float x, float y);
+	void ComputeModelMatrix(float x, float y, float scale);
+	void Scale(float x, float y);
+	void Translate(float x, float y);
 
 
 	glm::mat4 _modelMatrix;

@@ -23,6 +23,7 @@ public:
 		//_objects->erase(type);
 	};
 
+	void LostKey() { _HasKey = false; };
 	bool HasKey() const { return _HasKey; };
 	bool Hasmap() const { return _HasMap; };
 
