@@ -7,7 +7,7 @@
 
 enum class ScreenState
 {
-	INGAME = 0,	ONOVERLAP, OBJMENU
+	INGAME = 0,	OVERLAP_O, OVERLAP_IO, OBJMENU
 };
 
 class Hud

@@ -28,7 +28,10 @@ public:
 
 	void ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime);
 	void SetCallback(GLFWwindow* window, Camera* camera);
-	ActiveKey InputHandler::GetActiveKey() { return _ActiveKey; };
+	ActiveKey GetActiveKey() { return _ActiveKey; };
+	
+	bool CanInteract() const { return _canInteract; }
+	void SetCanInteract(bool interact) { _canInteract = interact; }
 
 
 private:
@@ -37,6 +40,7 @@ private:
 	~InputHandler() = default;
 
 	ActiveKey _ActiveKey = ActiveKey::NONE;
+	bool _canInteract = false;
 
 	void Movement(GLFWwindow* window, Camera& camera, float deltaTime);
 };

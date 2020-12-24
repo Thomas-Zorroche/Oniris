@@ -13,9 +13,12 @@ InteractiveObject::~InteractiveObject() {};
 void InteractiveObject::OnOverlap()
 {
 	Hud::Get().SetVisibility(_panelName, true);
+	Hud::Get().SetState(ScreenState::OVERLAP_IO);
 
-	if (InputHandler::Get().GetActiveKey() == ActiveKey::E)
+	if (InputHandler::Get().GetActiveKey() == ActiveKey::E 
+	 && InputHandler::Get().CanInteract())
 	{	
 		Interact();
+		InputHandler::Get().SetCanInteract(false);
 	}
 }

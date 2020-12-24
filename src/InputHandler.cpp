@@ -12,10 +12,10 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    //std::cout << "State_" << (int)_state << std::endl;
-    //std::cout << "Key___" << (int)_ActiveKey << std::endl;
 
     ScreenState state = Hud::Get().GetState();
+    //std::cout << "State_" << (int)state << std::endl;
+    //std::cout << "Key___" << (int)_ActiveKey << std::endl;
 
     if (state != ScreenState::OBJMENU)
         Movement(window, camera, deltaTime);
@@ -30,7 +30,9 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
         _ActiveKey = ActiveKey::C;
     }
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)
+    {
         _ActiveKey = ActiveKey::NONE;
+    }
 
 
     // Open Narrative Object Panel
@@ -54,26 +56,29 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     
     if (Hud::Get().IsVisible("p_pickup"))
     {
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
             _ActiveKey = ActiveKey::E;
-    }
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
-        _ActiveKey = ActiveKey::NONE;
-
-
-    // Interact with Light
-    // ===================================================================================================
-    if (Hud::Get().IsVisible("p_lightup") || Hud::Get().IsVisible("p_lightoff"))
-    {
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
-        {
-            _ActiveKey = ActiveKey::E;
-        }
+        
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
             _ActiveKey = ActiveKey::NONE;
     }
 
 
+    // Interact with IO Object
+    // ===================================================================================================
+    if (state == ScreenState::OVERLAP_IO)
+    {
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
+        {
+            _ActiveKey = ActiveKey::E;
+            SetCanInteract(true);
+        }
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
+        {
+            _ActiveKey = ActiveKey::NONE;
+            SetCanInteract(true);
+        }
+    }
 
 }
 
