@@ -16,13 +16,11 @@ void Hud::Init()
 		Panel("res/img/ui_health.png", "p_health", 0.811, -0.7, 1.0, 128, 8, true),
 		Panel("res/img/inv_key.png", "p_key", 0.9, 0.1, 0.4, 128, 3, true),
 		Panel("res/img/inv_map.png", "p_map", 0.9, -0.1, 0.4, 128, 3, true),
-		Panel("res/img/background.png", "p_background", 0, 0, 1, 1280, 1, false)
+		Panel("res/img/object/menuNarrativeObject.png", "p_menuNarrativeObject", 0, 0, 1, 1280, 1, false)
 	};
 
 	for (const Panel& panel : panels)
 		AddPanel( panel.GetName() , panel );
-	
-
 }
 
 
@@ -33,18 +31,18 @@ void Hud::Update()
 		pairs.second.setVisibility(false);
 	}
 
-	if (_state != ScreenState::OBJMENU)
+	if (_state == ScreenState::OBJMENU)
+	{
+		_panels.find("p_menuNarrativeObject")->second.setVisibility(true);
+	}
+	else
 	{
 		_panels.find("p_health")->second.setVisibility(true);
 		_panels.find("p_crystal")->second.setVisibility(true);
 		_panels.find("p_key")->second.setVisibility(true);
 		_panels.find("p_map")->second.setVisibility(true);
 	}
-	else
-	{
-		_panels.find("p_background")->second.setVisibility(true);
-	}
-	
+
 }
 
 

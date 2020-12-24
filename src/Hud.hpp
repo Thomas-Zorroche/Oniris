@@ -5,9 +5,15 @@
 #include <unordered_map>
 #include <list>
 
+/*
+* OVERLAP_NO = When overlap Narrative Object
+* OVERLAP_UO = When overlap Usable Object
+* OVERLAP_IO = When overlap Interactive Object
+* OBJMENU    = When observe Narrative Object
+*/
 enum class ScreenState
 {
-	INGAME = 0,	OVERLAP_O, OVERLAP_IO, OBJMENU
+	INGAME = 0,	OVERLAP_NO, OVERLAP_UO, OVERLAP_IO, OBJMENU
 };
 
 class Hud

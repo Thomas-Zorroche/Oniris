@@ -8,15 +8,17 @@
 
 void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime)
 {
-    /* Close Window */
+    // Close Window
+    // ===================================================================================================
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-
+    // Retrive Screen State from Hud
+    // ===================================================================================================
     ScreenState state = Hud::Get().GetState();
-    //std::cout << "State_" << (int)state << std::endl;
-    //std::cout << "Key___" << (int)_ActiveKey << std::endl;
 
+    // If player observes a narrative object, he can not move
+    // ===================================================================================================
     if (state != ScreenState::OBJMENU)
         Movement(window, camera, deltaTime);
 
@@ -34,12 +36,11 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
         _ActiveKey = ActiveKey::NONE;
     }
 
-
-    // Open Narrative Object Panel
+    // Observe Narrative Object Panel
     // ===================================================================================================
-    if (Hud::Get().IsVisible("p_observe") || state == ScreenState::OBJMENU)
+    if (state == ScreenState::OVERLAP_NO || state == ScreenState::OBJMENU)
     {
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
         {
             _ActiveKey = ActiveKey::E;
             if (state == ScreenState::OBJMENU)
@@ -51,10 +52,9 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
             _ActiveKey = ActiveKey::NONE;
     }
 
-    // Pick Up Object 
+    // Pick Up Usable Object 
     // ===================================================================================================
-    
-    if (Hud::Get().IsVisible("p_pickup"))
+    if (state == ScreenState::OVERLAP_UO)
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
             _ActiveKey = ActiveKey::E;
