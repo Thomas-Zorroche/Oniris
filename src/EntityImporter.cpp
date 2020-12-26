@@ -8,6 +8,7 @@
 #include "Fog.hpp"
 #include "NarrativeObject.hpp"
 #include "UsableObject.hpp"
+#include "IOLight.hpp"
 #include "Panel.hpp"
 #include "Hud.hpp"
 
@@ -216,15 +217,21 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			//
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object;
-			if (type == "Um") // [TO DO] if map or key add an argument / constructor is not updates yet
-				object = std::make_shared<UsableObject>(model, position, "p_" + name, "map");
-			else if (type == "Uk") // [TO DO] if map or key add an argument / constructor is not updates yet
-				object = std::make_shared<UsableObject>(model, position, "p_" + name, "key");
+			if (type == "Um") 
+				object = std::make_shared<UsableObject>(model, position, "o_" + name, "map");
+			else if (type == "Uk") 
+				object = std::make_shared<UsableObject>(model, position, "o_" + name, "key");
+			else if (type == "Uc")
+				object = std::make_shared<UsableObject>(model, position, "o_" + name, "crystal");
 			else if (type == "N")
 			{
-				Panel panel = Panel(texPath, "p_" + name, 0, 0, 1, 512, 1, false);
-				Hud::Get().AddPanel("p_" + name, panel);
-				object = std::make_shared<NarrativeObject>(model, position, "p_" + name);
+				Panel panel = Panel(texPath, "o_" + name, 0.4, 0, 1, 512, 1, false);
+				Hud::Get().AddPanel("o_" + name, std::make_shared<Panel>(panel));
+				object = std::make_shared<NarrativeObject>(model, position, "o_" + name);
+			}
+			else if (type == "Il")
+			{
+				object = std::make_shared<IOLight>(model, position, "p_lightup");
 			}
 			
 				

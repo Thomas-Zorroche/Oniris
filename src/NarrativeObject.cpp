@@ -9,6 +9,16 @@ NarrativeObject::NarrativeObject(const Model& model, const glm::vec3& position, 
 NarrativeObject::~NarrativeObject() {};
 
 
-void NarrativeObject::Read() {
-	std::cout << "read" << std::endl;
+void NarrativeObject::OnOverlap() 
+{
+	if (Hud::Get().GetState() != ScreenState::OBJMENU)
+	{
+		Hud::Get().SetState(ScreenState::OVERLAP_NO);
+		Hud::Get().SetVisibility(_panelName, false);
+		Hud::Get().SetVisibility("p_observe", true);
+	}
+	else
+	{
+		Hud::Get().SetVisibility(_panelName, true);
+	}
 }

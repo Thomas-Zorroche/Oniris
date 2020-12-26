@@ -2,22 +2,25 @@
 #include "Camera.hpp"
 #include "Hud.hpp"
 #include "CollisionManager.hpp"
+#include "Game.hpp"
 
 #include <iostream>
 #include "GLFW/glfw3.h"
 
 void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime)
 {
-    /* Close Window */
+    // Close Window
+    // ===================================================================================================
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    //std::cout << "State_" << (int)_state << std::endl;
-    std::cout << "Key___" << (int)_ActiveKey << std::endl;
+    // Retrive Screen State from Hud
+    // ===================================================================================================
+    const ScreenState state = Hud::Get().GetState();
 
-    ScreenState state = Hud::Get().GetState();
-
-    if (state != ScreenState::OBJMENU)
+    // If player observes a narrative object, he can not move
+    // ===================================================================================================
+    if (state != ScreenState::OBJMENU && state != ScreenState::MAPMENU)
         Movement(window, camera, deltaTime);
 
     camera.updateBox();
@@ -30,22 +33,36 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
         _ActiveKey = ActiveKey::C;
     }
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)
-        _ActiveKey = ActiveKey::NONE;
-
-
-    // Open Narrative Object Panel
-    // ===================================================================================================
-    bool panelVisible = false;
-    try {
-        panelVisible = Hud::Get().IsVisible("observe");
-    }
-    catch (const std::string& e) {
-        std::cerr << e << std::endl;
-    }
-
-    if (panelVisible || state == ScreenState::OBJMENU)
     {
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        _ActiveKey = ActiveKey::NONE;
+    }
+
+    // Open map
+    // ===================================================================================================
+
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && _ActiveKey != ActiveKey::A) // Q Qwerty = A Azerty
+    {
+        if (Game::Get().Hasmap())
+        {
+            if (state == ScreenState::INGAME)
+                Hud::Get().SetState(ScreenState::MAPMENU);
+            else
+                Hud::Get().SetState(ScreenState::INGAME);
+        }
+
+        _ActiveKey = ActiveKey::A;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE && _ActiveKey == ActiveKey::A)
+    {
+        _ActiveKey = ActiveKey::NONE;
+    }
+
+
+    // Observe Narrative Object Panel
+    // ===================================================================================================
+    if (state == ScreenState::OVERLAP_NO || state == ScreenState::OBJMENU)
+    {
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
         {
             _ActiveKey = ActiveKey::E;
             if (state == ScreenState::OBJMENU)
@@ -57,21 +74,33 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
             _ActiveKey = ActiveKey::NONE;
     }
 
-    // Pick Up Object 
+    // Pick Up Usable Object 
     // ===================================================================================================
-    if (Hud::Get().IsVisible("pickup"))
+    if (state == ScreenState::OVERLAP_UO)
     {
-        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E) // C Qwerty = C Azerty
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
+            _ActiveKey = ActiveKey::E;
+        
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
+            _ActiveKey = ActiveKey::NONE;
+    }
+
+
+    // Interact with IO Object
+    // ===================================================================================================
+    if (state == ScreenState::OVERLAP_IO)
+    {
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)
         {
             _ActiveKey = ActiveKey::E;
+            SetCanInteract(true);
+        }
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
+        {
+            _ActiveKey = ActiveKey::NONE;
+            SetCanInteract(true);
         }
     }
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
-        _ActiveKey = ActiveKey::NONE;
-
-
-    // INterract with Object
-    // ===================================================================================================
 
 }
 
@@ -108,7 +137,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     xoffset *= camera->GetSensitivity();
     yoffset *= camera->GetSensitivity();
 
-    if (Hud::Get().GetState() != ScreenState::OBJMENU)
+    if (Hud::Get().GetState() != ScreenState::OBJMENU && Hud::Get().GetState() != ScreenState::MAPMENU)
     {
         camera->rotateLeft(xoffset);
         camera->rotateUp(yoffset);
@@ -116,7 +145,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    Hud::Get().Scroll(yoffset);
-    std::cout << "scroll   :  " << yoffset << std::endl;
+{   
+    if (Game::Get().HasKey())
+        Hud::Get().Translate("key");
+    if (Game::Get().Hasmap())
+        Hud::Get().Translate("map");
 }

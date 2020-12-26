@@ -41,10 +41,6 @@ void Scene::Init(const std::string& pathScene)
 	// ========================================================
 	std::string sceneFileContent = ResourceManager::Get().LoadTextFile(pathScene);
 
-	// Ui shader loading & Hud creation
-	// ================================
-	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
-	Hud::Get().Init();
 
 	// Load all Shaders
 	// ================
@@ -97,10 +93,15 @@ void Scene::Init(const std::string& pathScene)
 	// ===============================================
 	CollisionLayout cLayout_House(true, true, false);
 
+	// Ui shader loading & Hud creation
+	// ================================
+	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
+	Hud::Get().Init();
 
 	// Create Objects
 	// ==============
 	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
+
 
 	// Init Game
 	// =========

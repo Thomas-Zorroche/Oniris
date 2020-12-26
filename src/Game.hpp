@@ -17,12 +17,12 @@ public:
 	void PickUp(const std::string& type) { 
 		if (type == "key")
 			_HasKey = true;
-		else 
+		else if (type == "map")
 			_HasMap = true;
-
 		//_objects->erase(type);
 	};
 
+	void LostKey() { _HasKey = false; };
 	bool HasKey() const { return _HasKey; };
 	bool Hasmap() const { return _HasMap; };
 
