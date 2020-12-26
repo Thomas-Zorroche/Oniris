@@ -71,7 +71,7 @@ void Scene::Init(const std::string& pathScene)
 		);
 	std::shared_ptr<BaseLight> pointLight = std::make_shared<PointLight>(
 		1.0f,
-		glm::vec3(1, 0, 0),
+		glm::vec3(1, 0.6, 0),
 		glm::vec3(220, _terrain->GetHeightOfTerrain(220, 420), 420),
 		160.0f);
 	LightManager::Get().AddLight(dirLight, LightType::DIR);

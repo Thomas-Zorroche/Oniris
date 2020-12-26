@@ -67,18 +67,27 @@ void main()
     // Normal and View direction in VIEW SPACE
     vec3 Normal_vs = normalize(vNormal_vs);
     vec3 viewDir_vs = normalize(-vFragPos_vs);
+    
+    float factorDeepFog = 1.0 / (1.0 + (length(vFragPos_vs) * 0.02));
+    factorDeepFog = clamp(factorDeepFog, 0.0, 0.5);
+    vec3 colorDeepFog = vec3(0.0, 0.1, 0.25);
 
     float factorFog = (vFragPos_os.y - fog.lowerLimitFog) / (fog.upperLimitFog - fog.lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);
 
+    // Lighting
     vec3 finalColor = vec3(0.0f);
-
     finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
     finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
+    // Texture
     fFragColor = texture(texture_diffuse, vVertexTexcoords * uvScale) * vec4(finalColor, 1.0f);
 
+    // Simple Fog
     fFragColor = vec4( mix(ApplyFog(fFragColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), fFragColor.rgb, factorFog) , 1.0);
+    
+    // Deep Blue Fog
+    fFragColor = mix(fFragColor, vec4(colorDeepFog, 1.0), factorDeepFog);
 }
 
 
@@ -109,10 +118,11 @@ vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fr
     float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     float attenuation = 1.0 / (1.0f + light.linear * distance + light.quadratic * (distance * distance));  
-
-    vec3 ambient = light.ambient * material.ambient * attenuation;
-    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation;
-    vec3 specular = light.specular * material.specular * specularStrength * attenuation;
+    float boost = 5.0f;
+    
+    vec3 ambient = light.ambient * material.ambient * attenuation * boost;
+    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation * boost;
+    vec3 specular = light.specular * material.specular * specularStrength * attenuation * boost;
 
     return vec3(ambient + diffuse + specular);
 }

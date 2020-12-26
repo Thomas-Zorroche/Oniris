@@ -74,6 +74,10 @@ void main()
     vec3 Normal_vs = normalize(vNormal_vs);
     vec3 viewDir_vs = normalize(-vFragPos_vs);
 
+    float factorDeepFog = 1.0 / (1.0 + (length(vFragPos_vs) * 0.02));
+    factorDeepFog = clamp(factorDeepFog, 0.0, 0.65);
+    vec3 colorDeepFog = vec3(0.0, 0.1, 0.25);
+
     float factorFog = (vFragPos_os.y - fog.lowerLimitFog) / (fog.upperLimitFog - fog.lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);
 
@@ -85,7 +89,12 @@ void main()
     //finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
     finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
+    // Simple Fog
     fFragColor = vec4( mix(ApplyFog(finalColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), finalColor.rgb, factorFog) , 1.0);
+    
+    // Deep Blue Fog
+    fFragColor = mix(fFragColor, vec4(colorDeepFog, 1.0), factorDeepFog);
+    
     fFragColor = mix(vec4(0.0f, 0.0f, 0.0f, 0.0f), fFragColor, mask.r);
 }
 
