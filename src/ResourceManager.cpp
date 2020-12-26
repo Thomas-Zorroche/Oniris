@@ -183,7 +183,7 @@ std::shared_ptr<Material> ResourceManager::CacheBasicMaterial(const std::string&
 std::shared_ptr<Material> ResourceManager::CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse)
 {
 	Material mat = Material();
-	mat.InitColorPBR(name, diffuse, glm::vec3(1, 1, 1), glm::vec3(1, 1, 1));
+	mat.InitColorPBR(name, diffuse, 32.0f);
 
 	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
 }

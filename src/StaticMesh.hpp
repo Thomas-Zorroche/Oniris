@@ -55,6 +55,4 @@ private:
 	static const std::vector<std::vector<int> > _indicesCBox;
 
 	std::shared_ptr<Fog> _fog;
-
-	std::vector<BaseLightPtr> _lights;
 };

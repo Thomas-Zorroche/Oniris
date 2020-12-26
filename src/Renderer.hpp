@@ -44,10 +44,8 @@ public:
 
 	void SendModelMatrixUniforms(const glm::mat4 & modelMatrix, std::shared_ptr<Shader>& shader, bool removeTranslationView = false)
 	{
-		if (removeTranslationView)
-			_view = glm::mat4(glm::mat3(_view));
-
-		shader->Bind();
+		//if (removeTranslationView)
+		//	_view = glm::mat4(glm::mat3(_view));
 
 		glm::mat4 MVP = _projection * _view * modelMatrix;
 		glm::mat4 MV = _view * modelMatrix;
@@ -57,33 +55,18 @@ public:
 		shader->SetUniformMatrix4fv("uMVMatrix", MV);
 		shader->SetUniformMatrix4fv("uNormalMatrix", NormalMatrix);
 		shader->SetUniformMatrix4fv("uModelMatrix", modelMatrix);
+		shader->SetUniform3f("cameraPos", _camera->Position());
 
-		shader->Unbind();
-
-		if (removeTranslationView)
-			ComputeViewMatrix();
-	}
-
-	void SendBlinnPhongUniforms(std::shared_ptr<Shader>& shader) const
-	{
-		shader->Bind();
-
-		glm::mat4 modelLight = glm::rotate(glm::mat4(1.0f), glm::radians((float)glfwGetTime() * 0), glm::vec3(0, 1, 0));
-		glm::vec4 LightDirection = _view * modelLight * glm::vec4(1, 1, 1, 0);
-
-		shader->SetUniform3f("u_LightDir_vs", LightDirection.x, LightDirection.y, LightDirection.z);
-		shader->SetUniform3f("u_LightIntensity", 1.0, 1.0, 1.0);
-		shader->SetUniform3f("u_Kd", 1.0, 1.0, 1.0);
-		shader->SetUniform3f("u_Ks", 1.0, 1.0, 1.0);
-		shader->SetUniform1f("u_Shininess", 16.0);
-
-		shader->Unbind();
+		//if (removeTranslationView)
+		//	ComputeViewMatrix();
 	}
 
 	void SetCamera(Camera * camera)
 	{
 		_camera = camera;
 	}
+
+	glm::mat4 View() const { return _view;  }
 
 private:
 	Renderer() = default;

@@ -5,7 +5,7 @@ out vec4 fFragColor;
 in vec3 vNormals_vs;
 in vec3 vPosition_vs;
 in vec2 vVertexTexcoords;
-in vec3 vWorldPosition;
+in vec3 vFragPos;
 
 uniform sampler2D u_Diffuse;
 

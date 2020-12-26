@@ -60,6 +60,8 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance, int c
 {
     shader->Bind();
 
+    _material->SendMaterialUniform(shader);
+
     // Textures 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

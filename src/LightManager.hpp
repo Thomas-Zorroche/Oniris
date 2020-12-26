@@ -1,8 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "BaseLight.hpp"
+#include "Shader.h"
+
+class PointLight;
+class DirectionalLight;
 
 class LightManager
 {
@@ -15,15 +20,19 @@ public:
 	LightManager(const LightManager&) = delete;
 	LightManager& operator=(const LightManager&) = delete;
 
-	BaseLightPtr GetLight(int id) const;
-	void AddLight(const BaseLightPtr& light);
+	void AddLight(const BaseLightPtr& light, LightType type);
+	void AddPointLight(const BaseLightPtr& light);
+	void AddDirLight(const BaseLightPtr& light);
 
-	void InitMeshes();
+	void SendUniforms(const std::shared_ptr<Shader>& shader);
 
 private:
 	LightManager() = default;
 	~LightManager() = default;
 
-	std::vector<BaseLight> _lights;
+	std::vector<BaseLightPtr> _lights;
+
+	unsigned int _pointLightsCount = 0;
+	unsigned int _dirLightsCount = 0;
 };
 

@@ -99,19 +99,15 @@ void Camera::MoveFront(float deltaTime)
 	//std::cout << _Position.x << " " << _Position.z << std::endl;
 	//std::cout << _Position.y << std::endl;
 }
-void Camera::MoveLeft(float dir)
+void Camera::MoveLeft(float deltaTime)
 {
-	dir *= _Speed;
-	for (auto axis : _blockAxis)
-	{
-		if (axis == X_POS || axis == X_NEG)
-			_Position.z += dir * _LeftVector.z;
-		else if (axis == Z_POS || axis == Z_NEG)
-			_Position.x += dir * _LeftVector.x;
-		else
-			_Position += dir * _LeftVector;
-	}
+	float dir = deltaTime * _Speed;
+
+	_Position += dir * _LeftVector;
+
 	_Position.y = _terrain->GetHeightOfTerrain(_Position.x, _Position.z) + _HeightCamera;
+
+	computeDirectionVectors();
 }
 
 void Camera::rotateUp(float angle)

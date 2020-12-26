@@ -3,15 +3,20 @@
 PointLight::PointLight(float intensity,
                        const glm::vec3& color,
                        const glm::vec3& position,
-                       float radiusAttenuation)
-    : BaseLight(intensity, color), _position(position), _radiusAttenuation(radiusAttenuation)
+                       float radius)
+    : BaseLight(LightType::POINT, intensity, color), _position(position), _radius(radius)
 {
-    auto it = _attenuationTable.find(radiusAttenuation);
+    UpdateAttenuation();
+}
+
+void PointLight::UpdateAttenuation()
+{
+    auto it = _attenuationTable.find(_radius);
     if (it == _attenuationTable.end())
     {
         throw std::string("Wrong radius size, be sure to check the table in PointLight.cpp and choose an available radius.");
         // Default point light attenuation values
-        _radiusAttenuation = 20.0;
+        _radius = 20.0;
         _linear = 0.22;
         _quadratic = 0.2;
     }
@@ -22,6 +27,16 @@ PointLight::PointLight(float intensity,
     }
 }
 
+void PointLight::SetRadius(const float radius)
+{
+    _radius = radius;
+    UpdateAttenuation();
+}
+
+std::vector<glm::vec3> PointLight::GetSpecialData()
+{
+    return std::vector<glm::vec3>({_position, glm::vec3(1.0f, _linear, _quadratic)});
+}
 
 
 /*
@@ -37,5 +52,6 @@ const std::unordered_map<int, std::pair<float, float>> PointLight::_attenuationT
     {32, {0.14, 0.07} },
     {50, {0.09, 0.032} },
     {65, {0.07, 0.017} },
-    {100, {0.045, 0.075} }
+    {100, {0.045, 0.075} },
+    {160, {0.027, 0.028} }
 };

@@ -6,6 +6,7 @@
 #include "Fog.hpp"
 #include "common.hpp"
 #include "ResourceManager.hpp"
+#include "LightManager.hpp"
 #include "Renderer.hpp"
 #include "Material.hpp"
 
@@ -33,17 +34,33 @@ Terrain::Terrain(float x, float z, const std::string& diffusePath, const std::st
 }
 
 /* DRAW THE TERRAIN */
-void Terrain::Draw(const std::shared_ptr<Fog>& fog)
+void Terrain::SendUniforms(const std::shared_ptr<Fog>& fog)
 {
-	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader);
-	Renderer::Get().SendBlinnPhongUniforms(_shader);
 	_shader->Bind();
+
+	// UV 
+	_shader->SetUniform1f("uvScale", 50.0f);
+
+	// Send Transformations Matrixes
+	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader);
+
+	// Send Lights
+	LightManager::Get().SendUniforms(_shader);
+
 	_shader->SetUniform3f("u_SkyColor", fog->Color());
 	_shader->SetUniform1f("u_fogDensity", fog->Density());
 	_shader->SetUniform1f("u_fogGradient", fog->Gradient());
 	_shader->SetUniform1f("u_fogHeight", fog->Height());
 	_shader->SetUniform1f("u_lowerLimitFog", fog->LowerLimit());
 	_shader->SetUniform1f("u_upperLimitFog", fog->UpperLimit());
+
+	_shader->Unbind();
+
+}
+
+void Terrain::Draw(const std::shared_ptr<Fog>& fog)
+{
+	SendUniforms(fog);
 	_mesh.Draw(_shader);
 }
 

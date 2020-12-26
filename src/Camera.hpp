@@ -42,10 +42,10 @@ public:
 	float GetLastY() const  { return _lastY; }
 	float GetSensitivity() const  { return _sensitivity; }
 	float GetSpeed() const  { return _Speed; };
+	glm::vec3 Position() const { return _Position; }
 
 	// Getters Collision Data
 	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
-	//const std::vector<HitCollisionAxis>& BlockAxis() const { return _blockAxis; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }

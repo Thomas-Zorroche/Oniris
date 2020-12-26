@@ -1,9 +1,12 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "glm/glm.hpp"
 
 #include "Texture.h"
+
+class Shader;
 
 /*
 * Basic Material and PBR Material Class
@@ -13,7 +16,6 @@ class Material
 {
 public:
 	Material();
-	//Material(const Material& mat);
 
 	// Create a Basic Material with just a diffuse texture
 	void InitBasic(const std::string& name, const std::string& diffusePath);
@@ -23,8 +25,8 @@ public:
 		const std::string& normalPath, const std::string& roughnessPath);
 	
 	// Create PBR Material with colors
-	void InitColorPBR(const std::string& name, const glm::vec3& diffuse,
-		const glm::vec3& normal, const glm::vec3& roughness);
+	void InitColorPBR(const std::string& name, const glm::vec3& color, float shininess);
+
 
 	unsigned int GetParameterTexture(const TextureType parameter) const;
 	unsigned int GetParameterTexture(int index) const;
@@ -32,8 +34,22 @@ public:
 
 	int TextureCount() const { return 1; }
 
+	void SendMaterialUniform(std::shared_ptr<Shader>& shader);
+
+	// Getters Parameters
+	const glm::vec3& Ambient() const { return _ambient; }
+	const glm::vec3& Diffuse() const { return _diffuse; }
+	const glm::vec3& Specular() const { return _specular; }
+	float Shininess() const { return _shininess; }
+
+
 private:
 	std::string _name;
-	glm::vec3 _materialColor[3];
-	std::vector<unsigned int> _materialTexture;
+	std::vector<unsigned int> _materialTextures;
+
+	float _shininess;
+	glm::vec3 _ambient;
+	glm::vec3 _diffuse;
+	glm::vec3 _specular;
 };
+

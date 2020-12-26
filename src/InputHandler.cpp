@@ -14,8 +14,14 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     ScreenState state = Hud::Get().GetState();
 
+    // Sprint 
+    // ===================================================================================================
+    float boostSprint = 1.0f;
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        boostSprint = 5.0f;
+
     if (state != ScreenState::OBJMENU)
-        Movement(window, camera, deltaTime);
+        Movement(window, camera, deltaTime * boostSprint);
 
     camera.updateBox();
 

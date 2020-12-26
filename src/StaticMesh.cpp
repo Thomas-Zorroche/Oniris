@@ -1,6 +1,7 @@
 #include "StaticMesh.hpp"
 #include "ResourceManager.hpp"
 #include "CollisionManager.hpp"
+#include "LightManager.hpp"
 #include "Shader.h"
 #include "Renderer.hpp"
 #include "Fog.hpp"
@@ -86,10 +87,18 @@ void StaticMesh::Rotate(float alpha, const glm::vec3& axis)
 */
 void StaticMesh::SendUniforms()
 {
-	Renderer::Get().SendModelMatrixUniforms(GetModelMatrix(), _shader);
-	Renderer::Get().SendBlinnPhongUniforms(_shader);
-
 	_shader->Bind();
+
+	// UV 
+	_shader->SetUniform1f("uvScale", 1.0f);
+
+	// Send Transformations Matrixes
+	Renderer::Get().SendModelMatrixUniforms(GetModelMatrix(), _shader);
+
+	// Send Lights
+	LightManager::Get().SendUniforms(_shader);
+
+	// Send Fog
 	if (_fog)
 	{
 		_shader->SetUniform3f("u_SkyColor", _fog->Color());
@@ -99,6 +108,8 @@ void StaticMesh::SendUniforms()
 		_shader->SetUniform1f("u_lowerLimitFog", _fog->LowerLimit());
 		_shader->SetUniform1f("u_upperLimitFog", _fog->UpperLimit());
 	}
+
+	_shader->Unbind();
 }
 
 /*
