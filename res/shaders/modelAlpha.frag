@@ -54,8 +54,10 @@ uniform Fog fog;
 
 uniform vec3 cameraPos;
 
-uniform sampler2D texture_diffuse;
+uniform sampler2D maskTexture;
+
 uniform float uvScale;
+
 
 vec3 ApplyFog(in vec3 pixelColor, in float distance, in vec3 rayDir, in vec3  sunDir);
 vec3 ComputeDirLight(Material material, DirLight dirLight, vec3 normal, vec3 viewDir);
@@ -64,6 +66,8 @@ vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fr
 
 void main()
 {
+    vec4 mask = texture(maskTexture, vVertexTexcoords);
+    
     // Normal and View direction in VIEW SPACE
     vec3 Normal_vs = normalize(vNormal_vs);
     vec3 viewDir_vs = normalize(-vFragPos_vs);
@@ -71,15 +75,14 @@ void main()
     float factorFog = (vFragPos_os.y - fog.lowerLimitFog) / (fog.upperLimitFog - fog.lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);
 
-    vec3 finalColor = vec3(0.0f);
+    // Grass Constant Color
+    vec3 finalColor = vec3(0.1f, 0.4f, 0.3f);
 
     finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
     finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
-    fFragColor = texture(texture_diffuse, vVertexTexcoords * uvScale) * vec4(finalColor, 1.0f);
-    fFragColor = mix(fFragColor, vec4(0.05, 0.14, 0.18, 1.0), 0.0);
-
-    fFragColor = vec4( mix(ApplyFog(fFragColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), fFragColor.rgb, factorFog) , 1.0);
+    fFragColor = vec4( mix(ApplyFog(finalColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), finalColor.rgb, factorFog) , 1.0);
+    fFragColor = mix(vec4(0.0f, 0.0f, 0.0f, 0.0f), fFragColor, mask.r);
 }
 
 
@@ -129,9 +132,9 @@ vec3 ApplyFog( in vec3  pixelColor,      // original color of the pixel
     float bi = 0.04f; // inscattering
 
     float sunAmount = max( dot( rayDir, sunDir ), 0.0 );
-    vec3  fogColor  = mix( fog.colorShadow,
-                           fog.colorSun,
-                           pow(sunAmount * 0.005, 1.0) );
+    vec3  fogColor  = mix( fog.colorShadow, // bluish
+                           fog.colorSun, // yellowish
+                           pow(sunAmount * 0.01, 1.0) );
     
     return fogColor * (1.0 - exp(-distance * be)) + pixelColor * exp(-distance * bi);
 }

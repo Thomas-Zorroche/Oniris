@@ -1,6 +1,7 @@
 #ParticuleSystem
 [name] Trees
 [obj] res/models/trees/Sapin_02.obj
+[alpha] 0
 [count] 300
 [size] 1.7 0.5
 [cp] 300 700 1 60
@@ -14,6 +15,7 @@
 
 [name] Trees
 [obj] res/models/trees/Sapin_01.obj
+[alpha] 0
 [count] 150
 [size] 1.7 0.5
 [cp] 300 700 1 60
@@ -27,6 +29,7 @@
 
 [name] Grass
 [obj] res/models/particules/grass.obj
+[alpha] 1
 [count] 5000
 [size] 0.8 0.2
 [cp] 300 700 1 60

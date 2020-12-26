@@ -12,6 +12,8 @@
 #include "Shader.h"
 #include "Renderer.hpp"
 
+class Fog;
+
 class Skybox
 {
 public:
@@ -19,18 +21,11 @@ public:
 
 	void GenerateMesh();
 
-	void Draw();
+
+	void Draw(const std::shared_ptr<Fog>& fog);
 
 private:
-	void LoadAllUniforms()
-	{
-		LoadFogColor();
-	}
-
-	void LoadFogColor()
-	{
-		_shader->SetUniform3f("u_colorFog", 0.32f, 0.78f, 0.76f);
-	}
+	void SendUniforms(const std::shared_ptr<Fog>& fog);
 
 	std::vector<std::string> _faces;
 	unsigned int _id;

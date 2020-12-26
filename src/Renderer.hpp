@@ -44,8 +44,8 @@ public:
 
 	void SendModelMatrixUniforms(const glm::mat4 & modelMatrix, std::shared_ptr<Shader>& shader, bool removeTranslationView = false)
 	{
-		//if (removeTranslationView)
-		//	_view = glm::mat4(glm::mat3(_view));
+		if (removeTranslationView)
+			_view = glm::mat4(glm::mat3(_view));
 
 		glm::mat4 MVP = _projection * _view * modelMatrix;
 		glm::mat4 MV = _view * modelMatrix;
@@ -57,8 +57,8 @@ public:
 		shader->SetUniformMatrix4fv("uModelMatrix", modelMatrix);
 		shader->SetUniform3f("cameraPos", _camera->Position());
 
-		//if (removeTranslationView)
-		//	ComputeViewMatrix();
+		if (removeTranslationView)
+			ComputeViewMatrix();
 	}
 
 	void SetCamera(Camera * camera)

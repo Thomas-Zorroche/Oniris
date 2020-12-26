@@ -52,11 +52,11 @@ void Scene::Init(const std::string& pathScene)
 	// Load all Shaders
 	// ================
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Terrain");
-	//ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
-	//ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
+	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
+	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
-	//ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
-	//ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Key");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Key");
 
 	// Create Terrain
 	// ==============
@@ -79,7 +79,7 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Ocean
 	// ============
-	//_ocean = std::make_shared<Ocean>(_fog);
+	_ocean = std::make_shared<Ocean>(_fog);
 
 	// Create Skybox
 	// =============
@@ -92,7 +92,7 @@ void Scene::Init(const std::string& pathScene)
 		"night/front.jpg",
 		"night/back.jpg"
 	};
-	//_skybox = std::make_shared<Skybox>(facesSkybox);
+	_skybox = std::make_shared<Skybox>(facesSkybox);
 	
 	// Particule Systems
 	// =================
@@ -146,13 +146,17 @@ void Scene::Init(const std::string& pathScene)
 
 void Scene::Draw()
 {
+	// Render the Skybox
+	// =================
+	_skybox->Draw(_fog);
+	
 	// Render the Terrain
 	// ==================
 	_terrain->Draw(_fog);
 
 	// Render the Ocean
 	// ================
-	//_ocean->Draw();
+	_ocean->Draw(_fog);
 
 	// Render all the static meshes
 	// ============================
@@ -165,8 +169,13 @@ void Scene::Draw()
 	// ================================
 	for (size_t i = 0; i < _particuleSystemCount; i++)
 	{
+		if (_particuleSystem[i]->Name() == "Grass")
+		{
+			glDepthMask(GL_FALSE);
+		}
 		_particuleSystem[i]->Draw();
 	}
+	glDepthMask(GL_TRUE);
 
 	//Render all Objects (Narratives & Usable)
 	//========================================
@@ -178,9 +187,9 @@ void Scene::Draw()
 	//		obj->Draw();
 	//}
 
-	// Render the Skybox
-	// =================
-	//_skybox->Draw();
+
+	
+	
 	//Hud::Get().Draw();
 }
 

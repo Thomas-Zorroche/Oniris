@@ -5,7 +5,7 @@ out vec4 FragColor;
 in vec3 TexCoords;
 
 uniform samplerCube skybox;
-uniform vec3 u_colorFog;
+uniform vec3 u_skyColor;
 
 const float lowerLimitFog = 0.0f;
 const float upperLimitFog = 1.0f;
@@ -17,5 +17,5 @@ void main()
     float factor = (TexCoords.y - lowerLimitFog) / (upperLimitFog - lowerLimitFog);
     factor = clamp(factor, 0.0, 1.0);
 
-    FragColor = mix(vec4(u_colorFog, 1.0), FragColor, factor);
+    FragColor = mix(vec4(u_skyColor, 1.0), FragColor, factor);
 }

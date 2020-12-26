@@ -47,12 +47,15 @@ void Terrain::SendUniforms(const std::shared_ptr<Fog>& fog)
 	// Send Lights
 	LightManager::Get().SendUniforms(_shader);
 
-	_shader->SetUniform3f("u_SkyColor", fog->Color());
-	_shader->SetUniform1f("u_fogDensity", fog->Density());
-	_shader->SetUniform1f("u_fogGradient", fog->Gradient());
-	_shader->SetUniform1f("u_fogHeight", fog->Height());
-	_shader->SetUniform1f("u_lowerLimitFog", fog->LowerLimit());
-	_shader->SetUniform1f("u_upperLimitFog", fog->UpperLimit());
+	_shader->SetUniform3f("fog.colorShadow", fog->Color().first);
+	_shader->SetUniform3f("fog.colorSun", fog->Color().second);
+	_shader->SetUniform1f("fog.lowerLimitFog", fog->LowerLimit());
+	_shader->SetUniform1f("fog.upperLimitFog", fog->UpperLimit());
+
+	//_shader->SetUniform3f("u_SkyColor", fog->Color());
+	//_shader->SetUniform1f("u_fogDensity", fog->Density());
+	//_shader->SetUniform1f("u_fogGradient", fog->Gradient());
+	//_shader->SetUniform1f("u_fogHeight", fog->Height());
 
 	_shader->Unbind();
 
