@@ -39,7 +39,7 @@ void Terrain::SendUniforms(const std::shared_ptr<Fog>& fog)
 	_shader->Bind();
 
 	// UV 
-	_shader->SetUniform1f("uvScale", 50.0f);
+	_shader->SetUniform1f("uvScale", 65.0f);
 
 	// Send Transformations Matrixes
 	Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader);

@@ -46,6 +46,8 @@ in vec3 vFragPos_vs;
 in vec2 vVertexTexcoords;
 in vec3 vFragPos_os;
 in vec3 vNormal_os;
+in float vFragHeight;
+
 
 uniform Material material;
 uniform DirLight dirLight;
@@ -76,9 +78,11 @@ void main()
     factorFog = clamp(factorFog, 0.0, 1.0);
 
     // Grass Constant Color
-    vec3 finalColor = vec3(0.1f, 0.4f, 0.3f);
+    vec3 grassLight = vec3(0.1f, 0.4f, 0.25f);
+    vec3 grassDark = vec3(0.1f, 0.15f, 0.1f);
+    vec3 finalColor = mix(grassDark, grassLight, vFragHeight);
 
-    finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
+    //finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
     finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
     fFragColor = vec4( mix(ApplyFog(finalColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), finalColor.rgb, factorFog) , 1.0);

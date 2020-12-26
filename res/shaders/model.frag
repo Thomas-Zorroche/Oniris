@@ -77,7 +77,6 @@ void main()
     finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
     fFragColor = texture(texture_diffuse, vVertexTexcoords * uvScale) * vec4(finalColor, 1.0f);
-    fFragColor = mix(fFragColor, vec4(0.05, 0.14, 0.18, 1.0), 0.0);
 
     fFragColor = vec4( mix(ApplyFog(fFragColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), fFragColor.rgb, factorFog) , 1.0);
 }

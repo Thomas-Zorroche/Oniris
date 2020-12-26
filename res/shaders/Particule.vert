@@ -15,6 +15,7 @@ out vec2 vVertexTexcoords;
 out vec3 vNormal_vs;
 out vec3 vFragPos_vs;
 out vec3 vFragPos_os;
+out float vFragHeight;
 
 uniform float u_fogDensity;
 uniform float u_fogGradient;
@@ -36,6 +37,8 @@ void main()
 {
     vec4 vertexPosition = vec4(aVertexPosition, 1);
     vec4 vertexNormal = vec4(aVertexNormal, 0);
+
+    vFragHeight = clamp(vertexPosition.y / 1.0f, 0.0, 1.0);
 
     // Object Space
     vFragPos_os = vec3(uModelMatrix * translate(aOffset) * scale(aScale) * vertexPosition);
