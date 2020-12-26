@@ -15,6 +15,7 @@
 #include "Hud.hpp"
 #include "ShapeCube.hpp"
 
+#include "irrKlang/irrKlang.h"
 
 
 #include <unordered_map> 
@@ -22,6 +23,10 @@
 
 void mainloop(GLFWwindow* window)
 {
+    // Sound engine 
+    irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+    SoundEngine->play2D("res/audio/musicbox.mp3", true);
+
     // Scene Initialization
     Scene scene("worldScene.txt");
 

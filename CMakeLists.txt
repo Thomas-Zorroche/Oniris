@@ -37,12 +37,23 @@ file(COPY ${CMAKE_SOURCE_DIR}/res/img/
 file(COPY ${CMAKE_SOURCE_DIR}/res/models/
 	DESTINATION ${CMAKE_BINARY_DIR}/res/models)
 
+# Add Audios
+file(COPY ${CMAKE_SOURCE_DIR}/res/audio/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/audio)
+
 # Add Scene files
 file(COPY ${CMAKE_SOURCE_DIR}/res/scene/
 	DESTINATION ${CMAKE_BINARY_DIR}/res/scene)
 
 # Add Assimp dll into Exec Directory
 file(COPY ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mtd.dll
+	 DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
+
+
+# Add IrrKlang dll into Exec Directory
+file(COPY ${CMAKE_SOURCE_DIR}/lib/irrKlang.dll
+	 DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
+file(COPY ${CMAKE_SOURCE_DIR}/lib/ikpMP3.dll
 	 DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
 
 # External libraries
@@ -68,7 +79,7 @@ add_library(STB_IMAGE "thirdparty/stb_image.cpp")
 add_library(GLAD "thirdparty/glad.c")
 
 # Put all libraries into a variable
-set(LIBS glfw3 opengl32 STB_IMAGE GLAD assimp-vc142-mtd)
+set(LIBS glfw3 opengl32 STB_IMAGE GLAD assimp-vc142-mtd irrKlang)
 
 # Define the include DIRs
 include_directories(
