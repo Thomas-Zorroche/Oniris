@@ -125,7 +125,7 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 			if (alpha)
 				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/modelAlpha.frag", name);
 			else
-				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/model.frag", name);
+				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/" + name + ".frag", name);
 
 			StaticMesh staticMesh = StaticMesh(model, glm::vec3(0, terrain->GetHeightOfTerrain(0, 0), 0), name, fog);
 			particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));

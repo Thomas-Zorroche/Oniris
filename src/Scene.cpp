@@ -141,7 +141,6 @@ void Scene::Init(const std::string& pathScene)
 		std::cerr << "[StaticMesh] :: " << e << std::endl;
 	}
 
-
 }
 
 void Scene::Draw()
