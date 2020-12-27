@@ -3,6 +3,7 @@
 #include "Hud.hpp"
 #include "CollisionManager.hpp"
 #include "Game.hpp"
+#include "AudioManager.hpp"
 
 #include <iostream>
 #include "GLFW/glfw3.h"
@@ -107,13 +108,20 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 void InputHandler::Movement(GLFWwindow* window, Camera& camera, float deltaTime) {
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
+    {
+        AudioManager::Get().Play("res/audio/footsteps.mp3");
         camera.MoveFront(deltaTime);
+    }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
         camera.MoveFront(-deltaTime);
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
         camera.MoveLeft(deltaTime);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
         camera.MoveLeft(-deltaTime);
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE &&
+        glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_D) == GLFW_RELEASE)
+        AudioManager::Get().Stop("res/audio/footsteps.mp3");
 }
 
 

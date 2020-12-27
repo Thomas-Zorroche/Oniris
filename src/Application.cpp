@@ -14,18 +14,12 @@
 #include "InputHandler.hpp"
 #include "Hud.hpp"
 #include "ShapeCube.hpp"
+#include "AudioManager.hpp"
 
-#include "irrKlang/irrKlang.h"
-
-
-#include <unordered_map> 
 
 
 void mainloop(GLFWwindow* window)
 {
-    // Sound engine 
-    irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
-    SoundEngine->play2D("res/audio/musicbox.mp3", true);
 
     // Scene Initialization
     Scene scene("worldScene.txt");
@@ -34,6 +28,26 @@ void mainloop(GLFWwindow* window)
     Camera camera(scene.TerrainPtr());
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
+
+    // Sound engine
+    //========================================================
+
+    //irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+    //irrklang::ISound* sound = SoundEngine->play2D("res/audio/musicbox.mp3", true, false, true, irrklang::ESM_AUTO_DETECT, true);
+    //irrklang::ISoundEffectControl* fx = sound->getSoundEffectControl();
+    //fx->enableDistortionSoundEffect();
+
+    //irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+    //irrklang::ISound* sound = SoundEngine->play2D("res/audio/musicbox.mp3", true, true);
+    //sound->setIsPaused(false);
+
+    //irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+    //irrklang::ISoundSource* sound = SoundEngine->addSoundSourceFromFile("res/audio/musicbox.mp3");
+    //SoundEngine->addSoundSourceAlias(sound, "soundname");
+    //SoundEngine->getSoundSource("soundname")->setDefaultVolume(0.1f);
+    //SoundEngine->play2D("soundname");
+    
+    AudioManager::Get().Play("res/audio/musicbox.mp3");
 
     // Initialisation Collision Manager
     CollisionManager::Get().Init(&camera);
@@ -52,7 +66,10 @@ void mainloop(GLFWwindow* window)
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-        
+
+        //Play sound
+        // AudioManager::Get().Play("music");
+
         // Handle Inputs
         InputHandler::Get().ProcessInput(window, camera, deltaTime);
 
