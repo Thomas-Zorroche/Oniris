@@ -7,7 +7,7 @@
 #include "glm/glm.hpp"
 
 Ocean::Ocean(const std::shared_ptr<Fog>& fog)
-	: _staticMesh(Model("res/models/ocean/ocean.obj"), glm::vec3(500, 11, 500), "Ocean", fog)
+	: _staticMesh(Model("res/models/ocean/ocean.obj"), TransformLayout(glm::vec3(500, 11, 500)), "Ocean", fog)
 {
 	_staticMesh.Scale(1000.0f);
 }

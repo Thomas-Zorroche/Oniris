@@ -65,7 +65,6 @@ public:
 	void OnBeginOverlap();
 	HitResult IsColliding(const std::shared_ptr<CollisionBox>& box);
 
-
 	float X() const { return _x; }
 	float Y() const { return _y; }
 	float Z() const { return _z; }

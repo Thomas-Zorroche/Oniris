@@ -118,7 +118,7 @@ vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fr
     float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     float attenuation = 1.0 / (1.0f + light.linear * distance + light.quadratic * (distance * distance));  
-    float boost = 5.0f;
+    float boost = 10.0f;
     
     vec3 ambient = light.ambient * material.ambient * attenuation * boost;
     vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation * boost;

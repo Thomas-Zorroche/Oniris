@@ -54,13 +54,13 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Terrain");
 	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
-	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Portail");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Model3D_Tex");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Key");
 
 	// Create Terrain
 	// ==============
-	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse_blue.jpg", "res/img/heightmap.png");
+	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse_blue.jpg", "res/img/heightmap_rotate.png");
 
 	// Create All Lights
 	// =================
@@ -72,7 +72,7 @@ void Scene::Init(const std::string& pathScene)
 	std::shared_ptr<BaseLight> pointLight = std::make_shared<PointLight>(
 		1.0f,
 		glm::vec3(1, 0.6, 0),
-		glm::vec3(220, _terrain->GetHeightOfTerrain(220, 420), 420),
+		glm::vec3(604, _terrain->GetHeightOfTerrain(604, 204), 204),
 		160.0f);
 	LightManager::Get().AddLight(dirLight, LightType::DIR);
 	LightManager::Get().AddLight(pointLight, LightType::POINT);
@@ -96,21 +96,20 @@ void Scene::Init(const std::string& pathScene)
 	
 	// Particule Systems
 	// =================
-	auto _particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
+	auto particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
 	for (size_t i = 0; i < _particuleSystem.size(); i++)
 	{
-		AddParticuleSystem(_particuleSystem[i]);
+		AddParticuleSystem(particuleSystem[i]);
 	}
 
-	// Import Models
-	// =============
-	Model m_portail("res/models/portail/portail.obj");
-	Model m_house("res/models/houses/houses.obj");
-	Model m_light("res/models/streetLightSmall.obj");
+	// Import Static Meshes
+	// ====================
+	auto staticMeshes = EntityImporter::Get().StaticMeshes("res/scene/static_meshes.txt", _terrain, _fog);
+	for (size_t i = 0; i < staticMeshes.size(); i++)
+	{
+		AddStaticMesh(staticMeshes[i]);
+	}
 
-	// Define Collisions Layout for Static Mesh's cBox
-	// ===============================================
-	CollisionLayout cLayout_House(true, true, false);
 
 	// Create Objects
 	// ==============
@@ -119,28 +118,6 @@ void Scene::Init(const std::string& pathScene)
 	// Init Game
 	// =========
 	Game::Get().SetRefObjects(&_objects);
-
-	// Create Static Meshes
-	// ====================
-	AddStaticMesh(std::make_shared<StaticMesh>(m_portail, glm::vec3(300, _terrain->GetHeightOfTerrain(300, 550), 550), "Portail", _fog));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_house, glm::vec3(200, _terrain->GetHeightOfTerrain(200, 400), 400), "Portail", _fog, cLayout_House));
-	AddStaticMesh(std::make_shared<StaticMesh>(m_light, glm::vec3(220, _terrain->GetHeightOfTerrain(220, 420), 420), "Portail", _fog));
-
-	
-	// Do all the Transformations on Static Meshes
-	// ===========================================
-	try
-	{
-		_staticMeshes[0]->Scale(1.0);
-		_staticMeshes[1]->Scale(2.0);
-		_staticMeshes[1]->Rotate(90, glm::vec3(0, 1, 0));
-		_staticMeshes[2]->Scale(0.5);
-	}
-	catch (const std::string& e)
-	{
-		std::cerr << "[StaticMesh] :: " << e << std::endl;
-	}
-
 }
 
 void Scene::Draw()
@@ -155,7 +132,7 @@ void Scene::Draw()
 
 	// Render the Ocean
 	// ================
-	_ocean->Draw(_fog);
+	//_ocean->Draw(_fog);
 
 	// Render all the static meshes
 	// ============================

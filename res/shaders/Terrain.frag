@@ -64,7 +64,7 @@ void main()
     float factorFog = (vFragPos.y - u_lowerLimitFog) / (u_upperLimitFog - u_lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);
 
-    fFragColor = vec4( mix(Fog(fFragColor.rgb, length(vPosition_vs.xyz), vPosition_vs, u_LightDir_vs), fFragColor.rgb, factorFog) , 1.0);
+    //fFragColor = vec4( mix(Fog(fFragColor.rgb, length(vPosition_vs.xyz), vPosition_vs, u_LightDir_vs), fFragColor.rgb, factorFog) , 1.0);
 
 };
 

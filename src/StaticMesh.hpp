@@ -14,11 +14,31 @@
 
 class Fog;
 
+class TransformLayout
+{
+public:
+	TransformLayout(const glm::vec3& loc, const glm::vec3& rot = glm::vec3(0, 0, 0), float scale = 1.0f, float uvScale = 1.0f)
+		: _location(loc), _rotation(rot), _scale(scale), _uvScale(uvScale) {}
+
+	glm::vec3 Location() const { return _location; }
+	glm::vec3 Rotation() const { return _rotation; }
+	float Scale() const { return _scale; }
+	float UvScale() const { return _uvScale; }
+
+private:
+	glm::vec3 _location;
+	glm::vec3 _rotation;
+	float _scale;
+	float _uvScale;
+};
+
+
+
 class StaticMesh
 {
 public:
 	// Constructor
-	StaticMesh(const Model& model, glm::vec3 position, const std::string& shaderName, 
+	StaticMesh(const Model& model, const TransformLayout& transLayout, const std::string& shaderName,
 		const std::shared_ptr<Fog>& fog, CollisionLayout cBoxLayout = CollisionLayout());
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
@@ -28,7 +48,7 @@ public:
 
 	void Translate(const glm::vec3& delta);
 	void Scale(float alpha);
-	void Rotate(float alpha, const glm::vec3& axis);
+	void Rotate(const glm::vec3& alpha);
 
 	std::shared_ptr<CollisionBox> StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox);
 	void StaticMesh::updateCBox();
@@ -43,8 +63,10 @@ private:
 	void SendUniforms();
 
 	Model _model;
-	glm::vec3 _position;
+
+	TransformLayout _transformLayout;
 	glm::mat4 _modelMatrix;
+
 	std::shared_ptr<Shader> _shader;
 	float _globalRotation = 0.0f;
 
@@ -56,3 +78,6 @@ private:
 
 	std::shared_ptr<Fog> _fog;
 };
+
+
+

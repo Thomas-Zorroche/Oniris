@@ -65,10 +65,15 @@ void CollisionBox::updateDebugMesh()
 
 void CollisionBox::Draw()
 {
-    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), ResourceManager::Get().GetShader("CBox"));
+    auto shader = ResourceManager::Get().GetShader("CBox");
+    shader->Bind();
+
+    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), shader);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     _debugMesh.Draw(ResourceManager::Get().GetShader("CBox"));
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    shader->Unbind();
 }
 
 
