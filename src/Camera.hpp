@@ -41,7 +41,9 @@ public:
 	float GetLastX() const  { return _lastX; }
 	float GetLastY() const  { return _lastY; }
 	float GetSensitivity() const  { return _sensitivity; }
-	float GetSpeed() const  { return _Speed; };
+	float GetSpeed() const { return _Speed; };
+	glm::vec3 GetPosition() const { return _Position; };
+	glm::vec3 GetFrontVector() const { return _FrontVector; };
 
 	// Getters Collision Data
 	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }

@@ -1,7 +1,8 @@
 #pragma once
 #include <unordered_map>
 #include <irrklang/irrKlang.h>
-#include <irrklang/ik_ISoundEngine.h>
+#include <irrklang/irrKlang.h>
+#include <glm/glm.hpp>
 
 class AudioManager
 {
@@ -15,30 +16,20 @@ public:
 	AudioManager(const AudioManager&) = delete;
 	AudioManager& operator=(const AudioManager&) = delete;
 
-	//void Init() {
-	//	AudioPlayer music = AudioPlayer("musicbox.mp3");
-	//	AudioPlayer foot = AudioPlayer("footsteps.wav");
-	//	_Audios.insert({ "music", music });
-	//	_Audios.insert({ "footstep", foot });
-	//}
+	void Play(const std::string& path, float volume = 1.0f);
+	void Stop(const std::string& path);
+	void SetListenerPosition(glm::vec3 position, glm::vec3 lookdir);
+	void SetUpSea();
+	void SetUpRiver();
+	void PlayWind();
 
-	//void Play(const std::string& name) {
-	//	_Audios.find(name)->second.Play();
-	// }
-
-	void Play(const std::string& path) {
-		if(!_Engine->isCurrentlyPlaying(path.c_str()))
-			_Engine->play2D(path.c_str(), true);
-	}
-
-	void Stop(const std::string& path) {
-		if (_Engine->isCurrentlyPlaying(path.c_str()))
-			_Engine->stopAllSoundsOfSoundSource(_Engine->getSoundSource(path.c_str()));
-	}
 
 private:
 	AudioManager() {};
 	~AudioManager() {};
 	//std::unordered_map<std::string, AudioPlayer> _Audios;
 	irrklang::ISoundEngine* _Engine = irrklang::createIrrKlangDevice();
+	void PlaySea(glm::vec3 position);
+	void PlayWater(glm::vec3 position);
+	void Play3D(const std::string& path, glm::vec3 position, float volume, float minDist = 0.0f );
 };

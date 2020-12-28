@@ -47,7 +47,10 @@ void mainloop(GLFWwindow* window)
     //SoundEngine->getSoundSource("soundname")->setDefaultVolume(0.1f);
     //SoundEngine->play2D("soundname");
     
-    AudioManager::Get().Play("res/audio/musicbox.mp3");
+    AudioManager::Get().Play("res/audio/music.mp3",0.1f);
+    AudioManager::Get().SetUpSea();
+    AudioManager::Get().SetUpRiver();
+    AudioManager::Get().PlayWind();
 
     // Initialisation Collision Manager
     CollisionManager::Get().Init(&camera);
@@ -68,7 +71,7 @@ void mainloop(GLFWwindow* window)
         lastFrame = currentFrame;
 
         //Play sound
-        // AudioManager::Get().Play("music");
+        AudioManager::Get().SetListenerPosition(camera.GetPosition(), camera.GetFrontVector());
 
         // Handle Inputs
         InputHandler::Get().ProcessInput(window, camera, deltaTime);
