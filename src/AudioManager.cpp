@@ -18,10 +18,18 @@ void AudioManager::Stop(const std::string& path) {
 }
 
 void AudioManager::PlayWind() {
-	Play3D("res/audio/wind.mp3", glm::vec3(600.0f, 80.0f, 500.0f), 1.0f, 6.0f); 
+	Play3D("res/audio/wind.mp3", glm::vec3(600.0f, 80.0f, 500.0f), 1.0f, 8.0f); 
 
 	//
 	// [ TODO ] : placer le vent au niveaux du portail (proche d'une falaise)
+	//
+}
+
+void AudioManager::PlayForest() {
+	Play3D("res/audio/forest.mp3", glm::vec3(450.0f, 15.0f, 250.0f), 1.0f, 12.0f);
+
+	//
+	// [ TODO ] : placer au centre de la forêt
 	//
 
 }
@@ -29,7 +37,8 @@ void AudioManager::PlayWind() {
 
 void AudioManager::Play3D(const std::string& path, glm::vec3 position, float volume, float minDist ) {
 	irrklang::ISound* snd = _Engine->play3D(path.c_str(), irrklang::vec3df(position.x, position.y, position.z), true, false, true);
-
+	if (!snd)
+		return;
 	snd->setVolume(volume);
 	snd->setMinDistance(minDist);
 
@@ -37,7 +46,7 @@ void AudioManager::Play3D(const std::string& path, glm::vec3 position, float vol
 }
 
 void AudioManager::PlaySea(glm::vec3 position) {
-	Play3D("res/audio/sea2.mp3", position, 1.0f);
+	Play3D("res/audio/sea.mp3", position, 1.0f, 2.0f);
 
 }
 

@@ -22,6 +22,7 @@ public:
 	void SetUpSea();
 	void SetUpRiver();
 	void PlayWind();
+	void PlayForest();
 
 
 private:
