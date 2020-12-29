@@ -51,7 +51,7 @@ void Scene::Init(const std::string& pathScene)
 
 	// Load all Shaders
 	// ================
-	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Terrain");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Terrain.frag", "Terrain");
 	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Model3D_Tex");
@@ -60,7 +60,7 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Terrain
 	// ==============
-	_terrain = std::make_shared<Terrain>(0, 0, "res/img/grass_diffuse_blue.jpg", "res/img/heightmap_rotate.png");
+	_terrain = std::make_shared<Terrain>(0, 0, "res/img/heightmap_rotate.png");
 
 	// Create All Lights
 	// =================
@@ -69,13 +69,19 @@ void Scene::Init(const std::string& pathScene)
 		glm::vec3(0.5, 0.5, 0.5),
 		glm::vec3(1, 1, 1)
 		);
-	std::shared_ptr<BaseLight> pointLight = std::make_shared<PointLight>(
+	std::shared_ptr<BaseLight> pointLightVillage = std::make_shared<PointLight>(
 		1.0f,
 		glm::vec3(1, 0.6, 0),
 		glm::vec3(604, _terrain->GetHeightOfTerrain(604, 204), 204),
 		160.0f);
+	std::shared_ptr<BaseLight> pointLightLabo = std::make_shared<PointLight>( 
+		1.0f,
+		glm::vec3(0, 0.6, 1),
+		glm::vec3(850, _terrain->GetHeightOfTerrain(850, 407) + 20, 407),
+		160.0f);
 	LightManager::Get().AddLight(dirLight, LightType::DIR);
-	LightManager::Get().AddLight(pointLight, LightType::POINT);
+	LightManager::Get().AddLight(pointLightVillage, LightType::POINT);
+	LightManager::Get().AddLight(pointLightLabo, LightType::POINT);
 
 	// Create Ocean
 	// ============
@@ -132,7 +138,7 @@ void Scene::Draw()
 
 	// Render the Ocean
 	// ================
-	//_ocean->Draw(_fog);
+	_ocean->Draw(_fog);
 
 	// Render all the static meshes
 	// ============================

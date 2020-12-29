@@ -7,10 +7,11 @@
 
 #include <iostream>
 
+const int Material::NumberTexturesMax = 5;
 
 Material::Material()
 	: _shininess(1.0f), _ambient(glm::vec3(0.8, 0.8, 0.8)), _diffuse(glm::vec3(0.8, 0.8, 0.8)), _specular(glm::vec3(0.5, 0.5, 0.5)),
-	  _materialTextures { 0, 0, 0 } {}
+	  _materialTextures { 0, 0, 0, 0, 0 } {}
 
 /*
 * InitBasic		 : Basic material with just a diffuse texutre
@@ -43,6 +44,19 @@ void Material::InitColorPBR(const std::string& name, const glm::vec3& color, flo
 	_specular = glm::vec3(0.5, 0.5, 0.5);
 
 	_shininess = shininess;
+}
+
+void Material::InitMulipleTextures(const std::string& name, const std::vector<std::string>& texturesPath)
+{
+	_name = name;
+
+	if (texturesPath.size() > NumberTexturesMax)
+		throw std::string("Too much textures for a single material. Limit is 5 textures.");
+
+	for (size_t i = 0; i < texturesPath.size(); i++)
+	{
+		_materialTextures[i] = ResourceManager::Get().LoadTexture(texturesPath[i], DIFFUSE).Id();
+	}
 }
 
 

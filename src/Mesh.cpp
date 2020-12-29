@@ -66,37 +66,11 @@ void Mesh::Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance, int c
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    for (unsigned int i = 0; i < _material->TextureCount(); i++)
+    if (_material->TextureCount() > 0)
     {
-        glActiveTexture(GL_TEXTURE0 + i); 
-
-        std::string typeStr;
-        switch (i)
-        {
-        case 0:
-            typeStr = "u_Diffuse";
-            break;
-        case 1:
-            typeStr = "u_Roughness";
-            break;
-        case 2:
-            typeStr = "u_Normal";
-            break;
-        case 3:
-            typeStr = "u_Heightmap";
-            break;
-        default:
-            break;
-        }
-        // now set the sampler to the correct texture unit
-        glUniform1i(glGetUniformLocation(shader->getID(), typeStr.c_str()), i);
-        // and finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, _material->GetParameterTexture(i));
+        glActiveTexture(GL_TEXTURE0); 
+        glBindTexture(GL_TEXTURE_2D, _material->GetParameterTexture(0));
     }
-
-    //
-    // [TODO 1] :: Lien entre Material Basic Color and Shader
-    //
 
     // draw mesh
     glBindVertexArray(VAO);

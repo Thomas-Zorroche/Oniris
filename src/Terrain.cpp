@@ -23,9 +23,8 @@ const float Terrain::_MaxHeight = 100.0f;
 double Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos);
 double ModuloFloat(double a, double b);
 
-Terrain::Terrain(float x, float z, const std::string& diffusePath, const std::string& heightmapPath)
+Terrain::Terrain(float x, float z, const std::string& heightmapPath)
 	: _x(x), _z(z), 
-	  _texture(ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE)),
 	  _dataHeightmap(ResourceManager::Get().LoadHeightmap(heightmapPath, HEIGHTMAP)),
 	  _mesh(generateMesh()), 
 	  _shader(ResourceManager::Get().GetShader("Terrain"))
@@ -37,6 +36,24 @@ Terrain::Terrain(float x, float z, const std::string& diffusePath, const std::st
 void Terrain::SendUniforms(const std::shared_ptr<Fog>& fog)
 {
 	_shader->Bind();
+
+	// Textures
+	auto material = _mesh.MaterialPtr();
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(glGetUniformLocation(_shader->getID(), "backgroundTexture"), 0);
+	glBindTexture(GL_TEXTURE_2D, material->GetParameterTexture(0));
+	glActiveTexture(GL_TEXTURE1);
+	glUniform1i(glGetUniformLocation(_shader->getID(), "rTexture"), 1);
+	glBindTexture(GL_TEXTURE_2D, material->GetParameterTexture(1));
+	glActiveTexture(GL_TEXTURE2);
+	glUniform1i(glGetUniformLocation(_shader->getID(), "gTexture"), 2);
+	glBindTexture(GL_TEXTURE_2D, material->GetParameterTexture(2));
+	glActiveTexture(GL_TEXTURE3);
+	glUniform1i(glGetUniformLocation(_shader->getID(), "bTexture"), 3);
+	glBindTexture(GL_TEXTURE_2D, material->GetParameterTexture(3));
+	glActiveTexture(GL_TEXTURE4);
+	glUniform1i(glGetUniformLocation(_shader->getID(), "blendmap"), 4);
+	glBindTexture(GL_TEXTURE_2D, material->GetParameterTexture(4));
 
 	// UV 
 	_shader->SetUniform1f("uvScale", 65.0f);
@@ -52,11 +69,6 @@ void Terrain::SendUniforms(const std::shared_ptr<Fog>& fog)
 	_shader->SetUniform1f("fog.lowerLimitFog", fog->LowerLimit());
 	_shader->SetUniform1f("fog.upperLimitFog", fog->UpperLimit());
 
-	//_shader->SetUniform3f("u_SkyColor", fog->Color());
-	//_shader->SetUniform1f("u_fogDensity", fog->Density());
-	//_shader->SetUniform1f("u_fogGradient", fog->Gradient());
-	//_shader->SetUniform1f("u_fogHeight", fog->Height());
-
 	_shader->Unbind();
 
 }
@@ -66,6 +78,7 @@ void Terrain::Draw(const std::shared_ptr<Fog>& fog)
 	SendUniforms(fog);
 	_mesh.Draw(_shader);
 }
+
 
 Mesh Terrain::generateMesh()
 {	
@@ -107,13 +120,6 @@ Mesh Terrain::generateMesh()
 		}
 	}	
 
-	//Lerp();
-
-	//for (int j = 0; j < _VertexSideCount; j++)
-	//{
-	//	std::cout << _heights[200][j] << "," << std::endl;
-	//}
-
 	// Indices
 	std::vector<unsigned int> indices(6 * (_VertexSideCount - 1) * (_VertexSideCount - 1));
 	int pointer = 0;
@@ -132,7 +138,14 @@ Mesh Terrain::generateMesh()
 		}
 	}
 	
-	const auto newMaterial = ResourceManager::Get().CacheBasicMaterial("Terrain", _texture.Path());
+	std::vector<std::string> filepaths = {
+		"res/img/Terrain/Grass.png",
+		"res/img/Terrain/Bricks.png",
+		"res/img/Terrain/Rock.png",
+		"res/img/Terrain/Sand.png",
+		"res/img/Terrain/blendmap_mirror.png"
+	};
+	const auto newMaterial = ResourceManager::Get().CacheMultipleTexMaterial("Terrain", filepaths);
 	
 	return Mesh(vertices, newMaterial, indices);
 }
@@ -246,10 +259,12 @@ double Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 }
 
+//
+// [TODO] : replace with fmod
+//
 double ModuloFloat(double a, double b)
 {
 	double mod;
-	// Handling negative values 
 	if (a < 0)
 		mod = -a;
 	else
@@ -257,13 +272,9 @@ double ModuloFloat(double a, double b)
 	if (b < 0)
 		b = -b;
 
-	// Finding mod by repeated subtraction 
-
 	while (mod >= b)
 		mod = mod - b;
 
-	// Sign of result typically depends 
-	// on sign of a. 
 	if (a < 0)
 		return -mod;
 

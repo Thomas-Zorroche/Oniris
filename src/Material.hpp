@@ -26,13 +26,15 @@ public:
 	
 	// Create PBR Material with colors
 	void InitColorPBR(const std::string& name, const glm::vec3& color, float shininess);
-
+	
+	// Create Material with multiples textures
+	void InitMulipleTextures(const std::string& name, const std::vector<std::string>& texturesPath);
 
 	unsigned int GetParameterTexture(const TextureType parameter) const;
 	unsigned int GetParameterTexture(int index) const;
 	glm::vec3 GetParameterColor(const TextureType parameter) const;
 
-	int TextureCount() const { return 1; }
+	int TextureCount() const { return _materialTextures.size(); }
 
 	void SendMaterialUniform(std::shared_ptr<Shader>& shader);
 
@@ -46,6 +48,8 @@ public:
 private:
 	std::string _name;
 	std::vector<unsigned int> _materialTextures;
+
+	const static int NumberTexturesMax;
 
 	float _shininess;
 	glm::vec3 _ambient;
