@@ -30,6 +30,7 @@ public:
 	void setVisibility(bool visbility) { _visibility = visbility ; };
 	virtual void TranslateTexture(int dir);
 	const std::string& GetName() const { return _name; }
+	virtual void setTexPosition(int pos) {};
 
 private:
 	void ComputeModelMatrix(float x, float y, float scale);

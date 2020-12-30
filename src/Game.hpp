@@ -34,4 +34,5 @@ private:
 	bool _HasKey = false;
 	bool _HasMap = false;
 	std::unordered_map<std::string, std::shared_ptr<Object>>* _objects = nullptr;
+
 };

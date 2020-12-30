@@ -14,14 +14,13 @@
 #include "InputHandler.hpp"
 #include "Hud.hpp"
 #include "ShapeCube.hpp"
+#include "AudioManager.hpp"
 
-
-
-#include <unordered_map> 
 
 
 void mainloop(GLFWwindow* window)
 {
+
     // Scene Initialization
     Scene scene("worldScene.txt");
 
@@ -29,6 +28,14 @@ void mainloop(GLFWwindow* window)
     Camera camera(scene.TerrainPtr());
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
+
+    // Sound 
+    //========================================================    
+    AudioManager::Get().Play("res/audio/music.mp3",0.05f);
+    AudioManager::Get().SetUpSea();
+    AudioManager::Get().SetUpRiver();
+    AudioManager::Get().PlayWind();
+    AudioManager::Get().PlayForest();
 
     // Initialisation Collision Manager
     CollisionManager::Get().Init(&camera);
@@ -47,7 +54,10 @@ void mainloop(GLFWwindow* window)
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-        
+
+        //Update sound
+        AudioManager::Get().SetListenerPosition(camera.GetPosition(), camera.GetFrontVector());
+
         // Handle Inputs
         InputHandler::Get().ProcessInput(window, camera, deltaTime);
 

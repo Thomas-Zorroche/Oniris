@@ -16,9 +16,12 @@ void NarrativeObject::OnOverlap()
 		Hud::Get().SetState(ScreenState::OVERLAP_NO);
 		Hud::Get().SetVisibility(_panelName, false);
 		Hud::Get().SetVisibility("p_observe", true);
+		Hud::Get().SetTarget(1);
+
 	}
 	else
 	{
+
 		Hud::Get().SetVisibility(_panelName, true);
 	}
 }

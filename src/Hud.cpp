@@ -1,8 +1,10 @@
 #include "Hud.hpp"
 #include "Game.hpp"
 #include "InvPanel.hpp"
+#include "TargetPanel.hpp"
 
 #include <string>
+#include <iostream>
 
 
 void Hud::Init()
@@ -19,16 +21,22 @@ void Hud::Init()
 	AddPanel("p_health", std::make_shared<Panel>("res/img/ui_health.png", "p_health", 0.811, -0.7, 1.0, 128, 8, true));
 	AddPanel("p_menuNarrativeObject", std::make_shared<Panel>("res/img/object/menuNarrativeObject.png", "p_menuNarrativeObject", 0, 0, 1, 1280, 1, false));
 	AddPanel("p_menuMap", std::make_shared<Panel>("res/img/mapmenu.png", "p_menuMap", 0, 0, 1, 1280, 1, false));
+	AddPanel("p_target", std::make_shared<TargetPanel>("res/img/target.png", "p_target", 0, 0, 0.5, 8, 2, true));
 
 }
 
 
 void Hud::Update()
 {
+	// Initialisation ==================================
+
 	for (auto& pairs : _panels)
 	{
 		pairs.second->setVisibility(false);
 	}
+	SetTarget(0);
+
+	// ==================================================
 
 	if (_state == ScreenState::OBJMENU)
 	{
@@ -45,8 +53,10 @@ void Hud::Update()
 		_panels.find("p_map")->second->setVisibility(true);
 		_panels.find("p_health")->second->setVisibility(true);
 		_panels.find("p_crystal")->second->setVisibility(true);
+		_panels.find("p_target")->second->setVisibility(true);
 	}
 
+	//_state = ScreenState::INGAME;
 }
 
 
@@ -62,6 +72,7 @@ void Hud::Draw() const
 		}
 	}
 
+
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
@@ -76,7 +87,6 @@ void Hud::Translate(const std::string& name) {
 		if (key != _panels.end())
 		{
 			auto panel = (key->second);
-			//auto panelinv = std::make_shared<InventoryPanel>(panel);
 			panel->TranslateTexture(1);
 		}
 		Game::Get().LostKey();
@@ -96,8 +106,6 @@ void Hud::Translate(const std::string& name) {
 			panel->second->TranslateTexture(1);
 	}
 
-	//_panels["key"].TranslateTexture(dir);
-	//_panels["map"].TranslateTexture(dir);
 }
 
 
