@@ -73,6 +73,8 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
         }
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
             _ActiveKey = ActiveKey::NONE;
+
+
     }
 
     // Pick Up Usable Object 
@@ -84,6 +86,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
         
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE && _ActiveKey == ActiveKey::E)
             _ActiveKey = ActiveKey::NONE;
+
     }
 
 
@@ -101,6 +104,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
             _ActiveKey = ActiveKey::NONE;
             SetCanInteract(true);
         }
+
     }
 
 }

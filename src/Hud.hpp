@@ -38,6 +38,7 @@ public:
 	void Update();
 	ScreenState GetState() const { return _state; }
 	void SetState(ScreenState state) { _state = state; }
+	void SetTarget(int position) { _panels.find("p_target")->second->TranslateTexture(position); }
 
 private:
 	Hud() = default;
@@ -45,6 +46,7 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<Panel>> _panels;
 	std::list<std::string> _insertionOrder;
 	ScreenState _state = ScreenState::INGAME;
+	bool _changeTargetSprite = true;
 
 };
 

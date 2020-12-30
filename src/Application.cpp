@@ -29,24 +29,8 @@ void mainloop(GLFWwindow* window)
     Renderer::Get().SetCamera(&camera);
     Renderer::Get().ComputeProjectionMatrix();
 
-    // Sound engine
-    //========================================================
-
-    //irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
-    //irrklang::ISound* sound = SoundEngine->play2D("res/audio/musicbox.mp3", true, false, true, irrklang::ESM_AUTO_DETECT, true);
-    //irrklang::ISoundEffectControl* fx = sound->getSoundEffectControl();
-    //fx->enableDistortionSoundEffect();
-
-    //irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
-    //irrklang::ISound* sound = SoundEngine->play2D("res/audio/musicbox.mp3", true, true);
-    //sound->setIsPaused(false);
-
-    //irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
-    //irrklang::ISoundSource* sound = SoundEngine->addSoundSourceFromFile("res/audio/musicbox.mp3");
-    //SoundEngine->addSoundSourceAlias(sound, "soundname");
-    //SoundEngine->getSoundSource("soundname")->setDefaultVolume(0.1f);
-    //SoundEngine->play2D("soundname");
-    
+    // Sound 
+    //========================================================    
     AudioManager::Get().Play("res/audio/music.mp3",0.05f);
     AudioManager::Get().SetUpSea();
     AudioManager::Get().SetUpRiver();
