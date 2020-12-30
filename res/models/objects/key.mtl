@@ -1,4 +1,4 @@
-# Blender MTL File: 'master.blend'
+# Blender MTL File: 'None'
 # Material Count: 2
 
 newmtl Map
@@ -13,9 +13,11 @@ illum 2
 map_Kd Brown.png
 
 newmtl None
-Ns 500
-Ka 0.8 0.8 0.8
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
+Ns 500.000001
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.800000 0.800000 0.800000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
 illum 2
