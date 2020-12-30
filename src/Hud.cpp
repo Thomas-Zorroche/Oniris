@@ -21,7 +21,7 @@ void Hud::Init()
 	AddPanel("p_health", std::make_shared<Panel>("res/img/ui_health.png", "p_health", 0.811, -0.7, 1.0, 128, 8, true));
 	AddPanel("p_menuNarrativeObject", std::make_shared<Panel>("res/img/object/menuNarrativeObject.png", "p_menuNarrativeObject", 0, 0, 1, 1280, 1, false));
 	AddPanel("p_menuMap", std::make_shared<Panel>("res/img/mapmenu.png", "p_menuMap", 0, 0, 1, 1280, 1, false));
-	AddPanel("p_target", std::make_shared<TargetPanel>("res/img/target.png", "p_target", 0, 0, 0.5, 8, 2, true));
+	AddPanel("p_target", std::make_shared<TargetPanel>("res/img/target.png", "p_target", 0, 0, 1.0, 8, 2, true));
 
 }
 

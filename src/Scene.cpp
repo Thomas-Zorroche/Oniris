@@ -113,12 +113,12 @@ void Scene::Init(const std::string& pathScene)
 
 	// Ui shader loading & Hud creation
 	// ================================
-	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/model.frag", "Ui");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/ui.frag", "Ui");
 	Hud::Get().Init();
 
 	// Create Objects
 	// ==============
-	//_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
+	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
 
 
 	// Init Game
@@ -162,18 +162,18 @@ void Scene::Draw()
 
 	//Render all Objects (Narratives & Usable)
 	//========================================
-	//for (auto pair : _objects)
-	//{
-	//	auto obj = pair.second;
-	//	//std::cout << pair.first << "-" << obj->IsInWorld() << std::endl;
-	//	if (obj->IsInWorld())
-	//		obj->Draw();
-	//}
+	for (auto pair : _objects)
+	{
+		auto obj = pair.second;
+		//std::cout << pair.first << "-" << obj->IsInWorld() << std::endl;
+		if (obj->IsInWorld())
+			obj->Draw();
+	}
 
 
 	
 	
-	//Hud::Get().Draw();
+	Hud::Get().Draw();
 }
 
 void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)

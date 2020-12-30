@@ -55,7 +55,7 @@ public:
 		shader->SetUniformMatrix4fv("uMVMatrix", MV);
 		shader->SetUniformMatrix4fv("uNormalMatrix", NormalMatrix);
 		shader->SetUniformMatrix4fv("uModelMatrix", modelMatrix);
-		shader->SetUniform3f("cameraPos", _camera->Position());
+		shader->SetUniform3f("cameraPos", _camera->GetPosition());
 
 		if (removeTranslationView)
 			ComputeViewMatrix();

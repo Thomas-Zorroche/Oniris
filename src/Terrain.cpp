@@ -142,7 +142,7 @@ Mesh Terrain::generateMesh()
 		"res/img/Terrain/Grass.png",
 		"res/img/Terrain/Bricks.png",
 		"res/img/Terrain/Cliff.png",
-		"res/img/Terrain/Sand.png",
+		"res/img/Terrain/Sand.jpg",
 		"res/img/Terrain/blendmap.png"
 	};
 	const auto newMaterial = ResourceManager::Get().CacheMultipleTexMaterial("Terrain", filepaths);
