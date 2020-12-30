@@ -124,20 +124,28 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 		if (line.find("[end]") != std::string::npos)
 		{
 			Model model = Model(objPath);
-			if (alpha)
-				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/modelAlpha.frag", name);
-			else
-				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/" + name + ".frag", name);
+			TransformLayout transLayout(glm::vec3(0, terrain->GetHeightOfTerrain(0, 0), 0));
 
-			StaticMesh staticMesh = StaticMesh(model, TransformLayout(glm::vec3(0, terrain->GetHeightOfTerrain(0, 0), 0)), name, fog);
-			particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));
+			if (alpha)
+			{
+				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/modelAlpha.frag", "ParticuleAlpha");
+				StaticMesh staticMesh = StaticMesh(model, transLayout, "ParticuleAlpha", fog);
+				particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));
+			}
+			else
+			{
+				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/model.frag", "Particule");
+				StaticMesh staticMesh = StaticMesh(model, transLayout, "Particule", fog);
+				particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));
+			}
+
 			name = "";
 			objPath = "";
 			count = 0;
 			size = 0.0f;
 			alpha = false;
 			randomSize = 0.0f;
-			controlPoints.clear();
+			//controlPoints.clear();
 		}
 			
 	}

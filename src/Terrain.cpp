@@ -141,9 +141,9 @@ Mesh Terrain::generateMesh()
 	std::vector<std::string> filepaths = {
 		"res/img/Terrain/Grass.png",
 		"res/img/Terrain/Bricks.png",
-		"res/img/Terrain/Rock.png",
+		"res/img/Terrain/Cliff.png",
 		"res/img/Terrain/Sand.png",
-		"res/img/Terrain/blendmap_mirror.png"
+		"res/img/Terrain/blendmap.png"
 	};
 	const auto newMaterial = ResourceManager::Get().CacheMultipleTexMaterial("Terrain", filepaths);
 	

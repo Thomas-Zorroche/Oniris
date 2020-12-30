@@ -56,7 +56,6 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Model3D_Tex");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
-	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Key");
 
 	// Create Terrain
 	// ==============
@@ -103,7 +102,7 @@ void Scene::Init(const std::string& pathScene)
 	// Particule Systems
 	// =================
 	auto particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
-	for (size_t i = 0; i < _particuleSystem.size(); i++)
+	for (size_t i = 0; i < particuleSystem.size(); i++)
 	{
 		AddParticuleSystem(particuleSystem[i]);
 	}
@@ -152,12 +151,13 @@ void Scene::Draw()
 	for (size_t i = 0; i < _particuleSystemCount; i++)
 	{
 		if (_particuleSystem[i]->Name() == "Grass")
-		{
 			glDepthMask(GL_FALSE);
-		}
+		
 		_particuleSystem[i]->Draw();
+		
+		if (_particuleSystem[i]->Name() == "Grass")
+			glDepthMask(GL_TRUE);
 	}
-	glDepthMask(GL_TRUE);
 
 	//Render all Objects (Narratives & Usable)
 	//========================================
