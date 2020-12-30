@@ -17,6 +17,7 @@ public:
 	//void DistanceBetweenCP(const ControlPointParticule& cp);
 	glm::vec2 Position() const { return _position; }
 	float Radius() const { return _radius; }
+	
 
 private:
 	glm::vec2 _position;
@@ -32,6 +33,7 @@ public:
 		const std::vector<ControlPointParticule>& controlPoints, std::shared_ptr<Terrain>& terrain);
 
 	void Draw();
+	std::string Name() const { return _name; }
 
 private:
 	std::string _name;

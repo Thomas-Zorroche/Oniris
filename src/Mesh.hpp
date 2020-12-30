@@ -25,6 +25,8 @@ public:
 	const std::vector<ShapeVertex>& Vertices() const { return _vertices; }
 	std::vector<ShapeVertex>& Vertices() { return _vertices; }
 
+	const std::shared_ptr<Material>& MaterialPtr() const { return _material; }
+
 
 private:
 	std::vector<ShapeVertex>  _vertices;

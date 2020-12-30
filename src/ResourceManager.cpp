@@ -61,7 +61,8 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 	int width, height, BPP;
 	unsigned char* localBuffer = stbi_load(path.c_str(), &width, &height, &BPP, 4);
 
-	if (!localBuffer) {
+	if (!localBuffer)
+	{
 		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
 		stbi_image_free(localBuffer);
 		// 
@@ -180,10 +181,26 @@ std::shared_ptr<Material> ResourceManager::CacheBasicMaterial(const std::string&
 	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
 }
 
+std::shared_ptr<Material> ResourceManager::CacheMultipleTexMaterial(const std::string& name, const std::vector<std::string>& filespath)
+{
+	Material mat = Material();
+	try
+	{
+		mat.InitMulipleTextures(name, filespath);
+	}
+	catch (const std::string& e)
+	{
+		std::cerr << "[Resource Manager] :: " << e << std::endl;
+	}
+
+	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
+}
+
+
 std::shared_ptr<Material> ResourceManager::CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse)
 {
 	Material mat = Material();
-	mat.InitColorPBR(name, diffuse, glm::vec3(1, 1, 1), glm::vec3(1, 1, 1));
+	mat.InitColorPBR(name, diffuse, 32.0f);
 
 	return _materialCache.insert({ name, std::make_shared<Material>(mat) }).first->second;
 }

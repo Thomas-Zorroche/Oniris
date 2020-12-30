@@ -15,6 +15,11 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
+    // Sprint 
+    // ===================================================================================================
+    float boostSprint = 1.0f;
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        boostSprint = 5.0f;
     // Retrive Screen State from Hud
     // ===================================================================================================
     const ScreenState state = Hud::Get().GetState();
@@ -22,7 +27,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     // If player observes a narrative object, he can not move
     // ===================================================================================================
     if (state != ScreenState::OBJMENU && state != ScreenState::MAPMENU)
-        Movement(window, camera, deltaTime);
+        Movement(window, camera, deltaTime * boostSprint);
 
     camera.updateBox();
 

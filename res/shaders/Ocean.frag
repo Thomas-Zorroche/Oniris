@@ -8,9 +8,10 @@ in vec2 vVertexTexcoords;
 in float vVisibility;
 
 uniform sampler2D u_Diffuse;
-uniform vec3 u_SkyColor;
 
 uniform float u_time;
+
+uniform vec3 u_skyColor;
 
 // 2D Random
 float random (in vec2 st) {
@@ -58,9 +59,9 @@ void main()
     float alphaMask = clamp(mask.r, 0.0, 1.0);    
 
     // Color Ocean
-    vec3 colorBlue = vec3(0.09, 0.49, 0.82);
+    vec3 colorBlue = vec3(0.25, 0.49, 0.82);
     vec3 colorFoam = vec3(0.80, 0.85, 0.90);
     
     fFragColor = vec4(mix(colorBlue, colorFoam, alphaMask), 1.0);
-    fFragColor = mix(vec4(vec3(0.32f, 0.78f, 0.76f), 1.0), fFragColor, vVisibility);
+    fFragColor = mix(vec4(u_skyColor, 1.0), fFragColor, vVisibility);
 };

@@ -43,6 +43,7 @@ public:
 											   const std::string& roughness, const std::string& normal);
 	
 	std::shared_ptr<Material> CacheBasicMaterial(const std::string& name, const std::string& diffuse);
+	std::shared_ptr<Material> CacheMultipleTexMaterial(const std::string& name, const std::vector<std::string>& filespath);
 	std::shared_ptr<Material> CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse);
 
 

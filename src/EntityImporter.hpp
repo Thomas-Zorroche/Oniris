@@ -22,9 +22,13 @@ public:
 	EntityImporter& operator=(const EntityImporter&) = delete;
 
 	std::unordered_map<std::string, std::shared_ptr<Object>> Objects(const std::string& data, std::shared_ptr<Terrain>& terrain) const;
+
 	std::vector<std::shared_ptr<ParticuleSystem> > ParticuleSystems(const std::string& data, std::shared_ptr<Terrain>& terrain, 
 		const std::shared_ptr<Fog>& fog) const;
-	std::vector<std::shared_ptr<StaticMesh> > StaticMeshes() const;
+
+	std::vector<std::shared_ptr<StaticMesh> > StaticMeshes(const std::string& data, std::shared_ptr<Terrain>& terrain,
+		const std::shared_ptr<Fog>& fog) const;
+
 
 private:
 	EntityImporter() = default;

@@ -9,7 +9,7 @@ class Ocean
 public:
 	Ocean(const std::shared_ptr<Fog>& fog);
 
-	void Draw();
+	void Draw(const std::shared_ptr<Fog>& fog);
 
 
 private:

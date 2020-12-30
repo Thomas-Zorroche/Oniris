@@ -7,26 +7,22 @@
 
 #include <iostream>
 
+const int Material::NumberTexturesMax = 5;
 
 Material::Material()
-	: _materialColor { glm::vec3(0.0f), glm::vec3(0.0f) , glm::vec3(0.0f) },
-	  _materialTexture { 0, 0, 0 } {}
+	: _shininess(1.0f), _ambient(glm::vec3(0.8, 0.8, 0.8)), _diffuse(glm::vec3(0.8, 0.8, 0.8)), _specular(glm::vec3(0.5, 0.5, 0.5)),
+	  _materialTextures { 0, 0, 0, 0, 0 } {}
 
-//Material::Material(const Material& m)
-//	: _name(m._name),
-//	  _materialColor{ m._materialColor[0], m._materialColor[1] , m._materialColor[2] },
-//	  _materialTexture{ m._materialTexture[0], m._materialTexture[1], m._materialTexture[2] } 
-//{
-//	std::cout << "[MATERIAL] COPY CONSTRUCTOR" << std::endl;
-//}
-
-
-
+/*
+* InitBasic		 : Basic material with just a diffuse texutre
+* InitTexturePBR : PBR material wiht diffuse, rougness and normal textures
+* InitColorPBR   : PBR material with const vec3 colors as parameters
+*/
 void Material::InitBasic(const std::string& name, const std::string& diffusePath)
 {
 	_name = name;
 
-	_materialTexture[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
+	_materialTextures[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
 }
 
 void Material::InitTexturePBR(const std::string& name, const std::string& diffusePath,
@@ -34,32 +30,56 @@ void Material::InitTexturePBR(const std::string& name, const std::string& diffus
 {
 	_name = name;
 
-	_materialTexture[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
-	_materialTexture[ROUGHNESS] = ResourceManager::Get().LoadTexture(roughnessPath, ROUGHNESS).Id();
-	_materialTexture[NORMAL] = ResourceManager::Get().LoadTexture(normalPath, NORMAL).Id();
+	_materialTextures[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
+	_materialTextures[ROUGHNESS] = ResourceManager::Get().LoadTexture(roughnessPath, ROUGHNESS).Id();
+	_materialTextures[NORMAL] = ResourceManager::Get().LoadTexture(normalPath, NORMAL).Id();
 }
 
-void Material::InitColorPBR(const std::string& name, const glm::vec3& diffuse,
-	const glm::vec3& normal, const glm::vec3& roughness)
+void Material::InitColorPBR(const std::string& name, const glm::vec3& color, float shininess)
 {
 	_name = name;
 
-	_materialColor[DIFFUSE] = diffuse;
-	_materialColor[ROUGHNESS] = roughness;
-	_materialColor[NORMAL] = normal;
+	_diffuse = color;
+	_ambient = color;
+	_specular = glm::vec3(0.5, 0.5, 0.5);
+
+	_shininess = shininess;
 }
 
+void Material::InitMulipleTextures(const std::string& name, const std::vector<std::string>& texturesPath)
+{
+	_name = name;
+
+	if (texturesPath.size() > NumberTexturesMax)
+		throw std::string("Too much textures for a single material. Limit is 5 textures.");
+
+	for (size_t i = 0; i < texturesPath.size(); i++)
+	{
+		_materialTextures[i] = ResourceManager::Get().LoadTexture(texturesPath[i], DIFFUSE).Id();
+	}
+}
+
+
+/*
+* Getter Parameter
+*/
 unsigned int Material::GetParameterTexture(const TextureType parameter) const
 {
-	return _materialTexture[parameter];
+	return _materialTextures[parameter];
 }
-
 unsigned int Material::GetParameterTexture(int index) const
 {
-	return _materialTexture[index];
+	return _materialTextures[index];
 }
 
-glm::vec3 Material::GetParameterColor(const TextureType parameter) const
+
+/*
+* Send Uniforms
+*/
+void Material::SendMaterialUniform(std::shared_ptr<Shader>& shader)
 {
-	return _materialColor[parameter];
+	shader->SetUniform3f("material.ambient", _ambient);
+	shader->SetUniform3f("material.diffuse", _diffuse);
+	shader->SetUniform3f("material.specular", _specular);
+	shader->SetUniform1f("material.shininess", _shininess);
 }

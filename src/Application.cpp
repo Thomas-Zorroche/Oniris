@@ -5,17 +5,11 @@
 
 #include "Renderer.hpp"
 #include "Camera.hpp"
-#include "Mesh.hpp"
-#include "Model.hpp"
-#include "StaticMesh.hpp"
-#include "Terrain.hpp"
 #include "Scene.hpp"
 #include "CollisionManager.hpp"
 #include "InputHandler.hpp"
 #include "Hud.hpp"
-#include "ShapeCube.hpp"
 #include "AudioManager.hpp"
-
 
 
 void mainloop(GLFWwindow* window)

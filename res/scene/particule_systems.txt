@@ -1,39 +1,102 @@
 #ParticuleSystem
+
+//
+// TREES
+//
 [name] Trees
-[obj] res/models/trees/Sapin_02.obj
-[count] 300
-[size] 1.7 0.5
-[cp] 300 700 1 60
-[cp] 300 600 1 60
-[cp] 200 600 1 70
-[cp] 400 700 1 60
-[cp] 600 700 1 60
-[cp] 600 800 1 70
-[cp] 600 600 1 60
+[obj] res/models/particules/tree01.obj
+[alpha] 0
+[count] 200
+[size] 1.3 0.5
+[cp] 200 400 1 40
+[cp] 200 500 1 40
+[cp] 300 200 1 40
+[cp] 300 300 1 40
+[cp] 300 400 1 40
+[cp] 300 700 1 40
+[cp] 400 200 1 40
+[cp] 400 300 1 40
+[cp] 400 400 1 40
+[cp] 400 600 1 40
+[cp] 400 700 1 40
+[cp] 700 100 1 25
+[cp] 700 500 1 35
+[cp] 700 700 1 40
+[cp] 800 300 1 20
+[cp] 800 600 1 40
+[cp] 800 700 1 40
+[end]
+[name] Trees
+[obj] res/models/particules/tree03.obj
+[alpha] 0
+[count] 100
+[size] 1.8 0.5
+[end]
+[name] Trees
+[obj] res/models/particules/tree04.obj
+[alpha] 0
+[count] 100
+[size] 1.8 0.5
+[end]
+[name] Trees
+[obj] res/models/particules/tree05.obj
+[alpha] 0
+[count] 100
+[size] 1.8 0.5
+[end]
+[name] Trees
+[obj] res/models/particules/tree06.obj
+[alpha] 0
+[count] 100
+[size] 1.8 0.5
 [end]
 
-[name] Trees
-[obj] res/models/trees/Sapin_01.obj
-[count] 150
-[size] 1.7 0.5
-[cp] 300 700 1 60
-[cp] 300 600 1 60
-[cp] 200 600 1 70
-[cp] 400 700 1 60
-[cp] 600 700 1 60
-[cp] 600 800 1 70
-[cp] 600 600 1 60
+//
+// Rocks
+//
+[name] Rocks
+[obj] res/models/particules/rock01.obj
+[alpha] 0
+[count] 75
+[size] 1.0 0.2
 [end]
-
-[name] Grass
-[obj] res/models/particules/grass.obj
-[count] 5000
+[name] Rocks
+[obj] res/models/particules/rock02.obj
+[alpha] 0
+[count] 75
+[size] 1.0 0.2
+[end]
+[name] Rocks
+[obj] res/models/particules/rock03.obj
+[alpha] 0
+[count] 25
 [size] 0.8 0.2
-[cp] 300 700 1 60
-[cp] 300 600 1 60
-[cp] 200 600 1 70
-[cp] 400 700 1 60
-[cp] 600 700 1 60
-[cp] 600 800 1 70
-[cp] 600 600 1 60
+[end]
+
+
+//
+// Foliage
+//
+[name] Foliage
+[obj] res/models/particules/mushroom01.obj
+[alpha] 0
+[count] 300
+[size] 1.0 0.5
+[end]
+[name] Foliage
+[obj] res/models/particules/mushroom02.obj
+[alpha] 0
+[count] 300
+[size] 1.0 0.5
+[end]
+
+
+//
+// Billboard
+//
+[name] Grass
+[obj] res/models/particules/grass_billboard.obj
+[alpha] 1
+[count] 10000
+[size] 0.8 0.2
 [end]

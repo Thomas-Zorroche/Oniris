@@ -1,6 +1,5 @@
 ﻿#include "Skybox.hpp"
-
-
+#include "Fog.hpp"
 
 
 Skybox::Skybox(const std::vector<std::string>& faces)
@@ -36,16 +35,13 @@ void Skybox::GenerateMesh()
     _mesh = std::make_shared<Mesh>(vertices, std::make_shared<Material>());
 }
 
-void Skybox::Draw()
+void Skybox::Draw(const std::shared_ptr<Fog>& fog)
 {
     glDepthFunc(GL_LEQUAL);
     
-    auto shader = ResourceManager::Get().GetShader("Skybox");
+    SendUniforms(fog);
 
-    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), shader, true);
-
-    shader->Bind();
-    LoadAllUniforms();
+    _shader->Bind();
 
     glBindVertexArray(_mesh->GetVAO());
     glActiveTexture(GL_TEXTURE0);
@@ -53,8 +49,21 @@ void Skybox::Draw()
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 
+    _shader->Unbind();
+
     glDepthFunc(GL_LESS); 
 }
+
+void Skybox::SendUniforms(const std::shared_ptr<Fog>& fog)
+{
+    _shader->Bind();
+    _shader->SetUniform3f("u_skyColor", fog->ColorSky());
+    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader, true);
+
+
+    _shader->Unbind();
+}
+
 
 
 

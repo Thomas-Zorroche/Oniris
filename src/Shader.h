@@ -29,6 +29,7 @@ public:
 	unsigned int getID() { return m_RendererID; }
 
 	// Set uniforms
+	void SetUniform4f(const std::string& name, const glm::vec4& values);
 	void SetUniform4f(const std::string& name, float f1, float f2, float f3, float f4);
 	void SetUniform3f(const std::string& name, float f1, float f2, float f3);
 	void SetUniform3f(const std::string& name, const glm::vec3& values);

@@ -47,7 +47,6 @@ public:
 
 	// Getters Collision Data
 	std::shared_ptr<CollisionBox> GetCollisionBox() { return _cBox; }
-	//const std::vector<HitCollisionAxis>& BlockAxis() const { return _blockAxis; }
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
