@@ -13,6 +13,11 @@ void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 	{
 		if (_lights[i]->Type() == LightType::POINT)
 		{
+			if (_lightsOn)
+				shader->SetUniform1f("pointLight.intensity", _lights[i]->Intensity());
+			else
+				shader->SetUniform1f("pointLight.intensity", 0.0f);
+			
 			shader->SetUniform3f("pointLight.ambient", _lights[i]->Ambient());
 			shader->SetUniform3f("pointLight.diffuse", _lights[i]->Diffuse());
 			shader->SetUniform3f("pointLight.specular", _lights[i]->Specular());
@@ -25,6 +30,11 @@ void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 		}
 		else if (_lights[i]->Type() == LightType::DIR)
 		{
+			if (_lightsOn)
+				shader->SetUniform1f("dirLight.intensity", _lights[i]->Intensity());
+			else
+				shader->SetUniform1f("dirLight.intensity", 0.0f);
+			
 			shader->SetUniform3f("dirLight.ambient", _lights[i]->Ambient());
 			shader->SetUniform3f("dirLight.diffuse", _lights[i]->Diffuse());
 			shader->SetUniform3f("dirLight.specular", _lights[i]->Specular());
@@ -72,4 +82,12 @@ void LightManager::AddDirLight(const BaseLightPtr& light)
 	{
 		throw std::string("Cannot have more than one directional light in the scene.");
 	}
+}
+
+void LightManager::SwitchLights()
+{
+	if (_lightsOn)
+		_lightsOn = false;
+	else
+		_lightsOn = true;
 }

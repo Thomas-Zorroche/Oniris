@@ -10,6 +10,7 @@ struct Material
 
 struct PointLight 
 {
+    float intensity;
     vec3 position;  
   
     vec3 ambient;
@@ -23,6 +24,7 @@ struct PointLight
 
 struct DirLight 
 {
+    float intensity;
     vec3 direction;
   
     vec3 ambient;
@@ -118,11 +120,10 @@ vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fr
     float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     float attenuation = 1.0 / (1.0f + light.linear * distance + light.quadratic * (distance * distance));  
-    float boost = 10.0f;
     
-    vec3 ambient = light.ambient * material.ambient * attenuation * boost;
-    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation * boost;
-    vec3 specular = light.specular * material.specular * specularStrength * attenuation * boost;
+    vec3 ambient = light.ambient * material.ambient * attenuation * light.intensity;
+    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation * light.intensity;
+    vec3 specular = light.specular * material.specular * specularStrength * attenuation * light.intensity;
 
     return vec3(ambient + diffuse + specular);
 }

@@ -82,7 +82,7 @@ void StaticMesh::Rotate(const glm::vec3& alpha)
 		_globalRotation += (alpha.x + alpha.y + alpha.z);
 		if ((int)_globalRotation % 90 != 0 || _globalRotation < 0 || _globalRotation > 270)
 			throw std::string("Impossible to rotate to this angle due to the Collision Box.");
-		_angleCBox = (RotationCBox)(_globalRotation / 90.0f);
+		_angleCBox = (RotationCBox)((int)_globalRotation / 90);
 		updateCBox();
 	}
 }

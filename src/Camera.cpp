@@ -100,8 +100,8 @@ void Camera::MoveFront(float deltaTime)
 	
 	computeDirectionVectors();
 
-	//std::cout << _Position.x << " " << _Position.z << std::endl;
-	//std::cout << _Position.y << std::endl;
+	std::cout << _Position.x << " " << _Position.z << std::endl;
+	std::cout << _Position.y << std::endl;
 }
 void Camera::MoveLeft(float deltaTime)
 {

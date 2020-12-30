@@ -9,21 +9,40 @@
 [obj] res/models/map/map.obj
 [pos] 250 250
 [end]
+
 [name] cristal_0
 [type] Uc
 [obj] res/models/key/key.obj
 [pos] 450 250
 [end]
+
 [name] cristal_1
 [type] Uc
 [obj] res/models/key/key.obj
 [pos] 450 200
 [end]
+
+//
+// INTERACTIVE OBJECT
+//
 [name] light
 [type] Il
-[obj] res/models/key/key.obj
-[pos] 550 250
+[obj] res/models/IO_objects/IOGeneratorEvent.obj
+[objIO] res/models/IO_objects/IOGenerator.obj
+[pos] 852 376
 [end]
+
+[name] door
+[type] Id
+[obj] res/models/IO_objects/IODoorEvent.obj
+[objIO] res/models/IO_objects/IODoor.obj
+[pos] 595 158
+[end]
+
+
+//
+// NARRATIVE
+//
 [name] liste
 [type] N
 [obj] res/models/map/map.obj

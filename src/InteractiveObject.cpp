@@ -1,11 +1,11 @@
 #include "InteractiveObject.hpp"
 #include "Hud.hpp"
 #include "InputHandler.hpp"
+#include "StaticMesh.hpp"
 
-InteractiveObject::InteractiveObject(const Model& model, const glm::vec3& position, const std::string& panelName)
-	: Object(model, position), _panelName(panelName)
+InteractiveObject::InteractiveObject(const Model& model, const glm::vec3& position, const std::string& panelName, const std::shared_ptr<StaticMesh>& ioObject)
+	: Object(model, position), _panelName(panelName), _ioObject(ioObject)
 {
-
 }
 
 InteractiveObject::~InteractiveObject() {};
