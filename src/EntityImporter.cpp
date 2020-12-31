@@ -273,6 +273,7 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 	std::string objPath;
 	std::string texPath;
 	glm::vec3 position = glm::vec3();
+	int rotation = 0;
 	std::string objPathIO;
 
 	while (getline(stream, line))
@@ -310,6 +311,11 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 			texPath = line.substr(std::string("[tex]").length() + 1);
 		}
 
+		if (line.find("[rot]") != std::string::npos)
+		{
+			rotation = std::stof(line.substr(std::string("[scl]").length() + 1));
+		}
+
 		if (line.find("[pos]") != std::string::npos)
 		{
 			line.erase(0, std::string("[pos]").length() + 1);
@@ -324,10 +330,10 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 				switch (i)
 				{
 				case 0:
-					position.x = std::stoi(token);
+					position.x = std::stof(token);
 					break;
 				case 1:
-					position.z = std::stoi(token);
+					position.z = std::stof(token);
 					break;
 				}
 				line.erase(0, pos + delimiter.length());
@@ -360,12 +366,13 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 			else if (type == "Il" || type == "Id")
 			{
 				CollisionLayout cLayout(true, true, false);
-				auto ioObjectPtr = std::make_shared<StaticMesh>(Model(objPathIO), TransformLayout(position), "Model3D_Tex", fog, cLayout);
+				TransformLayout transLayout(position, glm::vec3(0, rotation, 0));
+				auto ioObjectPtr = std::make_shared<StaticMesh>(Model(objPathIO), transLayout, "Model3D_Tex", fog, cLayout);
 				ioObjects.push_back(ioObjectPtr);
 				if (type == "Il")
-					object = std::make_shared<IOLight>(model, position, "p_lightup", ioObjectPtr);
+					object = std::make_shared<IOLight>(model, transLayout, "p_lightup", ioObjectPtr);
 				else
-					object = std::make_shared<IODoor>(model, position, "p_open", ioObjectPtr);
+					object = std::make_shared<IODoor>(model, transLayout, "p_open", ioObjectPtr);
 			}	
 
 				
@@ -378,6 +385,7 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 			texPath = "";
 			position = glm::vec3();
 			objPathIO = "";
+			rotation = 0;
 		}
 
 	}

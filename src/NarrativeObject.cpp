@@ -1,8 +1,9 @@
 #include "NarrativeObject.hpp"
 #include "InputHandler.hpp"
+#include "StaticMesh.hpp"
 
-NarrativeObject::NarrativeObject(const Model& model, const glm::vec3& position, const std::string& panelName)
-	: Object(model, position), _panelName(panelName)
+NarrativeObject::NarrativeObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName)
+	: Object(model, transLayout), _panelName(panelName)
 {
 
 }

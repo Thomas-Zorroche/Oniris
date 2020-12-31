@@ -1,8 +1,9 @@
 #include "UsableObject.hpp"
 #include "ResourceManager.hpp"
+#include "StaticMesh.hpp"
 
-UsableObject::UsableObject(const Model& model, const glm::vec3& position, const std::string& panelName, const std::string& type)
-	: Object(model, position), _panelName(panelName), _Type(type)
+UsableObject::UsableObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName, const std::string& type)
+	: Object(model, transLayout), _panelName(panelName), _Type(type)
 {
 
 }

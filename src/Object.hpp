@@ -4,6 +4,7 @@
 #include "glm/glm.hpp"
 
 class StaticMesh;
+class TransformLayout;
 
 //
 // Object is an Interface 
@@ -11,7 +12,7 @@ class StaticMesh;
 class Object
 {
 public:
-	Object(const Model& model, const glm::vec3& position);
+	Object(const Model& model, const TransformLayout& transLayout);
 	virtual ~Object();
 
 	void Draw();

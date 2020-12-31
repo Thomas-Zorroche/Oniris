@@ -4,12 +4,12 @@
 #include "InputHandler.hpp"
 #include "Game.hpp"
 
-
+class TransformLayout;
 
 class UsableObject : public Object
 {
 public:
-	UsableObject(const Model& model, const glm::vec3& position, const std::string& panelName, const std::string& type);
+	UsableObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName, const std::string& type);
 	~UsableObject();
 
 	void OnOverlap() override;
