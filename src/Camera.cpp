@@ -5,7 +5,7 @@ float Lerp(float start, float end, float t);
 
 Camera::Camera(const std::shared_ptr<Terrain>& terrain)
 	: _terrain(terrain), 
-	_Position(550, _terrain->GetHeightOfTerrain(550, 880) + _HeightCamera, 880), _phi(M_PI), _theta(0), _CanTurn(false),
+	_Position(550, 1500 + _HeightCamera, 880), _phi(M_PI), _theta(0), _CanTurn(false),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f),
 	_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth))	
 {
@@ -25,7 +25,7 @@ void Camera::updateBox()
 
 void Camera::MoveFront(float deltaTime)
 {
-	//std::cout << _Position.x << "  " << _Position.z << std::endl;
+	std::cout << _Position.x << "  " << _Position.z << std::endl;
 	
 	float dirX = glm::dot(_FrontVector, glm::vec3(1, 0, 0));
 	float dirZ = glm::dot(_FrontVector, glm::vec3(0, 0, 1));

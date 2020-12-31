@@ -12,6 +12,7 @@
 #include "IODoor.hpp"
 #include "Panel.hpp"
 #include "Hud.hpp"
+#include "CreateCrystal.hpp"
 
 #include "glm/glm.hpp"
 
@@ -349,8 +350,6 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 				object = std::make_shared<UsableObject>(model, position, "o_" + name, "map");
 			else if (type == "Uk") 
 				object = std::make_shared<UsableObject>(model, position, "o_" + name, "key");
-			else if (type == "Uc")
-				object = std::make_shared<UsableObject>(model, position, "o_" + name, "crystal");
 			else if (type == "N")
 			{
 				Panel panel = Panel(texPath, "o_" + name, 0.4, 0, 1, 512, 1, false);
@@ -382,6 +381,9 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 
 	}
 	// End while loop
+
+	//create crystal
+	CreateCrystal crystal = CreateCrystal(objects, *terrain);
 
 	return { objects, ioObjects };
 }

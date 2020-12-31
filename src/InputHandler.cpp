@@ -66,8 +66,6 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Observe Narrative Object Panel
     // ===================================================================================================
-    std::cout << (int)state << std::endl;
-
     if (state == ScreenState::OVERLAP_NO || state == ScreenState::OBJMENU)
     {
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && _ActiveKey != ActiveKey::E)

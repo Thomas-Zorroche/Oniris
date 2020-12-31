@@ -13,7 +13,7 @@
 [type] N
 [obj] res/models/objects/carnet.obj
 [tex] res/img/object/compte.png
-[pos] 650 200
+[pos] 645 200
 [end]
 
 [name] coins
@@ -55,14 +55,14 @@
 [type] N
 [obj] res/models/objects/paper.obj
 [tex] res/img/object/notes.png
-[pos] 800 390
+[pos] 800 430
 [end]
 
 [name] mot
 [type] N
 [obj] res/models/objects/paper.obj
 [tex] res/img/object/mot.png
-[pos] 600 290
+[pos] 590 290
 [end]
 
 [name] telegramme
