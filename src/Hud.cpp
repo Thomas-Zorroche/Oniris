@@ -16,9 +16,9 @@ void Hud::Init()
 	AddPanel("p_observe", std::make_shared<Panel>("res/img/e_observe.png", "p_observe", 0.0, -0.9, 0.5, 288, 1, false));
 	AddPanel("p_lightup", std::make_shared<Panel>("res/img/e_allumer.png", "p_lightup", 0.0, -0.9, 0.5, 288, 1, false));
 	AddPanel("p_open", std::make_shared<Panel>("res/img/e_ouvrir.png", "p_open", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_close", std::make_shared<Panel>("res/img/e_close.png", "p_close", 0.0, -0.9, 0.5, 288, 1, false));
 	AddPanel("p_lightoff", std::make_shared<Panel>("res/img/e_lightoff.png", "p_lightoff", 0.0, -0.9, 0.5, 288, 1, false));
 	AddPanel("p_crystal", std::make_shared<Panel>("res/img/ui_crystal.png", "p_crystal", 0.8, -0.7, 1.0, 128, 5, true));
-	AddPanel("p_health", std::make_shared<Panel>("res/img/ui_health.png", "p_health", 0.811, -0.7, 1.0, 128, 8, true));
 	AddPanel("p_menuNarrativeObject", std::make_shared<Panel>("res/img/object/menuNarrativeObject.png", "p_menuNarrativeObject", 0, 0, 1, 1280, 1, false));
 	AddPanel("p_menuMap", std::make_shared<Panel>("res/img/mapmenu.png", "p_menuMap", 0, 0, 1, 1280, 1, false));
 	AddPanel("p_target", std::make_shared<TargetPanel>("res/img/target.png", "p_target", 0, 0, 1.0, 8, 2, true));
@@ -51,7 +51,6 @@ void Hud::Update()
 	{
 		_panels.find("p_key")->second->setVisibility(true);
 		_panels.find("p_map")->second->setVisibility(true);
-		_panels.find("p_health")->second->setVisibility(true);
 		_panels.find("p_crystal")->second->setVisibility(true);
 		_panels.find("p_target")->second->setVisibility(true);
 	}
