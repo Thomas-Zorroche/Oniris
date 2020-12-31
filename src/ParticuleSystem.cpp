@@ -13,6 +13,7 @@
 #include <string>
 #include <random>
 #include <chrono>
+#include <iostream>
 
 
 ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count, float size, float randomSize,
@@ -35,7 +36,7 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
         std::normal_distribution<double> normalDistributionZ(meanZ, stdev);
         
         // Random Positions
-        for (size_t i = 0; i < _count / _controlPoints.size(); i++)
+        for (size_t i = 0; i < _count / (float)_controlPoints.size(); i++)
         {
             glm::vec3 trans;
             trans.x = normalDistributionX(generator);
@@ -46,12 +47,12 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
 
         // Random Scales
         std::uniform_real_distribution<float> uniformRealDistribution(_size - _randomSize, _size + _randomSize);
-        for (size_t i = 0; i < _count / _controlPoints.size(); i++)
+        for (size_t i = 0; i < _count / (float)_controlPoints.size(); i++)
         {
             scales.push_back(uniformRealDistribution(generator));
         }
     }
-
+    
 
     // Instanced Array Attribute
     glBindVertexArray(_instanceVAO);

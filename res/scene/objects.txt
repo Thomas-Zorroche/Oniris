@@ -109,7 +109,26 @@
 [obj] res/models/IO_objects/IODoorEvent.obj
 [objIO] res/models/IO_objects/IODoor.obj
 [pos] 595 158
+[rot] 0
 [end]
+
+[name] door02
+[type] Id
+[obj] res/models/IO_objects/IODoorEvent.obj
+[objIO] res/models/IO_objects/IODoor.obj
+[pos] 607 262
+[rot] 180
+[end]
+
+[name] door03
+[type] Id
+[obj] res/models/IO_objects/IODoorEvent.obj
+[objIO] res/models/IO_objects/IODoor.obj
+[pos] 652 193
+[rot] 270
+[end]
+
+
 
 // Key and Map
 

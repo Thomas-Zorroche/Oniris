@@ -39,6 +39,37 @@
 [scl] 2.2
 [end]
 
+[obj] res/models/Crate.obj
+[loc] 648 171
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crate.obj
+[loc] 641 167
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crate.obj
+[loc] 634 234
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crate.obj
+[loc] 631 244
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crates.obj
+[loc] 642 245
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crates.obj
+[loc] 569 155
+[rot] 0 0 0
+[scl] 1.4
+[end]
+
 //
 // Fences
 //

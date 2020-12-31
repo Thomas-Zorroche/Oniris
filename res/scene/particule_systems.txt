@@ -6,48 +6,57 @@
 [name] Trees
 [obj] res/models/particules/tree01.obj
 [alpha] 0
-[count] 200
+[count] 300
 [size] 1.3 0.5
+[cp] 136 608 1 40
 [cp] 200 400 1 40
 [cp] 200 500 1 40
 [cp] 300 200 1 40
 [cp] 300 300 1 40
 [cp] 300 400 1 40
 [cp] 300 700 1 40
+[cp] 318 504 1 40
 [cp] 400 200 1 40
 [cp] 400 300 1 40
 [cp] 400 400 1 40
 [cp] 400 600 1 40
 [cp] 400 700 1 40
+[cp] 587 665 1 40
+[cp] 587 384 1 40
+[cp] 509 792 1 40
+[cp] 618 84 1 20
 [cp] 700 100 1 25
 [cp] 700 500 1 35
 [cp] 700 700 1 40
+[cp] 738 178 1 35
 [cp] 800 300 1 20
 [cp] 800 600 1 40
 [cp] 800 700 1 40
+[cp] 837 554 1 40
+[cp] 854 268 1 40
 [end]
 [name] Trees
 [obj] res/models/particules/tree03.obj
 [alpha] 0
-[count] 100
+[count] 150
 [size] 1.8 0.5
 [end]
 [name] Trees
 [obj] res/models/particules/tree04.obj
 [alpha] 0
-[count] 100
+[count] 150
 [size] 1.8 0.5
 [end]
 [name] Trees
 [obj] res/models/particules/tree05.obj
 [alpha] 0
-[count] 100
+[count] 150
 [size] 1.8 0.5
 [end]
 [name] Trees
 [obj] res/models/particules/tree06.obj
 [alpha] 0
-[count] 100
+[count] 150
 [size] 1.8 0.5
 [end]
 
@@ -57,19 +66,19 @@
 [name] Rocks
 [obj] res/models/particules/rock01.obj
 [alpha] 0
-[count] 75
+[count] 110
 [size] 1.0 0.2
 [end]
 [name] Rocks
 [obj] res/models/particules/rock02.obj
 [alpha] 0
-[count] 75
+[count] 110
 [size] 1.0 0.2
 [end]
 [name] Rocks
 [obj] res/models/particules/rock03.obj
 [alpha] 0
-[count] 25
+[count] 40
 [size] 0.8 0.2
 [end]
 
@@ -80,13 +89,13 @@
 [name] Foliage
 [obj] res/models/particules/mushroom01.obj
 [alpha] 0
-[count] 300
+[count] 450
 [size] 1.0 0.5
 [end]
 [name] Foliage
 [obj] res/models/particules/mushroom02.obj
 [alpha] 0
-[count] 300
+[count] 450
 [size] 1.0 0.5
 [end]
 
@@ -97,6 +106,6 @@
 [name] Grass
 [obj] res/models/particules/grass_billboard.obj
 [alpha] 1
-[count] 10000
+[count] 50000
 [size] 0.8 0.2
 [end]

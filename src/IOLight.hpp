@@ -8,8 +8,8 @@ class StaticMesh;
 class IOLight : public InteractiveObject
 {
 public:
-	IOLight(const Model& model, const glm::vec3& position, const std::string& panelName, const std::shared_ptr<StaticMesh>& ioObject) 
-		: InteractiveObject(model, position, panelName, ioObject){};
+	IOLight(const Model& model, const TransformLayout& transLayout, const std::string& panelName, const std::shared_ptr<StaticMesh>& ioObject) 
+		: InteractiveObject(model, transLayout, panelName, ioObject){};
 	
 
 private:

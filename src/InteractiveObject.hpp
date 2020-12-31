@@ -4,12 +4,13 @@
 #include <memory>
 
 class StaticMesh;
+class TransformLayout;
 
 
 class InteractiveObject : public Object
 {
 public:
-	InteractiveObject(const Model& model, const glm::vec3& position, const std::string& panelName, 
+	InteractiveObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName,
 		const std::shared_ptr<StaticMesh>& ioObject);
 
 	~InteractiveObject();
