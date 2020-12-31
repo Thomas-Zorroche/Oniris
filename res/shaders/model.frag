@@ -40,6 +40,7 @@ struct Fog
     float upperLimitFog;
 }; 
 
+#define POINT_LIGHTS_COUNT 2
 
 out vec4 fFragColor;
 
@@ -51,7 +52,7 @@ in vec3 vNormal_os;
 
 uniform Material material;
 uniform DirLight dirLight;
-uniform PointLight pointLight;
+uniform PointLight pointLights[POINT_LIGHTS_COUNT];
 uniform Fog fog;
 
 uniform vec3 cameraPos;
@@ -80,7 +81,9 @@ void main()
     // Lighting
     vec3 finalColor = vec3(0.0f);
     finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
-    finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
+
+    for (int i = 0; i < POINT_LIGHTS_COUNT; i++)
+        finalColor += ComputePointLight(material, pointLights[i], Normal_vs, vFragPos_vs, viewDir_vs);
 
     // Texture
     fFragColor = texture(texture_diffuse, vVertexTexcoords * uvScale) * vec4(finalColor, 1.0f);

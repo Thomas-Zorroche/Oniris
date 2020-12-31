@@ -9,24 +9,34 @@
 
 void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 {
+	int indexPointLights = 0;
+
 	for (size_t i = 0; i < _lights.size(); i++)
 	{
+
 		if (_lights[i]->Type() == LightType::POINT)
 		{
+			std::string n = std::to_string(indexPointLights);
+
+			if (indexPointLights > 2)
+				throw std::string("Can't have more than " + std::to_string(indexPointLights - 1) + " on the scene.");
+
 			if (_lightsOn)
-				shader->SetUniform1f("pointLight.intensity", _lights[i]->Intensity());
+				shader->SetUniform1f("pointLights["+n+"].intensity", _lights[i]->Intensity());
 			else
-				shader->SetUniform1f("pointLight.intensity", 0.0f);
+				shader->SetUniform1f("pointLights["+n+"].intensity", 0.0f);
 			
-			shader->SetUniform3f("pointLight.ambient", _lights[i]->Ambient());
-			shader->SetUniform3f("pointLight.diffuse", _lights[i]->Diffuse());
-			shader->SetUniform3f("pointLight.specular", _lights[i]->Specular());
+			shader->SetUniform3f("pointLights["+n+"].ambient", _lights[i]->Ambient());
+			shader->SetUniform3f("pointLights["+n+"].diffuse", _lights[i]->Diffuse());
+			shader->SetUniform3f("pointLights["+n+"].specular", _lights[i]->Specular());
 			std::vector<glm::vec3> data = _lights[i]->GetSpecialData();
 			glm::vec3 position = glm::vec3(Renderer::Get().View() * glm::vec4(_lights[i]->GetSpecialData()[0], 1));
-			shader->SetUniform3f("pointLight.position", position);
-			shader->SetUniform1f("pointLight.constant", 1.0f);
-			shader->SetUniform1f("pointLight.linear", data[1].y);
-			shader->SetUniform1f("pointLight.quadratic", data[1].z);
+			shader->SetUniform3f("pointLights["+n+"].position", position);
+			shader->SetUniform1f("pointLights["+n+"].constant", 1.0f);
+			shader->SetUniform1f("pointLights["+n+"].linear", data[1].y);
+			shader->SetUniform1f("pointLights["+n+"].quadratic", data[1].z);
+
+			indexPointLights++;
 		}
 		else if (_lights[i]->Type() == LightType::DIR)
 		{
