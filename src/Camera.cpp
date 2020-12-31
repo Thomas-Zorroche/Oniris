@@ -22,8 +22,6 @@ void Camera::updateBox()
 
 void Camera::MoveFront(float deltaTime)
 {
-	//std::cout << _Position.x << "  " << _Position.z << std::endl;
-	
 	float dirX = glm::dot(_FrontVector, glm::vec3(1, 0, 0));
 	float dirZ = glm::dot(_FrontVector, glm::vec3(0, 0, 1));
 
@@ -91,7 +89,8 @@ void Camera::MoveFront(float deltaTime)
 	}
 
 	_Position.y = Lerp(_Position.y, _terrain->GetHeightOfTerrain(_Position.x, _Position.z) +_HeightCamera, abs(deltaTime) * _responsiveness);
-	
+	_Position.y = glm::clamp(_Position.y, 12.0f, 100.0f);
+
 	_cameraTime += abs(deltaTime);
 	float offset_factor = sin(_cameraTime * _frequenceShake) * _amplitudeShake;
 
@@ -99,7 +98,7 @@ void Camera::MoveFront(float deltaTime)
 	
 	computeDirectionVectors();
 
-	std::cout << _Position.x << " " << _Position.z << std::endl;
+	//std::cout << _Position.x << " " << _Position.z << std::endl;
 	//std::cout << _Position.y << std::endl;
 }
 void Camera::MoveLeft(float deltaTime)
@@ -159,14 +158,14 @@ void Camera::computeDirectionVectors()
 void Camera::MoveX(float dir)
 {
 	_Position.x += dir * _FrontVector.x;
-	if (CheckNormal())
+	if (CheckNormal() || _Position.x < 0.0f || _Position.x > 1024.0f)
 		_Position.x -= dir * _FrontVector.x;
 }
 
 void Camera::MoveZ(float dir)
 {
 	_Position.z += dir * _FrontVector.z;
-	if (CheckNormal())
+	if (CheckNormal() || _Position.z < 0.0f || _Position.z > 1024.0f)
 		_Position.z -= dir * _FrontVector.z;
 }
 

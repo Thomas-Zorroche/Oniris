@@ -19,7 +19,8 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     // ===================================================================================================
     float boostSprint = 1.0f;
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        boostSprint = 5.0f;
+        boostSprint = 5.0f; 
+    // Remettre 2 pour la release
 
     // Retrive Screen State from Hud
     // ===================================================================================================
