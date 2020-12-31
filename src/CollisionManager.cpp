@@ -50,7 +50,8 @@ void CollisionManager::CheckCollisions()
 
 	if (countCollision == 0)
 	{
-		Hud::Get().SetState(ScreenState::INGAME);
+		if(Hud::Get().GetState() != ScreenState::MAPMENU)
+			Hud::Get().SetState(ScreenState::INGAME);
 	}
 	
 	_camera->BlockMovement(AxisHit);
