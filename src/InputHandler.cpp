@@ -119,7 +119,7 @@ void InputHandler::Movement(GLFWwindow* window, Camera& camera, float deltaTime)
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
     {
-        AudioManager::Get().Play("res/audio/footsteps.mp3", 0.5f);
+        AudioManager::Get().Play("res/audio/footsteps.mp3", 0.2f);
         camera.MoveFront(deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty

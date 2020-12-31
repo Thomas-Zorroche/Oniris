@@ -25,11 +25,11 @@ void mainloop(GLFWwindow* window)
 
     // Sound 
     //========================================================    
-    AudioManager::Get().Play("res/audio/music.mp3",0.05f);
+    AudioManager::Get().Play("res/audio/music.mp3", 0.005f);
+    AudioManager::Get().Play("res/audio/forest.mp3", 0.02f);
     AudioManager::Get().SetUpSea();
     AudioManager::Get().SetUpRiver();
     AudioManager::Get().PlayWind();
-    AudioManager::Get().PlayForest();
 
     // Initialisation Collision Manager
     CollisionManager::Get().Init(&camera);
