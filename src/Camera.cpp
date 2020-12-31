@@ -25,8 +25,8 @@ void Camera::updateBox()
 
 void Camera::MoveFront(float deltaTime)
 {
-
-	std::cout << _Position.x << "  " << _Position.z << std::endl;
+	//std::cout << _Position.x << "  " << _Position.z << std::endl;
+	
 	float dirX = glm::dot(_FrontVector, glm::vec3(1, 0, 0));
 	float dirZ = glm::dot(_FrontVector, glm::vec3(0, 0, 1));
 
