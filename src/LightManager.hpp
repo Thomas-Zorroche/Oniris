@@ -26,6 +26,10 @@ public:
 
 	void SendUniforms(const std::shared_ptr<Shader>& shader);
 
+	// Interactions
+	void SwitchLights();
+
+
 private:
 	LightManager() = default;
 	~LightManager() = default;
@@ -34,5 +38,7 @@ private:
 
 	unsigned int _pointLightsCount = 0;
 	unsigned int _dirLightsCount = 0;
+
+	bool _lightsOn = true;
 };
 

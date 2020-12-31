@@ -9,6 +9,7 @@
 #include "NarrativeObject.hpp"
 #include "UsableObject.hpp"
 #include "IOLight.hpp"
+#include "IODoor.hpp"
 #include "Panel.hpp"
 #include "Hud.hpp"
 
@@ -19,6 +20,8 @@
 #include <string>
 #include <sstream>
 #include <memory>
+
+
 
 /*
 * IMPORT PARTICULES SYSTEMS
@@ -254,8 +257,12 @@ std::vector<std::shared_ptr<StaticMesh> > EntityImporter::StaticMeshes(const std
 /*
 * IMPORT OBJECTS
 */
-std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain) const {
+ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain,
+	const std::shared_ptr<Fog>& fog) const {
+
+	// Return values
 	std::unordered_map<std::string, std::shared_ptr<Object>> objects;
+	std::vector<std::shared_ptr<StaticMesh> > ioObjects;
 
 	std::ifstream stream(filepath);
 	std::string line;
@@ -266,6 +273,7 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 	std::string objPath;
 	std::string texPath;
 	glm::vec3 position = glm::vec3();
+	std::string objPathIO;
 
 	while (getline(stream, line))
 	{
@@ -273,7 +281,7 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 		{
 			// Wrong type data file, return empty vector
 			std::cout << "[ENTITY IMPORTER] :: Wrong data file for : Object" << std::endl;
-			return objects;
+			return { objects, ioObjects };
 		}
 		firstline = false;
 
@@ -290,6 +298,11 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 		if (line.find("[obj]") != std::string::npos)
 		{
 			objPath = line.substr(std::string("[obj]").length() + 1);
+		}
+
+		if (line.find("[objIO]") != std::string::npos)
+		{
+			objPathIO = line.substr(std::string("[objIO]").length() + 1);
 		}
 
 		if (line.find("[tex]") != std::string::npos)
@@ -331,7 +344,7 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects
 			//
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
-			std::shared_ptr<Object> object;
+			std::shared_ptr<Object> object = nullptr;
 			if (type == "Um") 
 				object = std::make_shared<UsableObject>(model, position, "o_" + name, "map");
 			else if (type == "Uk") 
@@ -344,11 +357,17 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 				Hud::Get().AddPanel("o_" + name, std::make_shared<Panel>(panel));
 				object = std::make_shared<NarrativeObject>(model, position, "o_" + name);
 			}
-			else if (type == "Il")
+			else if (type == "Il" || type == "Id")
 			{
-				object = std::make_shared<IOLight>(model, position, "p_lightup");
-			}
-			
+				CollisionLayout cLayout(true, true, false);
+				auto ioObjectPtr = std::make_shared<StaticMesh>(Model(objPathIO), TransformLayout(position), "Model3D_Tex", fog, cLayout);
+				ioObjects.push_back(ioObjectPtr);
+				if (type == "Il")
+					object = std::make_shared<IOLight>(model, position, "p_lightup", ioObjectPtr);
+				else
+					object = std::make_shared<IODoor>(model, position, "p_open", ioObjectPtr);
+			}	
+
 				
 			objects.insert({ name, object });
 
@@ -358,12 +377,13 @@ std::unordered_map<std::string, std::shared_ptr<Object>> EntityImporter::Objects
 			objPath = "";
 			texPath = "";
 			position = glm::vec3();
+			objPathIO = "";
 		}
 
 	}
 	// End while loop
 
-	return objects;
+	return { objects, ioObjects };
 }
 
 

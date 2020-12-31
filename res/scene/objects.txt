@@ -26,6 +26,15 @@
 [tex] res/img/object/panneau.png
 [pos] 800 380
 [end]
+
+//
+// INTERACTIVE OBJECT
+//
+[name] light
+[type] Il
+[obj] res/models/IO_objects/IOGeneratorEvent.obj
+[objIO] res/models/IO_objects/IOGenerator.obj
+[pos] 852 376
 [name] letter_1
 [type] N
 [obj] res/models/objects/paper.obj
@@ -38,6 +47,18 @@
 [tex] res/img/object/correspondance2.png
 [pos] 800 700
 [end]
+
+[name] door
+[type] Id
+[obj] res/models/IO_objects/IODoorEvent.obj
+[objIO] res/models/IO_objects/IODoor.obj
+[pos] 595 158
+[end]
+
+
+//
+// NARRATIVE
+//
 [name] liste
 [type] N
 [obj] res/models/objects/paper.obj

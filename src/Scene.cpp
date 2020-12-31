@@ -7,8 +7,12 @@
 #include "Ocean.hpp"
 #include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
+
+#include "Object.hpp"
 #include "UsableObject.hpp"
 #include "NarrativeObject.hpp"
+#include "InteractiveObject.hpp"
+
 #include "CollisionManager.hpp"
 
 #include "LightManager.hpp"
@@ -25,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <unordered_map>
 
 
 Scene::Scene(const std::string& pathScene)
@@ -65,12 +70,12 @@ void Scene::Init(const std::string& pathScene)
 		glm::vec3(1, 1, 1)
 		);
 	std::shared_ptr<BaseLight> pointLightVillage = std::make_shared<PointLight>(
-		1.0f,
+		10.0f,
 		glm::vec3(1, 0.6, 0),
 		glm::vec3(604, _terrain->GetHeightOfTerrain(604, 204), 204),
 		160.0f);
 	std::shared_ptr<BaseLight> pointLightLabo = std::make_shared<PointLight>( 
-		1.0f,
+		50.0f,
 		glm::vec3(0, 0.6, 1),
 		glm::vec3(850, _terrain->GetHeightOfTerrain(850, 407) + 20, 407),
 		160.0f);
@@ -118,7 +123,12 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Objects
 	// ==============
-	_objects = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain);
+	auto objectsEntities = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain, _fog);
+	_objects = objectsEntities.objects;
+	for (const auto& obj : objectsEntities.ioObjects)
+	{
+		AddStaticMesh(obj);
+	}
 
 
 	// Init Game
@@ -165,9 +175,10 @@ void Scene::Draw()
 	for (auto pair : _objects)
 	{
 		auto obj = pair.second;
-		//std::cout << pair.first << "-" << obj->IsInWorld() << std::endl;
+
 		if (obj->IsInWorld())
 			obj->Draw();
+
 	}
 
 

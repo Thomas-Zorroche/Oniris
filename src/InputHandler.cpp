@@ -20,6 +20,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     float boostSprint = 1.0f;
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
         boostSprint = 5.0f;
+
     // Retrive Screen State from Hud
     // ===================================================================================================
     const ScreenState state = Hud::Get().GetState();
@@ -45,7 +46,6 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
     // Open map
     // ===================================================================================================
-
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && _ActiveKey != ActiveKey::A) // Q Qwerty = A Azerty
     {
         if (Game::Get().Hasmap())

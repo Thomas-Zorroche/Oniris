@@ -6,7 +6,7 @@
 class StaticMesh;
 
 //
-// Object is an Interface (pure virtual fonction) 
+// Object is an Interface 
 //
 class Object
 {
@@ -15,14 +15,14 @@ public:
 	virtual ~Object();
 
 	void Draw();
+
 	bool IsInWorld() const { return _InWorld; }
 
 	virtual void OnOverlap() = 0;
 
+
 protected:
 	std::shared_ptr<StaticMesh> _staticMesh;
 	bool _InWorld = true;
-
-	//bool _OnBeginOverlap = false;
 };
 

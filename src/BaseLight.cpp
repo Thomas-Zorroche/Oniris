@@ -10,6 +10,10 @@ BaseLight::BaseLight(LightType type, float intensity, const glm::vec3& color)
 
 
 // Getters & Setters
+float BaseLight::Intensity() const
+{
+	return _intensity;
+}
 const glm::vec3& BaseLight::Ambient() const
 {
 	return _ambient; 

@@ -10,12 +10,6 @@ UsableObject::UsableObject(const Model& model, const glm::vec3& position, const 
 
 UsableObject::~UsableObject() {};
 
-void UsableObject::Use() {
-	if (_Type == "key")
-		std::cout << "key\n";
-	else if (_Type == "map")
-		std::cout << "map\n";
-}
 
 void UsableObject::OnOverlap() 
 {
