@@ -1,32 +1,95 @@
 #Objects
-[name] key
-[type] Uk
-[obj] res/models/key/key.obj
-[pos] 350 250
+
+// Narratives objects
+
+[name] bone
+[type] N
+[obj] res/models/objects/bone.obj
+[tex] res/img/object/os.png
+[pos] 900 600
 [end]
-[name] map
-[type] Um
-[obj] res/models/map/map.obj
-[pos] 250 250
+[name] carnet
+[type] N
+[obj] res/models/objects/carnet.obj
+[tex] res/img/object/compte.png
+[pos] 650 200
 [end]
-[name] cristal_0
-[type] Uc
-[obj] res/models/key/key.obj
-[pos] 450 250
+[name] coins
+[type] N
+[obj] res/models/objects/coins.obj
+[tex] res/img/object/pieces.png
+[pos] 100 400s
 [end]
-[name] cristal_1
-[type] Uc
-[obj] res/models/key/key.obj
-[pos] 450 200
+[name] panneau
+[type] N
+[obj] res/models/objects/panel.obj
+[tex] res/img/object/panneau.png
+[pos] 800 380
 [end]
-[name] light
-[type] Il
-[obj] res/models/key/key.obj
-[pos] 550 250
+[name] letter_1
+[type] N
+[obj] res/models/objects/paper.obj
+[tex] res/img/object/correspondance1.png
+[pos] 190 550
+[end]
+[name] letter_2
+[type] N
+[obj] res/models/objects/paper.obj
+[tex] res/img/object/correspondance2.png
+[pos] 800 700
 [end]
 [name] liste
 [type] N
-[obj] res/models/map/map.obj
-[tex] res/img/object/panneau.png
-[pos] 650 250
+[obj] res/models/objects/paper.obj
+[tex] res/img/object/liste.png
+[pos] 440 100
+[end]
+[name] note
+[type] N
+[obj] res/models/objects/paper.obj
+[tex] res/img/object/notes.png
+[pos] 800 390
+[end]
+[name] mot
+[type] N
+[obj] res/models/objects/paper.obj
+[tex] res/img/object/mot.png
+[pos] 600 290
+[end]
+[name] telegramme
+[type] N
+[obj] res/models/objects/paper.obj
+[tex] res/img/object/telegramme.png
+[pos] 600 890
+[end]
+[name] dossier
+[type] N
+[obj] res/models/objects/carnet.obj
+[tex] res/img/object/dossier.png
+[pos] 540 130
+[end]
+[name] cassette
+[type] N
+[obj] res/models/objects/walkman.obj
+[tex] res/img/object/cassette.png
+[pos] 230 880
+[end]
+[name] yoyo
+[type] N
+[obj] res/models/objects/yoyo.obj
+[tex] res/img/object/yoyo.png
+[pos] 640 130
+[end]
+
+// Key and Map
+
+[name] map
+[type] Um
+[obj] res/models/objects/map.obj
+[pos] 240 300
+[end]
+[name] key
+[type] Uk
+[obj] res/models/objects/key.obj
+[pos] 400 660
 [end]

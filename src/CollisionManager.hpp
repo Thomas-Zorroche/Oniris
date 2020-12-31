@@ -47,7 +47,6 @@ private:
 
 	// Debug Attributes
 	bool _debugMode = false;
-	int _countCollision = 0;
 };
 
 

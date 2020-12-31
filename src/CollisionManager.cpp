@@ -1,6 +1,7 @@
 #include "CollisionManager.hpp"
 #include "CollisionGrid.hpp"
 #include "CollisionBox.hpp"
+#include "Hud.hpp"
 
 #include <memory>
 #include <iterator>
@@ -30,6 +31,7 @@ void CollisionManager::CheckCollisions()
 
 	// Check all collisions between boxes and camera
 	std::vector<HitCollisionAxis> AxisHit;
+	int countCollision = 0;
 	for (size_t i = 0; i < activeBoxes.size(); i++)
 	{
 		HitResult hit = activeBoxes[i]->IsColliding(cameraCBox);
@@ -39,20 +41,22 @@ void CollisionManager::CheckCollisions()
 			if (activeBoxes[i]->StopMovement())
 				AxisHit.push_back(hit.Axis);
 			activeBoxes[i]->OnBeginOverlap();
-			_countCollision++;
+			countCollision++;
 		}
 	}
 
 	if (AxisHit.empty())
 		AxisHit.push_back(NONE);
+
+	if (countCollision == 0)
+	{
+		Hud::Get().SetState(ScreenState::INGAME);
+	}
 	
 	_camera->BlockMovement(AxisHit);
 
 	if (_debugMode)
 		DrawCBoxes();
-
-	//std::cout << _countCollision << " : " << playerCase.X << " " << playerCase.Y
-	//		  << " ; " << activeBoxes.size() <<  std::endl;
 }
 
 void CollisionManager::AddBox(const std::shared_ptr<CollisionBox>& box)
