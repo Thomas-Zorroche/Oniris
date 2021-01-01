@@ -34,6 +34,8 @@ private:
 	LightManager() = default;
 	~LightManager() = default;
 
+	const static int POINT_LIGHTS_COUNT;
+
 	std::vector<BaseLightPtr> _lights;
 
 	unsigned int _pointLightsCount = 0;

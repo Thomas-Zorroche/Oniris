@@ -14,7 +14,8 @@ class BaseLight
 public:
 	BaseLight(LightType type,
 			  float intensity = 1.0f, 
-			  const glm::vec3& color = glm::vec3(1.0, 1.0, 1.0));
+			  const glm::vec3& color = glm::vec3(1.0, 1.0, 1.0),
+			  bool electricity = true);
 
 	virtual ~BaseLight() {}
 
@@ -29,6 +30,8 @@ public:
 
 	const glm::vec3& Specular() const;
 	void SetSpecular(const glm::vec3& specular);
+
+	bool Electricity() const;
 
 	LightType Type() const { return _type; }
 
@@ -49,6 +52,8 @@ private:
 
 	LightType _type;
 	glm::mat4 _modelMatrix = glm::mat4(1.0f);
+
+	bool _electricity;
 };
 
 using BaseLightPtr = std::shared_ptr<BaseLight>;

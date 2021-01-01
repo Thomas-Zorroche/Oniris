@@ -1,4 +1,7 @@
 #include "Portal.hpp"
+#include "Fog.hpp"
+#include "BaseLight.hpp"
+
 
 Portal::Portal()
 	: _staticMesh(Model("res/models/PortalPlan.obj"), TransformLayout(glm::vec3(499, 75, 578), glm::vec3(0, 0, 0), 2.2f), "Portal", nullptr)
@@ -16,9 +19,10 @@ void Portal::Draw()
 	
 	_hitsCountCBox = 0;
 
-
 	if (_open)
 	{
+		_light->SetIntensity(6.0f);
+
 		auto shader = _staticMesh.GetShader();
 		shader->Bind();
 		shader->SetUniform1f("u_time", glfwGetTime());
@@ -51,4 +55,9 @@ void Portal::HitCBox()
 void Portal::SetFog(const std::shared_ptr<Fog>& fog)
 {
 	_fog = fog;
+}
+
+void Portal::SetLight(const std::shared_ptr<BaseLight>& light)
+{
+	_light = light;
 }

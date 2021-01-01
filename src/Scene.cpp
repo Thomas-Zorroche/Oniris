@@ -85,9 +85,18 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 		glm::vec3(0, 0.6, 1),
 		glm::vec3(850, _terrain->GetHeightOfTerrain(850, 407) + 20, 407),
 		160.0f);
+	std::shared_ptr<BaseLight> pointLightPortail = std::make_shared<PointLight>( 
+		0.0f,
+		glm::vec3(0, 0.6, 1),
+		glm::vec3(499, _terrain->GetHeightOfTerrain(499, 578) + 10, 578),
+		160.0f, 
+		false);
 	LightManager::Get().AddLight(dirLight, LightType::DIR);
 	LightManager::Get().AddLight(pointLightVillage, LightType::POINT);
 	LightManager::Get().AddLight(pointLightLabo, LightType::POINT);
+	LightManager::Get().AddLight(pointLightPortail, LightType::POINT);
+
+	_portal->SetLight(pointLightPortail);
 
 	// Create Ocean
 	// ============
