@@ -33,10 +33,11 @@
 #include <unordered_map>
 
 
-Scene::Scene(const std::string& pathScene)
-	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr), _fog(std::make_shared<Fog>())
+Scene::Scene(const std::string& pathScene, const std::shared_ptr<Game>& game)
+	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr), _fog(std::make_shared<Fog>()),
+		_portal(game->PortalPtr())
 {
-	Init(pathScene);
+	Init(pathScene, game);
 }
 
 Scene::~Scene()
@@ -44,7 +45,7 @@ Scene::~Scene()
 
 }
 
-void Scene::Init(const std::string& pathScene)
+void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game)
 {
 	// Read scene file : load all resources needed to the scene [TODO]
 	// ========================================================
@@ -76,7 +77,7 @@ void Scene::Init(const std::string& pathScene)
 		glm::vec3(1, 0.6, 0),
 		glm::vec3(604, _terrain->GetHeightOfTerrain(604, 204), 204),
 		160.0f);
-	std::shared_ptr<BaseLight> pointLightLabo = std::make_shared<PointLight>( 
+	std::shared_ptr<BaseLight> pointLightLabo = std::make_shared<PointLight>(
 		50.0f,
 		glm::vec3(0, 0.6, 1),
 		glm::vec3(850, _terrain->GetHeightOfTerrain(850, 407) + 20, 407),
@@ -101,7 +102,7 @@ void Scene::Init(const std::string& pathScene)
 		"night/back.jpg"
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
-	
+
 	// Particule Systems
 	// =================
 	auto particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
@@ -125,16 +126,12 @@ void Scene::Init(const std::string& pathScene)
 
 	// Create Objects
 	// ==============
-	auto objectsEntities = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain, _fog);
+	auto objectsEntities = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain, _fog, game);
 	_objects = objectsEntities.objects;
 	for (const auto& obj : objectsEntities.ioObjects)
 	{
 		AddStaticMesh(obj);
 	}
-
-	// Portal
-	// ======
-	_portal = Game::Get().PortalPtr();
 }
 
 void Scene::Draw()

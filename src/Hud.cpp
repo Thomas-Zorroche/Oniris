@@ -79,7 +79,7 @@ void Hud::Draw() const
 }
 
 
-void Hud::Translate(const std::string& name) {
+void Hud::Translate(const std::string& name, const std::shared_ptr<Game>& game) {
 
 	if (name == "key")
 	{
@@ -89,7 +89,7 @@ void Hud::Translate(const std::string& name) {
 			auto panel = (key->second);
 			panel->TranslateTexture(1);
 		}
-		Game::Get().LostKey();
+		game->LostKey();
 	}
 	else if (name == "map")
 	{

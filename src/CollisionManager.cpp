@@ -6,7 +6,7 @@
 #include <memory>
 #include <iterator>
 
-void CollisionManager::Init(Camera* camera)
+void CollisionManager::Init(const std::shared_ptr<Camera>& camera)
 {
 	_camera = camera;
 

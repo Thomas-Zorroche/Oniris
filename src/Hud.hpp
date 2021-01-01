@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <list>
 
+class Game;
+
 /*
 * OVERLAP_NO = When overlap Narrative Object
 * OVERLAP_UO = When overlap Usable Object
@@ -30,7 +32,7 @@ public:
 	Hud& operator=(const Hud&) = delete;
 
 	void Draw() const;
-	void Translate(const std::string& name);
+	void Translate(const std::string& name, const std::shared_ptr<Game>& game);
 	void Init();
 	void AddPanel(const std::string& name, const std::shared_ptr<Panel>& panel);
 	void SetVisibility(const std::string& name, bool visibility);

@@ -61,7 +61,7 @@ public:
 			ComputeViewMatrix();
 	}
 
-	void SetCamera(Camera * camera)
+	void SetCamera(const std::shared_ptr<Camera>& camera)
 	{
 		_camera = camera;
 	}
@@ -72,7 +72,7 @@ private:
 	Renderer() = default;
 	~Renderer() = default;
 
-	Camera* _camera;
+	std::shared_ptr<Camera>  _camera;
 	glm::mat4 _projection;
 	glm::mat4 _view;
 };

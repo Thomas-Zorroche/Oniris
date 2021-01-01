@@ -14,15 +14,16 @@ class Skybox;
 class Terrain;
 class Fog;
 class Portal;
+class Game;
 
 
 class Scene
 {
 public:
-	Scene(const std::string& pathScene);
+	Scene(const std::string& pathScene, const std::shared_ptr<Game>& game);
 	~Scene();
 
-	void Init(const std::string& pathScene);
+	void Init(const std::string& pathScene, const std::shared_ptr<Game>& game);
 
 	void Draw();
 

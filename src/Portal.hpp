@@ -17,7 +17,7 @@ public:
 	
 	void OnOverlap() override
 	{
-		Game::Get().
+
 	}
 
 	void Open()

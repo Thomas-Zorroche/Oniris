@@ -8,6 +8,7 @@
 #include "Object.hpp"
 
 class Fog;
+class Game;
 
 struct ObjectArrayImporter
 {
@@ -27,13 +28,13 @@ public:
 	EntityImporter(const EntityImporter&) = delete;
 	EntityImporter& operator=(const EntityImporter&) = delete;
 
-	ObjectArrayImporter Objects(const std::string& data, std::shared_ptr<Terrain>& terrain,
+	ObjectArrayImporter Objects(const std::string& data, const std::shared_ptr<Terrain>& terrain,
+		const std::shared_ptr<Fog>& fog, const std::shared_ptr<Game>& game) const;
+
+	std::vector<std::shared_ptr<ParticuleSystem> > ParticuleSystems(const std::string& data, const std::shared_ptr<Terrain>& terrain, 
 		const std::shared_ptr<Fog>& fog) const;
 
-	std::vector<std::shared_ptr<ParticuleSystem> > ParticuleSystems(const std::string& data, std::shared_ptr<Terrain>& terrain, 
-		const std::shared_ptr<Fog>& fog) const;
-
-	std::vector<std::shared_ptr<StaticMesh> > StaticMeshes(const std::string& data, std::shared_ptr<Terrain>& terrain,
+	std::vector<std::shared_ptr<StaticMesh> > StaticMeshes(const std::string& data, const std::shared_ptr<Terrain>& terrain,
 		const std::shared_ptr<Fog>& fog) const;
 
 

@@ -30,7 +30,7 @@ class ParticuleSystem
 {
 public:
 	ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count, float size, float randomSize,
-		const std::vector<ControlPointParticule>& controlPoints, std::shared_ptr<Terrain>& terrain);
+		const std::vector<ControlPointParticule>& controlPoints, const std::shared_ptr<Terrain>& terrain);
 
 	void Draw();
 	std::string Name() const { return _name; }
