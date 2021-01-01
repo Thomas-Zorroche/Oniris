@@ -13,6 +13,11 @@
 
 #define NOMINAX // Avoid conflicts between min and max constants in Windef.h
 
+enum class DIRCAM
+{
+	FRONT = 0, LEFT
+};
+
 class Terrain;
 
 class Camera
@@ -23,8 +28,7 @@ public:
 
 	void updateBox();
 
-	void MoveFront(float deltaTime);
-	void MoveLeft(float t);
+	void Move(float deltaTime, DIRCAM dir);
 
 	void rotateUp(float angle);
 	void rotateLeft(float angle);
@@ -57,8 +61,8 @@ public:
 
 private:
 	void computeDirectionVectors();
-	void MoveX(float dir);
-	void MoveZ(float dir);
+	void MoveX(float dst, const glm::vec3& dir);
+	void MoveZ(float dst, const glm::vec3& dir);
 	bool CheckNormal();
 
 	float _HeightCamera = 5.0f;
@@ -100,6 +104,4 @@ private:
 	//std::vector<HitCollisionAxis> _blockAxis = { NONE };
 
 	bool _blockAxis[5] = { false };
-
-
 };

@@ -26,14 +26,12 @@ void IODoor::Interact()
 
 	if (_open)
 	{
-		std::cout << "Fermee" << std::endl;
 		_open = false;
 		_panelName = "p_open";
 		_ioObject->Rotate(glm::vec3(0, -90, 0));
 	}
 	else
 	{
-		std::cout << "Ouverte" << std::endl;
 		_open = true;
 		_panelName = "p_close";
 		_ioObject->Rotate(glm::vec3(0, 90, 0));
