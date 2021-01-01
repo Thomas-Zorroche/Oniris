@@ -31,21 +31,6 @@ void ResourceManager::DeleteAllResources()
 //
 // ------------------------------ Textures ------------------------------ 
 //
-
-std::string ResourceManager::LoadTextFile(const std::string& path) const {
-	std::ifstream ifs(path);
-
-	if (!ifs) {
-		std::cerr << "Resource Manager: File loading error: " + path << std::endl;
-		return "";
-	}
-	
-	std::string content ((std::istreambuf_iterator<char>(ifs)),
-						 (std::istreambuf_iterator<char>()));
-
-	return content;
-}
-
 Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 {
 	// Check if texture is already loaded in the cache
@@ -257,5 +242,22 @@ std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name) cons
 		return nullptr;
 
 	return shader->second;
+}
+
+void ResourceManager::LoadAllShaders()
+{
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/portal.frag", "Portal");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/Terrain.frag", "Terrain");
+	ResourceManager::Get().LoadShader("res/shaders/Ocean.vert", "res/shaders/Ocean.frag", "Ocean");
+	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Model3D_Tex");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
+
+	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/ui.frag", "Ui");
+
+	ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/modelAlpha.frag", "ParticuleAlpha");
+	ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/model.frag", "Particule");
+
+
 }
 

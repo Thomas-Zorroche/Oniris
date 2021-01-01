@@ -6,6 +6,8 @@
 #include "DirectionalLight.hpp"
 #include "Renderer.hpp"
 #include "PointLight.hpp"
+#include "Terrain.hpp"
+#include "Portal.hpp"
 
 const int LightManager::POINT_LIGHTS_COUNT = 3;
 
@@ -104,4 +106,35 @@ void LightManager::SwitchLights()
 		_lightsOn = false;
 	else
 		_lightsOn = true;
+}
+
+void LightManager::LoadAllLights(const std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Portal>& portal)
+{
+	std::shared_ptr<BaseLight> dirLight = std::make_shared<DirectionalLight>(
+		1.0f,
+		glm::vec3(0.5, 0.5, 0.5),
+		glm::vec3(1, 1, 1));
+	std::shared_ptr<BaseLight> pointLightVillage = std::make_shared<PointLight>(
+		10.0f,
+		glm::vec3(1, 0.6, 0),
+		glm::vec3(604, terrain->GetHeightOfTerrain(604, 204), 204),
+		160.0f);
+	std::shared_ptr<BaseLight> pointLightLabo = std::make_shared<PointLight>(
+		50.0f,
+		glm::vec3(0, 0.6, 1),
+		glm::vec3(850, terrain->GetHeightOfTerrain(850, 407) + 20, 407),
+		160.0f);
+	std::shared_ptr<BaseLight> pointLightPortail = std::make_shared<PointLight>(
+		0.0f,
+		glm::vec3(0, 0.6, 1),
+		glm::vec3(499, terrain->GetHeightOfTerrain(499, 578) + 10, 578),
+		160.0f,
+		false);
+
+	AddLight(dirLight, LightType::DIR);
+	AddLight(pointLightVillage, LightType::POINT);
+	AddLight(pointLightLabo, LightType::POINT);
+	AddLight(pointLightPortail, LightType::POINT);
+
+	portal->SetLight(pointLightPortail);
 }

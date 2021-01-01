@@ -23,9 +23,6 @@ public:
 
 	void DeleteAllResources();
 
-	// Load a text file and return as a string.
-	std::string LoadTextFile(const std::string& path) const;
-
 	// Loads an image (if not cached) and generates an OpenGL texture.
 	Texture LoadTexture(const std::string& path, TextureType type);
 	std::vector<unsigned short> LoadHeightmap(const std::string& path, TextureType type);
@@ -36,6 +33,7 @@ public:
 									   const std::string& fragmentShaderPath,
 									   const std::string& name);
 	std::shared_ptr<Shader> GetShader(const std::string& name) const;
+	void LoadAllShaders();
 
 
 	std::shared_ptr<Material> GetMaterial(const std::string& name) const;

@@ -16,8 +16,10 @@
 
 void mainloop(GLFWwindow* window)
 {
+    // Load all the shaders
+    ResourceManager::Get().LoadAllShaders();
+    
     // Game
-    ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/portal.frag", "Portal");
     auto game = std::make_shared<Game>();
 
     // Scene Initialization
