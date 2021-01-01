@@ -63,6 +63,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE && _ActiveKey == ActiveKey::A)
     {
         _ActiveKey = ActiveKey::NONE;
+
     }
 
 

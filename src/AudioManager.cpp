@@ -1,10 +1,10 @@
 #include "AudioManager.hpp"
 #include <iostream>
 
-void AudioManager::Play(const std::string& path, float volume) {
+void AudioManager::Play(const std::string& path, float volume, bool loop) {
 	if (!_Engine->isCurrentlyPlaying(path.c_str()))
 	{
-		irrklang::ISound* snd = _Engine->play2D(path.c_str(), true, false, true);
+		irrklang::ISound* snd = _Engine->play2D(path.c_str(), loop, false, true);
 		snd->setVolume(volume);
 		snd->drop();
 	}
