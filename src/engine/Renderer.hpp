@@ -42,7 +42,7 @@ public:
 		_projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane);
 	}
 
-	void SendModelMatrixUniforms(const glm::mat4 & modelMatrix, std::shared_ptr<Shader>& shader, bool removeTranslationView = false)
+	void SendTransMatrixUniforms(const glm::mat4 & modelMatrix, std::shared_ptr<Shader>& shader, bool removeTranslationView = false)
 	{
 		if (removeTranslationView)
 			_view = glm::mat4(glm::mat3(_view));

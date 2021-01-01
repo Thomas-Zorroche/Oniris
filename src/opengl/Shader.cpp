@@ -1,5 +1,7 @@
 #include "opengl/Shader.h"
 
+#include "engine/Log.hpp"
+
 #include "glm/glm.hpp"
 #include "common.hpp"
 #include <iostream>
@@ -120,7 +122,7 @@ int Shader::GetUniformLocation(const std::string& name)
         return m_UniformLocationCache[name];
 
     int location = glGetUniformLocation(m_RendererID, name.c_str());
-    if (location == -1)
+    if (location == -1 && Log::Get().Level() >= LogLevel::WARNING)
         std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
     
     m_UniformLocationCache[name] = location;

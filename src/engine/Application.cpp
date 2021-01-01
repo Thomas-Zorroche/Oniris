@@ -5,6 +5,7 @@
 #include "engine/InputHandler.hpp"
 #include "engine/AudioManager.hpp"
 #include "engine/ResourceManager.hpp"
+#include "engine/Log.hpp"
 
 #include "gameplay/Game.hpp"
 
@@ -15,6 +16,9 @@
 
 void mainloop(GLFWwindow* window)
 {
+    // Setup Log Level
+    Log::Get().SetLevel(LogLevel::NONE);
+    
     // Load all the shaders
     ResourceManager::Get().LoadAllShaders();
 

@@ -28,7 +28,6 @@ private:
 	void PlayWind();
 	AudioManager() {};
 	~AudioManager() {};
-	//std::unordered_map<std::string, AudioPlayer> _Audios;
 	irrklang::ISoundEngine* _Engine = irrklang::createIrrKlangDevice();
 	void PlaySea(glm::vec3 position);
 	void PlayWater(glm::vec3 position);

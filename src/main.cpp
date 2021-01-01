@@ -14,6 +14,7 @@
 #include <iostream>
 #include "engine/Application.hpp"
 
+
 int main(int argc, char** argv)
 {
     /* Initialize the library */
@@ -37,7 +38,7 @@ int main(int argc, char** argv)
         std::cout << "Failed to initialize GLAD" << std::endl;
         return 0;
     }
-    
+
     /* Main Game Loop */
     mainloop(window);
 

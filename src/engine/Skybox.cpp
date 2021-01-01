@@ -57,7 +57,7 @@ void Skybox::SendUniforms(const std::shared_ptr<Fog>& fog)
 {
     _shader->Bind();
     _shader->SetUniform3f("u_skyColor", fog->ColorSky());
-    Renderer::Get().SendModelMatrixUniforms(glm::mat4(1.0f), _shader, true);
+    Renderer::Get().SendTransMatrixUniforms(glm::mat4(1.0f), _shader, true);
 
 
     _shader->Unbind();

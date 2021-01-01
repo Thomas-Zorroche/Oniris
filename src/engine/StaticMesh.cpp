@@ -100,7 +100,7 @@ void StaticMesh::SendUniforms()
 	_shader->SetUniform1f("uvScale", 1.0f);
 
 	// Send Transformations Matrixes
-	Renderer::Get().SendModelMatrixUniforms(GetModelMatrix(), _shader);
+	Renderer::Get().SendTransMatrixUniforms(GetModelMatrix(), _shader);
 
 	// Send Lights
 	LightManager::Get().SendUniforms(_shader);
