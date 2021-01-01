@@ -1,17 +1,18 @@
 #pragma once
 
-//#define _USE_MATH_DEFINES
-#define M_PI 3.14
-#include <cmath>
+#define _USE_MATH_DEFINES
+#define NOMINAX // Avoid conflicts between min and max constants in Windef.h
+
 #include <iostream>
 #include <algorithm>
+#include <math.h>
+
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "engine/Terrain.hpp"
 #include "collision/CollisionBox.hpp"
 
-#define NOMINAX // Avoid conflicts between min and max constants in Windef.h
 
 enum class DIRCAM
 {

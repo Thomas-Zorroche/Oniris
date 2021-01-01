@@ -2,8 +2,6 @@
 
 #include <glad/glad.h>
 #include "glm/glm.hpp"
-#define M_PI 3.14
-#include <cmath>
 #include <iostream>
 
 
