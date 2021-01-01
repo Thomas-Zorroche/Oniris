@@ -5,7 +5,7 @@
 
 InteractiveObject::InteractiveObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName, 
 	const std::shared_ptr<StaticMesh>& ioObject)
-	: Object(model, transLayout), _panelName(panelName), _ioObject(ioObject)
+	: Object(model, transLayout, _panelName), _ioObject(ioObject)
 {
 }
 

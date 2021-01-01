@@ -12,7 +12,7 @@ class TransformLayout;
 class Object
 {
 public:
-	Object(const Model& model, const TransformLayout& transLayout, const std::string& shaderName = "Model3D_Tex");
+	Object(const Model& model, const TransformLayout& transLayout, const std::string& panelName = "", const std::string& shaderName = "Model3D_Tex");
 	virtual ~Object();
 
 	void Draw();
@@ -24,6 +24,7 @@ public:
 
 protected:
 	std::shared_ptr<StaticMesh> _staticMesh;
+	std::string _panelName;
 	bool _InWorld = true;
 };
 

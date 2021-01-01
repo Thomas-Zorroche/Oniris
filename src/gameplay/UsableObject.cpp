@@ -4,7 +4,7 @@
 
 UsableObject::UsableObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName, 
 	const std::string& type, const std::shared_ptr<Game>& game)
-	: Object(model, transLayout), _panelName(panelName), _Type(type), _gamePtr(game)
+	: Object(model, transLayout, panelName), _Type(type), _gamePtr(game)
 {
 
 }

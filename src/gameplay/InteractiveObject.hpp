@@ -20,9 +20,6 @@ public:
 	virtual void Interact() = 0;
 
 protected:
-
-	std::string _panelName;
-
 	// Graphical representation of the object
 	std::shared_ptr<StaticMesh> _ioObject;
 

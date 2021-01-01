@@ -3,7 +3,7 @@
 #include "engine/StaticMesh.hpp"
 
 NarrativeObject::NarrativeObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName)
-	: Object(model, transLayout), _panelName(panelName)
+	: Object(model, transLayout, panelName)
 {
 
 }

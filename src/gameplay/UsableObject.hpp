@@ -18,8 +18,6 @@ public:
 	
 private:
 	std::string _Type = "key";
-	std::string _panelName;
 	std::shared_ptr<Game> _gamePtr;
-	
 };
 

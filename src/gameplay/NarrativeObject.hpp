@@ -14,10 +14,5 @@ public:
 	void OnOverlap() override;
 
 private:
-	//NarrativeObjectType _Type = TEXT;
-	//bool IsText() { return (_Type == TEXT); }
-
-	std::string _panelName;
-
 };
 
