@@ -1,42 +1,35 @@
 #pragma once
 
-#include "Object.hpp"
-#include "StaticMesh.hpp"
-#include "Game.hpp"
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include <glm/glm.hpp>
 
-class Model;
-class TransformLayout;
+#include "StaticMesh.hpp"
+#include "Model.hpp"
+#include "Fog.hpp"
 
-class Portal : public Object
+
+class Portal
 {
 public:
-	Portal(const Model& model, const TransformLayout& transLayout)
-		: Object(model, transLayout, "Portal") {}
+	Portal();
 	
-	void OnOverlap() override
-	{
+	void Open();
 
-	}
+	void Draw();
 
-	void Open()
-	{
-		_open = true;
-	}
+	void HitCBox();
 
-	void Draw()
-	{
-		if (_open)
-		{
-			auto shader = _staticMesh->GetShader();
-			shader->Bind();
-			shader->SetUniform1f("u_time", glfwGetTime());
-			_staticMesh->Draw();
-		}
-			
-	}
+	void SetFog(const std::shared_ptr<Fog>& fog);
 
 private:
 	bool _open = false;
+	bool _canEnter = false;
+
+	int _hitsCountCBox = 0;
+
+	StaticMesh _staticMesh;
+	std::shared_ptr<Fog> _fog = nullptr;
+
+	bool _darkWorld = false;
 };
+

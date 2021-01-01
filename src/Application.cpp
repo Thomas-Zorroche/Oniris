@@ -10,12 +10,14 @@
 #include "InputHandler.hpp"
 #include "Hud.hpp"
 #include "AudioManager.hpp"
+#include "ResourceManager.hpp"
 #include "Game.hpp"
 
 
 void mainloop(GLFWwindow* window)
 {
     // Game
+    ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/portal.frag", "Portal");
     auto game = std::make_shared<Game>();
 
     // Scene Initialization

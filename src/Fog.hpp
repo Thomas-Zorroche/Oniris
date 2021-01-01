@@ -1,27 +1,23 @@
 #pragma once
 
 #include "glm/glm.hpp"
+#include <utility>
 
-/*
-* SAVE
-* SUN : 1.0, 0.9, 0.7
-* SHADOW : 0.5, 0.6, 0.7
-* SKY : 0.5, 0.6, 0.7
-* 
-*/
 
 class Fog
 {
 public:
 	Fog() = default;
 
-	std::pair<glm::vec3, glm::vec3> Color() const { return { _colorShadow, _colorSun }; }
-	glm::vec3 ColorSky() const { return _colorSky; }
-	const float Density() const { return _density; }
-	const float Gradient() const { return _gradient; }
-	const float Height() const { return _height; }
-	const float LowerLimit() const { return _lowerLimit; }
-	const float UpperLimit() const { return _upperLimit; }
+	std::pair<glm::vec3, glm::vec3> Color() const;
+	glm::vec3 ColorSky() const;
+	const float Density() const;
+	const float Gradient() const;
+	const float Height() const;
+	const float LowerLimit() const;
+	const float UpperLimit() const;
+
+	void Fog::InsideDarkWorld(bool darkWorld);
 
 private:
 	// Simple Fog
@@ -47,4 +43,12 @@ private:
 	// Attenuation on Skybox
 	float _lowerLimit = 35.0f;
 	float _upperLimit = 80.0f;
+
+	// =======================================================
+	// Dark World
+	// =======================================================
+	bool _darkWorld = false;
+
+	// Sky Fog
+	glm::vec3 _colorSkyDW = glm::vec3(0.7, 0.6, 0.95);
 };

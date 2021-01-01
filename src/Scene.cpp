@@ -51,6 +51,10 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 	// ========================================================
 	std::string sceneFileContent = ResourceManager::Get().LoadTextFile(pathScene);
 
+	// Init fog into game
+	// ==================
+	game->SetFog(_fog);
+
 
 	// Load all Shaders
 	// ================
@@ -59,7 +63,6 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Model3D_Tex");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
-	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/portal.frag", "Portal");
 
 	// Create Terrain
 	// ==============
