@@ -9,25 +9,24 @@ public:
 		: Panel(texture, name, x, y, scale, spriteSize, nbSprite, visibity) {};
 	void TranslateTexture(int dir) 
 	{
-		//std::cout << "indice de translation  " << _translation << std::endl;
-		if (_translation == 0)
+		if (_texturePosition == 0)
 		{
 			Panel::TranslateTexture(dir);
-			_translation = 1;
+			_texturePosition = 1;
 		}
-		else if (_translation == 1)
+		else if (_texturePosition == 1)
 		{
 			Panel::TranslateTexture(dir);
-			_translation = 2;
+			_texturePosition = 2;
 		}
 		else 
 		{
 			Panel::TranslateTexture(dir);
 			Panel::TranslateTexture(dir);
-			_translation = 1;
+			_texturePosition = 1;
 		}
 	};
 private :
-	int _translation = 0;
+	int _texturePosition = 0;
 
 };

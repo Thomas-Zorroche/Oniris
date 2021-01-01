@@ -32,7 +32,7 @@ void IODoor::Interact()
 	{
 		std::cout << "Ouverte" << std::endl;
 		_open = true;
-		_panelName = "p_lightoff";
+		_panelName = "p_close";
 		_ioObject->Rotate(glm::vec3(0, 90, 0));
 	}
 }

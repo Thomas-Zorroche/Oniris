@@ -25,6 +25,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     // Retrive Screen State from Hud
     // ===================================================================================================
     const ScreenState state = Hud::Get().GetState();
+    std::cout << (int)state << std::endl;
 
     // If player observes a narrative object, he can not move
     // ===================================================================================================

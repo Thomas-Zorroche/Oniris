@@ -9,21 +9,21 @@ public:
 		: Panel(texture, name, x, y, scale, spriteSize, nbSprite, visibity) {};
 	void TranslateTexture( int pos ) // 0 = 50% opacity ; 1 = 100% opacity
 	{
-		if (_position == 0)
+		if (_texturePosition == 0)
 		{
 			if (pos == 1)
 			{
 				Panel::TranslateTexture(1);
-				_position = 1;
+				_texturePosition = 1;
 			}
 		} else {
 			if (pos == 0) {
 				Panel::TranslateTexture(1);
-				_position = 0;
+				_texturePosition = 0;
 			}
 		}
 	};
 private:
-	int _position = 0;
+	int _texturePosition = 0;
 
 };
