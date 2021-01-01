@@ -1,5 +1,7 @@
 #include "gameplay/Game.hpp"
 #include "gameplay/Portal.hpp"
+#include "engine/AudioManager.hpp"
+
 
 Game::Game()
 	: _portal(std::make_shared<Portal>()) {}
@@ -20,11 +22,13 @@ void Game::PickUp(const std::string& type)
 	if (type == "key")
 	{
 		_HasKey = true;
+		AudioManager::Get().Play("res/audio/pickup.wav", 0.5, false);
 	}
 
 	else if (type == "map")
 	{
 		_HasMap = true;
+		AudioManager::Get().Play("res/audio/pickup.wav", 0.5, false);
 	}
 
 	else if (type == "crystal")
@@ -34,6 +38,7 @@ void Game::PickUp(const std::string& type)
 		{
 			_portal->Open();
 		}
+		AudioManager::Get().Play("res/audio/crystal.wav", 0.2, false);
 	}
 }
 

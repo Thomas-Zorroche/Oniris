@@ -28,7 +28,6 @@ void UsableObject::OnOverlap()
 	{
 		if (_InWorld)
 		{
-			std::cout << "pick up\n";
 			_gamePtr->PickUp(_Type);
 			Hud::Get().Translate(_Type, _gamePtr);
 			_InWorld = false;

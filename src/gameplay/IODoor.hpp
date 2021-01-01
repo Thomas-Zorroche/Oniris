@@ -2,6 +2,8 @@
 
 #include "gameplay/InteractiveObject.hpp"
 #include "lighting/LightManager.hpp"
+#include "engine/AudioManager.hpp"
+
 
 class StaticMesh;
 
@@ -20,6 +22,7 @@ private:
 
 void IODoor::Interact()
 {
+	AudioManager::Get().Play("res/audio/door.mp3", 0.2, false);
 
 	if (_open)
 	{

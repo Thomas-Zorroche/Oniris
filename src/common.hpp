@@ -6,19 +6,6 @@
 #include <cmath>
 #include <iostream>
 
-static void GLClearError()
-{
-    while (glGetError() != GL_NO_ERROR);
-}
-
-static void GLCheckError()
-{
-    while (GLenum error = glGetError())
-    {
-        std::cout << "[OPENGL ERROR] " << error << std::endl;
-    }
-}
-
 
 struct ShapeVertex {
     glm::vec3 position;
