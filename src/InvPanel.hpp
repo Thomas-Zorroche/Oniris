@@ -9,24 +9,24 @@ public:
 		: Panel(texture, name, x, y, scale, spriteSize, nbSprite, visibity) {};
 	void TranslateTexture(int dir) 
 	{
-		if (_position == 0)
+		if (_texturePosition == 0)
 		{
 			Panel::TranslateTexture(dir);
-			_position = 1;
+			_texturePosition = 1;
 		}
-		else if (_position == 1)
+		else if (_texturePosition == 1)
 		{
 			Panel::TranslateTexture(dir);
-			_position = 2;
+			_texturePosition = 2;
 		}
 		else 
 		{
 			Panel::TranslateTexture(dir);
 			Panel::TranslateTexture(dir);
-			_position = 1;
+			_texturePosition = 1;
 		}
 	};
 private :
-	int _position = 0;
+	int _texturePosition = 0;
 
 };
