@@ -19,12 +19,13 @@ public:
 	void Play(const std::string& path, float volume = 1.0f, bool loop = true);
 	void Stop(const std::string& path);
 	void SetListenerPosition(glm::vec3 position, glm::vec3 lookdir);
-	void SetUpSea();
-	void SetUpRiver();
-	void PlayWind();
+	void Init();
 
 
 private:
+	void SetUpSea();
+	void SetUpRiver();
+	void PlayWind();
 	AudioManager() {};
 	~AudioManager() {};
 	//std::unordered_map<std::string, AudioPlayer> _Audios;

@@ -28,13 +28,8 @@ void mainloop(GLFWwindow* window)
     Renderer::Get().SetCamera(camera);
     Renderer::Get().ComputeProjectionMatrix();
 
-    // Sound 
-    //========================================================    
-    AudioManager::Get().Play("res/audio/music.mp3", 0.005f);
-    AudioManager::Get().Play("res/audio/forest.mp3", 0.02f);
-    AudioManager::Get().SetUpSea();
-    AudioManager::Get().SetUpRiver();
-    AudioManager::Get().PlayWind();
+    // Sound
+    AudioManager::Get().Init();
 
     // Initialisation Collision Manager
     CollisionManager::Get().Init(camera);

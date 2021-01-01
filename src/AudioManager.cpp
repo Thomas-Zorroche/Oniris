@@ -1,6 +1,14 @@
 #include "AudioManager.hpp"
 #include <iostream>
 
+void AudioManager::Init() {
+	Play("res/audio/music.mp3", 0.005f);
+	Play("res/audio/forest.mp3", 0.02f);
+	SetUpSea();
+	SetUpRiver();
+	PlayWind();
+}
+
 void AudioManager::Play(const std::string& path, float volume, bool loop) {
 	if (!_Engine->isCurrentlyPlaying(path.c_str()))
 	{
