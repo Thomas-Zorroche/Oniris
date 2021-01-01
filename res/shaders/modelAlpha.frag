@@ -87,7 +87,7 @@ void main()
     vec3 finalColor = mix(grassDark, grassLight, vFragHeight);
 
     //finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
-    finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
+    //finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
     // Simple Fog
     fFragColor = vec4( mix(ApplyFog(finalColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), finalColor.rgb, factorFog) , 1.0);

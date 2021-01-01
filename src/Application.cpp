@@ -28,7 +28,6 @@ void mainloop(GLFWwindow* window)
     // Camera
     auto camera = std::make_shared<Camera>(scene.TerrainPtr());
     Renderer::Get().SetCamera(camera);
-    Renderer::Get().ComputeProjectionMatrix();
 
     // Sound 
     //========================================================    

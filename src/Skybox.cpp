@@ -13,7 +13,6 @@ Skybox::Skybox(const std::vector<std::string>& faces)
 
 void Skybox::GenerateMesh()
 {
-    std::cout << "Generate Skybox" << std::endl;
     std::vector<ShapeVertex> vertices;
     int index = 0;
     for (size_t i = 0; i < 36; i++)

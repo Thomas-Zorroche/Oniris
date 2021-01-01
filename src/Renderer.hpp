@@ -64,6 +64,7 @@ public:
 	void SetCamera(const std::shared_ptr<Camera>& camera)
 	{
 		_camera = camera;
+		ComputeProjectionMatrix();
 	}
 
 	glm::mat4 View() const { return _view;  }

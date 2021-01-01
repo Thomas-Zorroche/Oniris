@@ -133,13 +133,11 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 
 			if (alpha)
 			{
-				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/modelAlpha.frag", "ParticuleAlpha");
 				StaticMesh staticMesh = StaticMesh(model, transLayout, "ParticuleAlpha", fog);
 				particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));
 			}
 			else
 			{
-				ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/model.frag", "Particule");
 				StaticMesh staticMesh = StaticMesh(model, transLayout, "Particule", fog);
 				particuleSystems.push_back(std::make_shared<ParticuleSystem>(ParticuleSystem(name, staticMesh, count, size, randomSize, controlPoints, terrain)));
 			}

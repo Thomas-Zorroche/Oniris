@@ -10,18 +10,18 @@
 void Hud::Init()
 {
 
-	AddPanel("p_key", std::make_shared<InventoryPanel>("res/img/inv_key.png", "p_key", 0.9, 0.1, 0.4, 128, 3, true));
-	AddPanel("p_map", std::make_shared<InventoryPanel>("res/img/inv_map.png", "p_map", 0.9, -0.1, 0.4, 128, 3, true));
-	AddPanel("p_pickup", std::make_shared<Panel>("res/img/e_pickup.png", "p_pickup", 0.0, -0.9, 0.5, 288, 1, false));
-	AddPanel("p_observe", std::make_shared<Panel>("res/img/e_observe.png", "p_observe", 0.0, -0.9, 0.5, 288, 1, false));
-	AddPanel("p_lightup", std::make_shared<Panel>("res/img/e_allumer.png", "p_lightup", 0.0, -0.9, 0.5, 288, 1, false));
-	AddPanel("p_open", std::make_shared<Panel>("res/img/e_ouvrir.png", "p_open", 0.0, -0.9, 0.5, 288, 1, false));
-	AddPanel("p_close", std::make_shared<Panel>("res/img/e_close.png", "p_close", 0.0, -0.9, 0.5, 288, 1, false));
-	AddPanel("p_lightoff", std::make_shared<Panel>("res/img/e_lightoff.png", "p_lightoff", 0.0, -0.9, 0.5, 288, 1, false));
-	AddPanel("p_crystal", std::make_shared<Panel>("res/img/ui_crystal.png", "p_crystal", 0.8, -0.7, 1.0, 128, 5, true));
+	AddPanel("p_key", std::make_shared<InventoryPanel>("res/img/hud/inv_key.png", "p_key", 0.9, 0.1, 0.4, 128, 3, true));
+	AddPanel("p_map", std::make_shared<InventoryPanel>("res/img/hud/inv_map.png", "p_map", 0.9, -0.1, 0.4, 128, 3, true));
+	AddPanel("p_pickup", std::make_shared<Panel>("res/img/hud/e_pickup.png", "p_pickup", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_observe", std::make_shared<Panel>("res/img/hud/e_observe.png", "p_observe", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_lightup", std::make_shared<Panel>("res/img/hud/e_lighton.png", "p_lightup", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_open", std::make_shared<Panel>("res/img/hud/e_open.png", "p_open", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_close", std::make_shared<Panel>("res/img/hud/e_close.png", "p_close", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_lightoff", std::make_shared<Panel>("res/img/hud/e_lightoff.png", "p_lightoff", 0.0, -0.9, 0.5, 288, 1, false));
+	AddPanel("p_crystal", std::make_shared<Panel>("res/img/hud/ui_crystal.png", "p_crystal", 0.8, -0.7, 1.0, 128, 5, true));
 	AddPanel("p_menuNarrativeObject", std::make_shared<Panel>("res/img/object/menuNarrativeObject.png", "p_menuNarrativeObject", 0, 0, 1, 1280, 1, false));
-	AddPanel("p_menuMap", std::make_shared<Panel>("res/img/mapmenu.png", "p_menuMap", 0, 0, 1, 1280, 1, false));
-	AddPanel("p_target", std::make_shared<TargetPanel>("res/img/target.png", "p_target", 0, 0, 1.0, 8, 2, true));
+	AddPanel("p_menuMap", std::make_shared<Panel>("res/img/hud/mapmenu.png", "p_menuMap", 0, 0, 1, 1280, 1, false));
+	AddPanel("p_target", std::make_shared<TargetPanel>("res/img/hud/target.png", "p_target", 0, 0, 1.0, 8, 2, true));
 
 }
 

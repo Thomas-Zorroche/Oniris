@@ -7,13 +7,16 @@
 Panel::Panel(const std::string& texture, const std::string& name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
 	_modelMatrix(glm::mat4(1.0f)), _nbSprite(nbSprite), _visibility(visibility), _name(name)
 {
-	//
-	// [TODO] :: put Global window size
-	//
+	float imgWidth = 0.0f, imgHeight = 0.0f;
+	try {
+		imgWidth = ResourceManager::Get().LoadTexture(texture, DIFFUSE).Width();
+		imgHeight = ResourceManager::Get().LoadTexture(texture, DIFFUSE).Height();
+	}
+	catch (const std::string& e) {
+		std::cerr << e << std::endl;
+	}
 
-	float imgWidth = ResourceManager::Get().LoadTexture(texture, DIFFUSE).Width();
 	float posX = (imgWidth / float(_nbSprite)) / 1280.0 ;
-	float imgHeight = ResourceManager::Get().LoadTexture(texture, DIFFUSE).Height();
 	float posY = imgHeight / 720.0;
 	_spriteSize = spriteSize / imgWidth;
 

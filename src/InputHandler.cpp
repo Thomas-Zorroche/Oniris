@@ -20,12 +20,13 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     float boostSprint = 1.0f;
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
         boostSprint = 5.0f; 
-    // Remettre 2 pour la release
+    // 
+    // [TODO] :: Remettre 2 pour la release
+    //
 
     // Retrive Screen State from Hud
     // ===================================================================================================
     const ScreenState state = Hud::Get().GetState();
-    std::cout << (int)state << std::endl;
 
     // If player observes a narrative object, he can not move
     // ===================================================================================================

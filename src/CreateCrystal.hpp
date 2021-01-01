@@ -30,7 +30,6 @@ public:
 
 			std::shared_ptr<Object> object = std::make_shared<UsableObject>(model, position, "o_crystal_" + std::to_string(i), "crystal", game);
 			objects.insert({ "o_crystal_" + std::to_string(i), object });
-			std::cout << position.x << " " << position.z << std::endl;
 		}
 	}
 

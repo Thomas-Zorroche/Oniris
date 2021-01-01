@@ -21,11 +21,7 @@ void ResourceManager::DeleteAllResources()
 		glDeleteTextures(1, texture.second.IdPtr());
 	}
 
-	// Delete Models
-	/*for (auto& models : _modelCache)
-	{
-		models.second->Delete();
-	}*/
+
 }
 
 //
@@ -48,12 +44,8 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 
 	if (!localBuffer)
 	{
-		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
+		throw std::string("[STBI_IMAGE] Error whe loading image : " + path);
 		stbi_image_free(localBuffer);
-		// 
-		// [TODO 2] :: A remplacer par une execption
-		//
-		assert("FAILED TO LOAD TEXTURE"); 
 	}
 
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -63,8 +55,8 @@ Texture ResourceManager::LoadTexture(const std::string& path, TextureType type)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	std::cout << "Resource Manager: loaded texture: " << path << std::endl;
-
+	std::cout << "[Resource Manager] : loaded texture: " << path << std::endl;
+	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, localBuffer);
 
 	Texture texture(textureID, type, std::vector<unsigned char>(), path, width, height);
@@ -92,7 +84,7 @@ std::vector<unsigned short> ResourceManager::LoadHeightmap(const std::string& pa
 	// Fill imageData in order to retrieve pixel color later
 	std::vector<unsigned short> imageData(localBuffer, localBuffer + height * height);
 
-	std::cout << "Resource Manager: loaded texture: " << path << std::endl;
+	std::cout << "[Resource Manager] : loaded texture: " << path << std::endl;
 
 	stbi_image_free(localBuffer);
 
@@ -129,6 +121,8 @@ unsigned int ResourceManager::LoadCubemap(const std::vector<std::string>& faces)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+	std::cout << "[Resource Manager] : loaded skybox" << std::endl;
 
 	return textureID;
 }

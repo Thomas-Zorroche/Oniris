@@ -9,13 +9,10 @@
 Texture::Texture()
 	: _rendererID(0), _width(0), _height(0), _type(DIFFUSE)
 {
-	std::cout << "DEFAULT" << std::endl;
 }
 
 Texture::Texture(const Texture& other)
 {
-	std::cout << "COPY" << std::endl;
-	
 	if (this != &other)
 	{
 		_rendererID = other._rendererID;
@@ -30,7 +27,6 @@ Texture::Texture(const Texture& other)
 Texture::Texture(unsigned int id, TextureType type, const std::vector<unsigned char>& imageData, const std::string& path, int width, int height)
 	: _rendererID(id), _type(type), _imageData(imageData), _path(path), _width(width), _height(height)
 {
-	std::cout << "DEFAULT TEXTURE CONSTRUCTOR" << std::endl;
 }
 
 

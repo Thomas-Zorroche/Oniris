@@ -145,10 +145,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox)
     mat->GetTexture(aiTextureType_HEIGHT, 0, &normalPath);
 
     // Cache the new Material
-    //const auto newMaterial = ResourceManager::Get().CachePBRMaterial(name.C_Str(), diffusePath.C_Str(), specularPath.C_Str(), normalPath.C_Str());
-    //const auto newMaterial = ResourceManager::Get().CachePBRColorMaterial(name.C_Str(), glm::vec3(1.0, 0.0, 0.0));
     const auto newMaterial = ResourceManager::Get().CacheBasicMaterial(name.C_Str(), diffusePath);
-
 
     // return a mesh object created from the extracted mesh data
     return Mesh(vertices, newMaterial, indices);

@@ -21,18 +21,27 @@ Material::Material()
 void Material::InitBasic(const std::string& name, const std::string& diffusePath)
 {
 	_name = name;
-
-	_materialTextures[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
+	try {
+		if (diffusePath != "res/img/")
+			_materialTextures[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
+	}
+	catch (const std::string& e) {
+		std::cerr << e << std::endl;
+	}
 }
 
 void Material::InitTexturePBR(const std::string& name, const std::string& diffusePath,
 	const std::string& normalPath, const std::string& roughnessPath)
 {
 	_name = name;
-
-	_materialTextures[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
-	_materialTextures[ROUGHNESS] = ResourceManager::Get().LoadTexture(roughnessPath, ROUGHNESS).Id();
-	_materialTextures[NORMAL] = ResourceManager::Get().LoadTexture(normalPath, NORMAL).Id();
+	try {
+		_materialTextures[DIFFUSE] = ResourceManager::Get().LoadTexture(diffusePath, DIFFUSE).Id();
+		_materialTextures[ROUGHNESS] = ResourceManager::Get().LoadTexture(roughnessPath, ROUGHNESS).Id();
+		_materialTextures[NORMAL] = ResourceManager::Get().LoadTexture(normalPath, NORMAL).Id();
+	}
+	catch (const std::string& e) {
+		std::cerr << e << std::endl;
+	}
 }
 
 void Material::InitColorPBR(const std::string& name, const glm::vec3& color, float shininess)
@@ -55,7 +64,12 @@ void Material::InitMulipleTextures(const std::string& name, const std::vector<st
 
 	for (size_t i = 0; i < texturesPath.size(); i++)
 	{
-		_materialTextures[i] = ResourceManager::Get().LoadTexture(texturesPath[i], DIFFUSE).Id();
+		try {
+			_materialTextures[i] = ResourceManager::Get().LoadTexture(texturesPath[i], DIFFUSE).Id();
+		}
+		catch (const std::string& e) {
+			std::cerr << e << std::endl;
+		}
 	}
 }
 

@@ -53,7 +53,7 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 
 	// Create Terrain
 	// ==============
-	_terrain = std::make_shared<Terrain>(0, 0, "res/img/heightmap_rotate.png");
+	_terrain = std::make_shared<Terrain>(0, 0, "res/img/Terrain/heightmap.png");
 
 	// Load All Lights
 	// =================
@@ -92,9 +92,8 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 		AddStaticMesh(staticMeshes[i]);
 	}
 
-	// Ui shader loading & Hud creation
-	// ================================
-	ResourceManager::Get().LoadShader("res/shaders/3DTex_ui.vert", "res/shaders/ui.frag", "Ui");
+	// Hud creation
+	// ============
 	Hud::Get().Init();
 
 	// Create Objects
@@ -155,6 +154,8 @@ void Scene::Draw()
 	// ===========
 	_portal->Draw();
 
+	// Draw Hud
+	// ===========
 	Hud::Get().Draw();
 }
 
