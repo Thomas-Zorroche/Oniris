@@ -12,7 +12,7 @@ class TransformLayout;
 class Object
 {
 public:
-	Object(const Model& model, const TransformLayout& transLayout);
+	Object(const Model& model, const TransformLayout& transLayout, const std::string& shaderName = "Model3D_Tex");
 	virtual ~Object();
 
 	void Draw();

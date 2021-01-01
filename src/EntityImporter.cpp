@@ -344,8 +344,6 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 		if (line.find("[end]") != std::string::npos)
 		{
 			Model model = Model(objPath);
-			ResourceManager::Get().LoadShader("res/shaders/3DTex.vert",
-				"res/shaders/model.frag", "Key" );
 
 			//
 			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects

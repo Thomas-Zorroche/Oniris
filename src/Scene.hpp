@@ -13,6 +13,7 @@ class StaticMesh;
 class Skybox;
 class Terrain;
 class Fog;
+class Portal;
 
 
 class Scene
@@ -44,9 +45,12 @@ private:
 	std::shared_ptr<Ocean> _ocean;
 	std::shared_ptr<Skybox> _skybox;
 	std::shared_ptr<Fog> _fog;
+	std::shared_ptr<Portal> _portal;
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;
+
+
 
 };
 

@@ -39,6 +39,6 @@ private:
 	unsigned int _pointLightsCount = 0;
 	unsigned int _dirLightsCount = 0;
 
-	bool _lightsOn = true;
+	bool _lightsOn = false;
 };
 

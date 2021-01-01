@@ -91,21 +91,18 @@ void Hud::Translate(const std::string& name) {
 		}
 		Game::Get().LostKey();
 	}
-
 	else if (name == "map")
 	{
 		auto map = _panels.find("p_map");
 		if (map != _panels.end()) 
 			map->second->TranslateTexture(1);
 	}
-	
 	else
 	{
 		auto panel = _panels.find("p_"+ name);
 		if (panel != _panels.end())
 			panel->second->TranslateTexture(1);
 	}
-
 }
 
 

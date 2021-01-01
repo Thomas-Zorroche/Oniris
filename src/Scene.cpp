@@ -8,6 +8,7 @@
 #include "Skybox.hpp"
 #include "ParticuleSystem.hpp"
 
+#include "Portal.hpp"
 #include "Object.hpp"
 #include "UsableObject.hpp"
 #include "NarrativeObject.hpp"
@@ -57,6 +58,7 @@ void Scene::Init(const std::string& pathScene)
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/model.frag", "Model3D_Tex");
 	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/cbox.frag", "CBox");
+	ResourceManager::Get().LoadShader("res/shaders/3DTex.vert", "res/shaders/portal.frag", "Portal");
 
 	// Create Terrain
 	// ==============
@@ -130,10 +132,9 @@ void Scene::Init(const std::string& pathScene)
 		AddStaticMesh(obj);
 	}
 
-
-	// Init Game
-	// =========
-	Game::Get().SetRefObjects(&_objects);
+	// Portal
+	// ======
+	_portal = Game::Get().PortalPtr();
 }
 
 void Scene::Draw()
@@ -178,12 +179,12 @@ void Scene::Draw()
 
 		if (obj->IsInWorld())
 			obj->Draw();
-
 	}
 
+	// Draw portal
+	// ===========
+	_portal->Draw();
 
-	
-	
 	Hud::Get().Draw();
 }
 
@@ -199,6 +200,3 @@ void Scene::AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particule
 	_particuleSystemCount++;
 }
 
-//void Scene::AddObject(const std::string& name, const std::shared_ptr<Object>& object) {
-//	_objects.insert({name, object});
-//}
