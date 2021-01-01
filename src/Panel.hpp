@@ -23,14 +23,9 @@ public:
 	//Draw
 	void Draw() const;
 
-	// A appeler à chaque tour de boucle de rendu
-	void Update(Camera* camera);
-
 	inline bool IsVisible() const { return _visibility; };
 	void setVisibility(bool visbility) { _visibility = visbility ; };
 	virtual void TranslateTexture(int dir);
-	const std::string& GetName() const { return _name; }
-	virtual void setTexPosition(int pos) {};
 
 private:
 	void ComputeModelMatrix(float x, float y, float scale);

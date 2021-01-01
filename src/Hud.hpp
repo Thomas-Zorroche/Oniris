@@ -34,7 +34,6 @@ public:
 	void Init();
 	void AddPanel(const std::string& name, const std::shared_ptr<Panel>& panel);
 	void SetVisibility(const std::string& name, bool visibility);
-	bool IsVisible(const std::string& name) const; 
 	void Update();
 	ScreenState GetState() const { return _state; }
 	void SetState(ScreenState state) { _state = state; }

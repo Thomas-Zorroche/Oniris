@@ -43,11 +43,6 @@ Panel::Panel(const std::string& texture, const std::string& name, float x, float
 
 }
 
-void Panel::Update(Camera* camera)
-{
-	//to do ou pas 
-}
-
 void Panel::Draw() const {
 	auto shader = ResourceManager::Get().GetShader("Ui");
 	shader->Bind();

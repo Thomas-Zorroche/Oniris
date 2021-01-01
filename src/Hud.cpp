@@ -118,16 +118,3 @@ void Hud::SetVisibility(const std::string& name, bool visibility) {
 	_panels.find(name)->second->setVisibility(visibility);
 }
 
-bool Hud::IsVisible(const std::string& name) const
-{ 
-	auto it = _panels.find(name);
-
-	if (it != _panels.end())
-		return it->second->IsVisible();
-	else
-		throw std::string("Panel name : " + name + " doesn't exist.");
-
-	// Todo : réparer l'exception
-
-	return false;
-}
