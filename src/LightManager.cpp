@@ -7,6 +7,8 @@
 #include "Renderer.hpp"
 #include "PointLight.hpp"
 
+const int LightManager::POINT_LIGHTS_COUNT = 3;
+
 void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 {
 	int indexPointLights = 0;
@@ -18,14 +20,16 @@ void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 		{
 			std::string n = std::to_string(indexPointLights);
 
-			if (indexPointLights > 2)
+			if (indexPointLights > POINT_LIGHTS_COUNT)
 				throw std::string("Can't have more than " + std::to_string(indexPointLights - 1) + " on the scene.");
 
-			if (_lightsOn)
+			if (_lightsOn && _lights[i]->Electricity())
 				shader->SetUniform1f("pointLights["+n+"].intensity", _lights[i]->Intensity());
-			else
+			else if (!_lightsOn && _lights[i]->Electricity())
 				shader->SetUniform1f("pointLights["+n+"].intensity", 0.0f);
-			
+			else if (!_lights[i]->Electricity())
+				shader->SetUniform1f("pointLights["+n+"].intensity", _lights[i]->Intensity());
+
 			shader->SetUniform3f("pointLights["+n+"].ambient", _lights[i]->Ambient());
 			shader->SetUniform3f("pointLights["+n+"].diffuse", _lights[i]->Diffuse());
 			shader->SetUniform3f("pointLights["+n+"].specular", _lights[i]->Specular());

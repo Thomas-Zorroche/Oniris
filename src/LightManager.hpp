@@ -34,11 +34,13 @@ private:
 	LightManager() = default;
 	~LightManager() = default;
 
+	const static int POINT_LIGHTS_COUNT;
+
 	std::vector<BaseLightPtr> _lights;
 
 	unsigned int _pointLightsCount = 0;
 	unsigned int _dirLightsCount = 0;
 
-	bool _lightsOn = true;
+	bool _lightsOn = false;
 };
 

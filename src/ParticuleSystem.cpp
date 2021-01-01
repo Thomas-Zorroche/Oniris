@@ -17,7 +17,7 @@
 
 
 ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh, unsigned int count, float size, float randomSize,
-    const std::vector<ControlPointParticule>& controlPoints, std::shared_ptr<Terrain>& terrain)
+    const std::vector<ControlPointParticule>& controlPoints, const std::shared_ptr<Terrain>& terrain)
 	: _name(name), _instance(mesh), _instanceVAO(mesh.GetVAO()), _count(count), _controlPoints(controlPoints), _terrain(terrain),
       _size(size), _randomSize(randomSize)
 {

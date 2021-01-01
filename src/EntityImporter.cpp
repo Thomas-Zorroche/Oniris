@@ -28,7 +28,7 @@
 * IMPORT PARTICULES SYSTEMS
 */
 std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(const std::string& filepath, 
-	std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Fog>& fog) const
+	const std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Fog>& fog) const
 {
 	std::vector<std::shared_ptr<ParticuleSystem> > particuleSystems;
 	std::vector<ControlPointParticule> controlPoints;
@@ -162,7 +162,7 @@ std::vector<std::shared_ptr<ParticuleSystem> > EntityImporter::ParticuleSystems(
 /*
 * IMPORT STATIC MESHES
 */
-std::vector<std::shared_ptr<StaticMesh> > EntityImporter::StaticMeshes(const std::string& filepath, std::shared_ptr<Terrain>& terrain,
+std::vector<std::shared_ptr<StaticMesh> > EntityImporter::StaticMeshes(const std::string& filepath, const std::shared_ptr<Terrain>& terrain,
 	const std::shared_ptr<Fog>& fog) const
 {
 	std::vector<std::shared_ptr<StaticMesh> > staticMeshes;
@@ -258,8 +258,8 @@ std::vector<std::shared_ptr<StaticMesh> > EntityImporter::StaticMeshes(const std
 /*
 * IMPORT OBJECTS
 */
-ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::shared_ptr<Terrain>& terrain,
-	const std::shared_ptr<Fog>& fog) const {
+ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, const std::shared_ptr<Terrain>& terrain,
+	const std::shared_ptr<Fog>& fog, const std::shared_ptr<Game>& game) const {
 
 	// Return values
 	std::unordered_map<std::string, std::shared_ptr<Object>> objects;
@@ -344,8 +344,6 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 		if (line.find("[end]") != std::string::npos)
 		{
 			Model model = Model(objPath);
-			ResourceManager::Get().LoadShader("res/shaders/3DTex.vert",
-				"res/shaders/model.frag", "Key" );
 
 			//
 			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects
@@ -353,9 +351,9 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object = nullptr;
 			if (type == "Um") 
-				object = std::make_shared<UsableObject>(model, position, "o_" + name, "map");
+				object = std::make_shared<UsableObject>(model, position, "o_" + name, "map", game);
 			else if (type == "Uk") 
-				object = std::make_shared<UsableObject>(model, position, "o_" + name, "key");
+				object = std::make_shared<UsableObject>(model, position, "o_" + name, "key", game);
 			else if (type == "N")
 			{
 				Panel panel = Panel(texPath, "o_" + name, 0.4, 0, 1, 512, 1, false);
@@ -391,7 +389,7 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, std::sh
 	// End while loop
 
 	//create crystal
-	CreateCrystal crystal = CreateCrystal(objects, *terrain);
+	CreateCrystal crystal = CreateCrystal(objects, terrain, game);
 
 	return { objects, ioObjects };
 }

@@ -2,8 +2,9 @@
 #include "ResourceManager.hpp"
 #include "StaticMesh.hpp"
 
-UsableObject::UsableObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName, const std::string& type)
-	: Object(model, transLayout), _panelName(panelName), _Type(type)
+UsableObject::UsableObject(const Model& model, const TransformLayout& transLayout, const std::string& panelName, 
+	const std::string& type, const std::shared_ptr<Game>& game)
+	: Object(model, transLayout), _panelName(panelName), _Type(type), _gamePtr(game)
 {
 
 }
@@ -28,10 +29,9 @@ void UsableObject::OnOverlap()
 		if (_InWorld)
 		{
 			std::cout << "pick up\n";
-			Game::Get().PickUp(_Type);
-			Hud::Get().Translate(_Type);
+			_gamePtr->PickUp(_Type);
+			Hud::Get().Translate(_Type, _gamePtr);
 			_InWorld = false;
 		}
 	}
-
 }

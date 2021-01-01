@@ -3,8 +3,9 @@
 PointLight::PointLight(float intensity,
                        const glm::vec3& color,
                        const glm::vec3& position,
-                       float radius)
-    : BaseLight(LightType::POINT, intensity, color), _position(position), _radius(radius)
+                       float radius,
+                       bool electricity)
+    : BaseLight(LightType::POINT, intensity, color, electricity), _position(position), _radius(radius)
 {
     UpdateAttenuation();
 }

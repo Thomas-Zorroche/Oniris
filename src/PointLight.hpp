@@ -9,7 +9,8 @@ public:
     PointLight(float intensity = 1.0f,
                const glm::vec3& color = glm::vec3(1.0, 1.0, 1.0),
                const glm::vec3& position = glm::vec3(0, 0, 0),
-               float radius = 20.0f);
+               float radius = 20.0f,
+               bool electricity = true);
 
     // Getters
     const glm::vec3& Position() const { return _position; }

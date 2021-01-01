@@ -8,7 +8,7 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
-void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime)
+void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Game>& game, float deltaTime)
 {
     // Close Window
     // ===================================================================================================
@@ -32,7 +32,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     if (state != ScreenState::OBJMENU && state != ScreenState::MAPMENU)
         Movement(window, camera, deltaTime * boostSprint);
 
-    camera.updateBox();
+    camera->updateBox();
 
     // Print Debug cBox Mode
     // ===================================================================================================
@@ -50,7 +50,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
     // ===================================================================================================
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && _ActiveKey != ActiveKey::A) // Q Qwerty = A Azerty
     {
-        if (Game::Get().Hasmap())
+        if (game->Hasmap())
         {
             if (state == ScreenState::INGAME)
                 Hud::Get().SetState(ScreenState::MAPMENU);
@@ -116,19 +116,19 @@ void InputHandler::ProcessInput(GLFWwindow* window, Camera& camera, float deltaT
 
 }
 
-void InputHandler::Movement(GLFWwindow* window, Camera& camera, float deltaTime) {
+void InputHandler::Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime) {
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
     {
         AudioManager::Get().Play("res/audio/footsteps.mp3", 0.2f);
-        camera.MoveFront(deltaTime);
+        camera->MoveFront(deltaTime);
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
-        camera.MoveFront(-deltaTime);
+        camera->MoveFront(-deltaTime);
     else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
-        camera.MoveLeft(deltaTime);
+        camera->MoveLeft(deltaTime);
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
-        camera.MoveLeft(-deltaTime);
+        camera->MoveLeft(-deltaTime);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_S) == GLFW_RELEASE &&
         glfwGetKey(window, GLFW_KEY_A) == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_D) == GLFW_RELEASE)
@@ -136,18 +136,20 @@ void InputHandler::Movement(GLFWwindow* window, Camera& camera, float deltaTime)
 }
 
 
-void InputHandler::SetCallback(GLFWwindow* window, Camera* camera) 
+void InputHandler::SetCallback(GLFWwindow* window, CallbackPtr& callbackPtr)
 {
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
-    glfwSetWindowUserPointer(window, camera);
+    glfwSetWindowUserPointer(window, &callbackPtr);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    Camera* camera = (Camera*)glfwGetWindowUserPointer(window);
+    CallbackPtr* callbackPtr = (CallbackPtr*)glfwGetWindowUserPointer(window);
+    auto camera = callbackPtr->_camera;
+
     float xoffset = xpos - camera->GetLastX();
     float yoffset = ypos - camera->GetLastY();
     camera->SetLastX(xpos);
@@ -165,8 +167,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {   
-    if (Game::Get().HasKey())
-        Hud::Get().Translate("key");
-    if (Game::Get().Hasmap())
-        Hud::Get().Translate("map");
+    CallbackPtr* callbackPtr = (CallbackPtr*)glfwGetWindowUserPointer(window);
+    auto game = callbackPtr->_game;
+    
+    if (game->HasKey())
+        Hud::Get().Translate("key", game);
+    if (game->Hasmap())
+        Hud::Get().Translate("map", game);
 }

@@ -1,5 +1,11 @@
 #StaticMeshes
 
+[obj] res/models/Portal.obj
+[loc] 499 578
+[rot] 0 0 0
+[scl] 2.2
+[end]
+
 //
 // VILLAGE
 //
@@ -143,11 +149,7 @@
 // FANTASY
 //
 
-[obj] res/models/Portal.obj
-[loc] 499 578
-[rot] 0 0 0
-[scl] 2.2
-[end]
+
 
 [obj] res/models/Stonehenge.obj
 [loc] 483 675

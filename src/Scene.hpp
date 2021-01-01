@@ -13,15 +13,17 @@ class StaticMesh;
 class Skybox;
 class Terrain;
 class Fog;
+class Portal;
+class Game;
 
 
 class Scene
 {
 public:
-	Scene(const std::string& pathScene);
+	Scene(const std::string& pathScene, const std::shared_ptr<Game>& game);
 	~Scene();
 
-	void Init(const std::string& pathScene);
+	void Init(const std::string& pathScene, const std::shared_ptr<Game>& game);
 
 	void Draw();
 
@@ -44,9 +46,12 @@ private:
 	std::shared_ptr<Ocean> _ocean;
 	std::shared_ptr<Skybox> _skybox;
 	std::shared_ptr<Fog> _fog;
+	std::shared_ptr<Portal> _portal;
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;
+
+
 
 };
 

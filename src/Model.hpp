@@ -32,12 +32,9 @@ private:
 	std::vector<Mesh> _meshes;
 	std::vector<Mesh> _cBoxes;
 	std::string _directory;
-	std::vector<Texture> _textures_loaded;
 
 
 	void LoadModel(const std::string& path);
 	void processNode(aiNode* node, const aiScene* scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene, bool IscBox);
-	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
-
 };

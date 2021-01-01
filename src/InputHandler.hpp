@@ -5,6 +5,10 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
+class Camera;
+class Game;
+struct CallbackPtr;
+
 enum class ActiveKey {
 	NONE, 
 	C,	// show cBOx
@@ -26,8 +30,8 @@ public:
 	InputHandler(const InputHandler&) = delete;
 	InputHandler& operator=(const InputHandler&) = delete;
 
-	void ProcessInput(GLFWwindow* window, Camera& camera, float deltaTime);
-	void SetCallback(GLFWwindow* window, Camera* camera);
+	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Game>& game, float deltaTime);
+	void SetCallback(GLFWwindow* window, CallbackPtr& callbackPtr);
 	ActiveKey GetActiveKey() { return _ActiveKey; };
 	
 	bool CanInteract() const { return _canInteract; }
@@ -42,7 +46,7 @@ private:
 	ActiveKey _ActiveKey = ActiveKey::NONE;
 	bool _canInteract = false;
 
-	void Movement(GLFWwindow* window, Camera& camera, float deltaTime);
+	void Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime);
 };
 //
 // callbacks functions
@@ -51,3 +55,13 @@ private:
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+
+struct CallbackPtr
+{
+	std::shared_ptr<Game> _game;
+	std::shared_ptr<Camera> _camera;
+
+	CallbackPtr(const std::shared_ptr<Game>& game, const std::shared_ptr<Camera>& camera)
+		: _game(game), _camera(camera) {}
+};

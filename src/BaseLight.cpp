@@ -1,11 +1,10 @@
 #include "BaseLight.hpp"
 
-BaseLight::BaseLight(LightType type, float intensity, const glm::vec3& color)
-	: _type(type), _intensity(intensity), _color(color) 
+BaseLight::BaseLight(LightType type, float intensity, const glm::vec3& color, bool electricity)
+	: _type(type), _intensity(intensity), _color(color), _electricity(electricity),
+	  _ambient(color), _diffuse(color), _specular(color)
 {
-	_ambient = color;
-	_diffuse = color;
-	_specular = color;
+
 }
 
 
@@ -13,6 +12,10 @@ BaseLight::BaseLight(LightType type, float intensity, const glm::vec3& color)
 float BaseLight::Intensity() const
 {
 	return _intensity;
+}
+void BaseLight::SetIntensity(float intensity)
+{
+	_intensity = intensity;
 }
 const glm::vec3& BaseLight::Ambient() const
 {
@@ -39,4 +42,8 @@ const glm::vec3& BaseLight::Specular() const
 void BaseLight::SetSpecular(const glm::vec3& specular)
 {
 	_specular = specular;
+}
+bool BaseLight::Electricity() const
+{
+	return _electricity;
 }

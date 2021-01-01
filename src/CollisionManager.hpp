@@ -28,7 +28,7 @@ public:
 	void CheckCollisions();
 	void AddBox(const std::shared_ptr<CollisionBox>& box);
 	void DeleteBox(const std::shared_ptr<CollisionBox>& box);
-	void Init(Camera* camera);
+	void Init(const std::shared_ptr<Camera>& camera);
 	
 	
 	
@@ -43,7 +43,7 @@ private:
 
 	CollisionGrid _grid;
 	std::unordered_map<CollisionGridCase, std::vector<std::shared_ptr<CollisionBox> >> _boxes;
-	Camera * _camera;
+	std::shared_ptr<Camera> _camera;
 
 	// Debug Attributes
 	bool _debugMode = false;
