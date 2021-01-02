@@ -8,9 +8,12 @@
 CollisionBox::CollisionBox(const glm::vec3& origin, float w, float h, float d,
     const CollisionLayout& cLayout)
 	: _x(origin.x), _y(origin.y), _z(origin.z), _w(w), _h(h), _d(d), 
-      _debugMesh(Mesh()), _cLayout(cLayout)
+      _debugMesh(ShapeCube(glm::vec3(_x, _y, _z), _w, _h, _d).Vertices(), 
+                 ResourceManager::Get().CachePBRColorMaterial("cubeDebug", glm::vec3(1, 0, 0)), 
+                 ShapeCube(glm::vec3(_x, _y, _z), _w, _h, _d).Indices()),
+     _cLayout(cLayout)
 {
-    updateDebugMesh();
+    //updateDebugMesh();
 }
 
 void CollisionBox::OnBeginOverlap()

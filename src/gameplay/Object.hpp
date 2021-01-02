@@ -24,6 +24,8 @@ public:
 
 	static void SetInputHandlerPtr(InputHandler* inputHandler);
 
+	void Free();
+
 protected:
 	std::shared_ptr<StaticMesh> _staticMesh;
 	std::string _panelName;

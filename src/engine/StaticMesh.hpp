@@ -47,9 +47,9 @@ public:
 	glm::mat4 GetModelMatrix() const { return _modelMatrix; }
 	std::shared_ptr<Shader>& GetShader() { return _shader; }
 
-	void Translate(const glm::vec3& delta);
-	void Scale(float alpha);
-	void Rotate(const glm::vec3& alpha);
+	void Translate(const glm::vec3& delta, bool dynamicCBox = true);
+	void Scale(float alpha, bool dynamicCBox = true);
+	void Rotate(const glm::vec3& alpha, bool dynamicCBox = true);
 
 	std::shared_ptr<CollisionBox> StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox);
 	void StaticMesh::updateCBox();
@@ -57,6 +57,8 @@ public:
 	unsigned int GetVAO() const { return _model.GetVAO(); }
 
 	static void SetCollisionManagerPtr(CollisionManager* cm_Ptr);
+
+	void Free();
 
 	enum RotationCBox {
 		R_0, R_90, R_180, R_270

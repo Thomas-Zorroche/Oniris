@@ -11,14 +11,12 @@ class Material;
 class Mesh
 {
 public:
-	Mesh();
-
 	Mesh(const std::vector<ShapeVertex> & vertices, 
 		 const std::shared_ptr<Material>& material,
 		 const std::vector<unsigned int>& indices  = std::vector<unsigned int>());   // Optional Argument
 
-	//Mesh(const Mesh& m);
-	
+	void Free();
+
 	void Draw(std::shared_ptr<Shader>& shader, bool IsParticuleInstance = false, int countParticules = 0) const;
 
 	unsigned int GetVAO() const { return VAO; }

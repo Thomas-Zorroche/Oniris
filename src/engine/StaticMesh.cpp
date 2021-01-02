@@ -39,9 +39,11 @@ StaticMesh::StaticMesh(const Model& model, const TransformLayout& transLayout, c
 	}
 
 	// Translate the mesh to the correct location
-	Translate(_transformLayout.Location());
-	Rotate(_transformLayout.Rotation());
-	Scale(_transformLayout.Scale());
+	Translate(_transformLayout.Location(), false);
+	Rotate(_transformLayout.Rotation(), false);
+	Scale(_transformLayout.Scale(), false);
+	if (_cBoxLayout.HasCollision())
+		updateCBox();
 }
 
 void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
@@ -54,21 +56,21 @@ void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 * Transfromations
 */
 
-void StaticMesh::Scale(float alpha)
+void StaticMesh::Scale(float alpha, bool dynamic)
 {
 	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(alpha));
-	if (alpha != 1.0f && _cBoxLayout.HasCollision())
+	if (alpha != 1.0f && _cBoxLayout.HasCollision() && dynamic)
 		updateCBox();
 }
 
-void StaticMesh::Translate(const glm::vec3& delta)
+void StaticMesh::Translate(const glm::vec3& delta, bool dynamic)
 {
 	_modelMatrix = _modelMatrix * glm::translate(glm::mat4(1.0f), delta);
-	if (_cBoxLayout.HasCollision())
+	if (_cBoxLayout.HasCollision() && dynamic)
 		updateCBox();
 }
 
-void StaticMesh::Rotate(const glm::vec3& alpha)
+void StaticMesh::Rotate(const glm::vec3& alpha, bool dynamic)
 {
 	_modelMatrix *= glm::rotate(glm::mat4(1.0f), glm::radians(alpha.x), glm::vec3(1, 0, 0));
 	_modelMatrix *= glm::rotate(glm::mat4(1.0f), glm::radians(alpha.y), glm::vec3(0, 1, 0));
@@ -82,7 +84,8 @@ void StaticMesh::Rotate(const glm::vec3& alpha)
 		angle -= 4 * (angle / 4);
 		_angleCBox = (RotationCBox)(angle);
 
-		updateCBox();
+		if (dynamic && _globalRotation != 0.0f)
+			updateCBox();
 	}
 }
 
@@ -109,12 +112,6 @@ void StaticMesh::SendUniforms()
 		_shader->SetUniform3f("fog.colorSun", _fog->Color().second);
 		_shader->SetUniform1f("fog.lowerLimitFog", _fog->LowerLimit());
 		_shader->SetUniform1f("fog.upperLimitFog", _fog->UpperLimit());
-
-		//_shader->SetUniform1f("u_fogDensity", _fog->Density());
-		//_shader->SetUniform1f("u_fogGradient", _fog->Gradient());
-		//_shader->SetUniform1f("u_fogHeight", _fog->Height());
-		//_shader->SetUniform1f("u_lowerLimitFog", _fog->LowerLimit());
-		//_shader->SetUniform1f("u_upperLimitFog", _fog->UpperLimit());
 	}
 
 	_shader->Unbind();
@@ -166,7 +163,7 @@ void StaticMesh::updateCBox()
 		//std::vector<std::shared_ptr<CollisionBox> >::iterator it = _cBoxes.end();
 		_collisionManagerPtr->AddBox(_cBoxes[i]);
 
-		_cBoxes[i]->updateDebugMesh();
+		//_cBoxes[i]->updateDebugMesh();
 	}
 }
 
@@ -184,3 +181,13 @@ void StaticMesh::SetCollisionManagerPtr(CollisionManager* cm_Ptr)
 const std::vector<std::vector<int> > StaticMesh::_indicesCBox = {
 	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1}
 };
+
+
+/*
+* Free Memory of model
+*/
+void StaticMesh::Free()
+{
+	_model.Free();
+}
+

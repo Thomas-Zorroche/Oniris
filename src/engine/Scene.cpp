@@ -34,19 +34,16 @@
 #include <unordered_map>
 
 
-Scene::Scene(const std::string& pathScene, const std::shared_ptr<Game>& game)
+Scene::Scene(const std::shared_ptr<Game>& game)
 	: _terrain(nullptr), _ocean(nullptr), _skybox(nullptr), _fog(std::make_shared<Fog>()),
 		_portal(game->PortalPtr())
 {
-	Init(pathScene, game);
+	Init(game);
 }
 
-Scene::~Scene()
-{
+Scene::~Scene() {}
 
-}
-
-void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game)
+void Scene::Init(const std::shared_ptr<Game>& game)
 {
 	// Init fog into game
 	// ==================
@@ -174,5 +171,29 @@ void Scene::AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particule
 {
 	_particuleSystem.push_back(particuleSystem);
 	_particuleSystemCount++;
+}
+
+void Scene::Free()
+{
+	// Free all static meshes
+	// ==========================
+	for (size_t i = 0; i < _staticMeshesCount; i++)
+		_staticMeshes[i]->Free();
+
+	// Free all objects
+	// ==========================
+	for (auto pair : _objects)
+	{
+		auto obj = pair.second;
+		obj->Free();
+	}
+
+	// Free all panels (hud)
+	// ==========================
+	Hud::Get().Free();
+
+	// Free all textures 
+	// ==========================
+	ResourceManager::Get().DeleteAllResources();
 }
 

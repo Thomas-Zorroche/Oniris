@@ -115,3 +115,15 @@ void Hud::SetVisibility(const std::string& name, bool visibility) {
 	_panels.find(name)->second->setVisibility(visibility);
 }
 
+
+/*
+* Free memory of all panels
+*/
+void Hud::Free()
+{
+	for (auto& pairs : _panels)
+	{
+		pairs.second->Free();
+	}
+}
+

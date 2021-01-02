@@ -16,14 +16,13 @@ class Fog;
 class Portal;
 class Game;
 
-
 class Scene
 {
 public:
-	Scene(const std::string& pathScene, const std::shared_ptr<Game>& game);
+	Scene(const std::shared_ptr<Game>& game);
 	~Scene();
 
-	void Init(const std::string& pathScene, const std::shared_ptr<Game>& game);
+	void Init(const std::shared_ptr<Game>& game);
 
 	void Draw();
 
@@ -31,6 +30,8 @@ public:
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 
 	int StaticMeshesCount() const { return _staticMeshesCount; }
+
+	void Free();
 
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);

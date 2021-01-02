@@ -26,7 +26,7 @@ void mainloop(GLFWwindow* window)
     std::shared_ptr<Game> game = std::make_shared<Game>();
 
     // Scene Initialization
-    Scene scene("worldScene.txt", game);
+    Scene scene(game);
 
     // Camera
     auto camera = std::make_shared<Camera>(scene.TerrainPtr());
@@ -82,4 +82,6 @@ void mainloop(GLFWwindow* window)
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    scene.Free();
 }

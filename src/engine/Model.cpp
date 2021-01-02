@@ -162,4 +162,13 @@ std::vector<ShapeVertex>& Model::VerticesCBox(size_t index)
 }
 
 
+/*
+* Free the memory of all meshes
+*/
+void Model::Free()
+{
+    for (unsigned int i = 0; i < _meshes.size(); i++)
+        _meshes[i].Free();
+}
+
 

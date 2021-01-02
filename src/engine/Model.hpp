@@ -28,6 +28,8 @@ public:
 
 	std::vector<Mesh>& CBoxes() { return _cBoxes; }
 
+	void Free();
+
 private:
 	std::vector<Mesh> _meshes;
 	std::vector<Mesh> _cBoxes;

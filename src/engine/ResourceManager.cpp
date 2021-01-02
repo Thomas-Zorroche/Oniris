@@ -21,8 +21,6 @@ void ResourceManager::DeleteAllResources()
 	{
 		glDeleteTextures(1, texture.second.IdPtr());
 	}
-
-
 }
 
 //
@@ -78,10 +76,7 @@ std::vector<unsigned short> ResourceManager::LoadHeightmap(const std::string& pa
 	if (!localBuffer) {
 		std::cout << "[STBI_IMAGE] Error whe loading image : " << path << std::endl;
 		stbi_image_free(localBuffer);
-		// 
-		// [TODO 2] :: A remplacer par une execption
-		//
-		assert("FAILED TO LOAD TEXTURE");
+		throw std::string("[STBI_IMAGE] Error whe loading heightmap : " + path);
 	}
 	// Fill imageData in order to retrieve pixel color later
 	std::vector<unsigned short> imageData(localBuffer, localBuffer + height * height);
@@ -113,7 +108,7 @@ unsigned int ResourceManager::LoadCubemap(const std::vector<std::string>& faces)
 		}
 		else
 		{
-			std::cout << "[STBI_IMAGE] Error when loading cubemap: " << faces[i] << std::endl;
+			throw std::string("[STBI_IMAGE] Error whe loading heightmap : " + path);
 			stbi_image_free(data);
 		}
 	}
@@ -255,7 +250,5 @@ void ResourceManager::LoadAllShaders()
 
 	ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/modelAlpha.frag", "ParticuleAlpha");
 	ResourceManager::Get().LoadShader("res/shaders/Particule.vert", "res/shaders/model.frag", "Particule");
-
-
 }
 

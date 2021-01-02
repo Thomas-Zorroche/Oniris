@@ -41,6 +41,8 @@ public:
 	void SetState(ScreenState state) { _state = state; }
 	void SetTarget(int position) { _panels.find("p_target")->second->TranslateTexture(position); }
 
+	void Free();
+
 private:
 	Hud() = default;
 	~Hud() = default ;

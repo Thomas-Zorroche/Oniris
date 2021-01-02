@@ -27,6 +27,9 @@ public:
 	void setVisibility(bool visbility) { _visibility = visbility ; };
 	virtual void TranslateTexture(int dir);
 
+	// Memory
+	void Free() { _mesh->Free(); }
+
 private:
 	void ComputeModelMatrix(float x, float y, float scale);
 	void Scale(float x, float y);

@@ -14,14 +14,12 @@ Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Mater
     SetupMesh();
 }
 
-Mesh::Mesh()
-    : _vertices(std::vector<ShapeVertex>()), 
-      _material(ResourceManager::Get().CachePBRColorMaterial("Default", glm::vec3(1.0, 1.0, 1.0))),
-      _indices(std::vector<unsigned int>())
+void Mesh::Free()
 {
-
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
 }
-
 
 void Mesh::SetupMesh()
 {

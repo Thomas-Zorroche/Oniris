@@ -21,3 +21,5 @@ void Object::SetInputHandlerPtr(InputHandler* inputHandler)
 	s_inputHandler = inputHandler;
 }
 
+void Object::Free() { _staticMesh->Free(); }
+
