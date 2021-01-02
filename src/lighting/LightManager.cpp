@@ -118,7 +118,7 @@ void LightManager::LoadAllLights(const std::shared_ptr<Terrain>& terrain, const 
 		10.0f,
 		glm::vec3(1, 0.6, 0),
 		glm::vec3(604, terrain->GetHeightOfTerrain(604, 204), 204),
-		160.0f);
+		325.0f);
 	std::shared_ptr<BaseLight> pointLightLabo = std::make_shared<PointLight>(
 		50.0f,
 		glm::vec3(0, 0.6, 1),
