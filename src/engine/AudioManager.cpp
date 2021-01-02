@@ -2,8 +2,8 @@
 #include <iostream>
 
 void AudioManager::Init() {
-	Play("res/audio/music.mp3", 0.005f);
-	Play("res/audio/forest.mp3", 0.02f);
+	Play("res/audio/music.mp3", 0.05f);
+	Play("res/audio/forest.mp3", 0.1f);
 	SetUpSea();
 	SetUpRiver();
 	PlayWind();
@@ -41,12 +41,12 @@ void AudioManager::Play3D(const std::string& path, glm::vec3 position, float vol
 }
 
 void AudioManager::PlaySea(glm::vec3 position) {
-	Play3D("res/audio/sea.mp3", position, 0.5f, 4.0f);
+	Play3D("res/audio/sea.mp3", position, 0.6f, 4.0f);
 
 }
 
 void AudioManager::PlayWater(glm::vec3 position) {
-	Play3D("res/audio/river.mp3", position, 0.7f, 0.0f);
+	Play3D("res/audio/river.mp3", position, 0.8f, 0.0f);
 }
 
 void AudioManager::SetListenerPosition(glm::vec3 position, glm::vec3 lookdir) {
