@@ -12,7 +12,6 @@
 #include "gameplay/IODoor.hpp"
 #include "hud/Panel.hpp"
 #include "hud/Hud.hpp"
-#include "gameplay/CreateCrystal.hpp"
 
 #include "glm/glm.hpp"
 
@@ -386,8 +385,6 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, const s
 	}
 	// End while loop
 
-	//create crystal
-	CreateCrystal crystal = CreateCrystal(objects, terrain, game);
 
 	return { objects, ioObjects };
 }

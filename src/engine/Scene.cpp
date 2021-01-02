@@ -16,6 +16,7 @@
 #include "gameplay/UsableObject.hpp"
 #include "gameplay/NarrativeObject.hpp"
 #include "gameplay/InteractiveObject.hpp"
+#include "gameplay/CreateCrystal.hpp"
 
 #include "collision/CollisionManager.hpp"
 
@@ -52,10 +53,6 @@ void Scene::Init(const std::shared_ptr<Game>& game)
 	// Create Terrain
 	// ==============
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/Terrain/heightmap.png");
-
-	// Load All Lights
-	// =================
-	LightManager::Get().LoadAllLights(_terrain, _portal);
 
 	// Create Ocean
 	// ============
@@ -106,6 +103,13 @@ void Scene::Init(const std::shared_ptr<Game>& game)
 	{
 		AddStaticMesh(obj);
 	}
+
+	//create crystal
+	CreateCrystal crystal = CreateCrystal(_objects, _terrain, game);
+
+	// Load All Lights
+	// =================
+	LightManager::Get().LoadAllLights(_terrain, _portal, crystal);
 }
 
 void Scene::Draw()

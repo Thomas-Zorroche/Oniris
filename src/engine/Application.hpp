@@ -6,8 +6,7 @@
 
 #include "engine/Log.hpp"
 
-void mainloop(GLFWwindow * window);
-
+void mainloop(GLFWwindow* window);
 
 
 

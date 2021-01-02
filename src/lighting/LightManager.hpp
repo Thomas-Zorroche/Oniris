@@ -5,6 +5,8 @@
 
 #include "lighting/BaseLight.hpp"
 #include "opengl/Shader.h"
+#include "gameplay/CreateCrystal.hpp"
+
 
 class PointLight;
 class DirectionalLight;
@@ -26,7 +28,7 @@ public:
 	void AddPointLight(const BaseLightPtr& light);
 	void AddDirLight(const BaseLightPtr& light);
 
-	void LoadAllLights(const std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Portal>& portal);
+	void LoadAllLights(const std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Portal>& portal, const CreateCrystal& crystal);
 
 	void SendUniforms(const std::shared_ptr<Shader>& shader);
 

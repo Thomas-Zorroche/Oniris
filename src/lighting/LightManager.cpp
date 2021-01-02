@@ -9,7 +9,7 @@
 #include "engine/Terrain.hpp"
 #include "gameplay/Portal.hpp"
 
-const int LightManager::POINT_LIGHTS_COUNT = 3;
+const int LightManager::POINT_LIGHTS_COUNT = 7;
 
 void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 {
@@ -108,12 +108,17 @@ void LightManager::SwitchLights()
 		_lightsOn = true;
 }
 
-void LightManager::LoadAllLights(const std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Portal>& portal)
+void LightManager::LoadAllLights(const std::shared_ptr<Terrain>& terrain, const std::shared_ptr<Portal>& portal, const CreateCrystal& crystal)
 {
+	// Directional Light
+	// =========================================================================
 	std::shared_ptr<BaseLight> dirLight = std::make_shared<DirectionalLight>(
 		1.0f,
 		glm::vec3(0.5, 0.5, 0.5),
 		glm::vec3(1, 1, 1));
+
+	// Point Lights Electricity (Village & Labo)
+	// =========================================================================
 	std::shared_ptr<BaseLight> pointLightVillage = std::make_shared<PointLight>(
 		10.0f,
 		glm::vec3(1, 0.6, 0),
@@ -124,12 +129,30 @@ void LightManager::LoadAllLights(const std::shared_ptr<Terrain>& terrain, const 
 		glm::vec3(0, 0.6, 1),
 		glm::vec3(850, terrain->GetHeightOfTerrain(850, 407) + 20, 407),
 		160.0f);
+
+	// Point Light Portal
+	// =========================================================================
 	std::shared_ptr<BaseLight> pointLightPortail = std::make_shared<PointLight>(
 		0.0f,
 		glm::vec3(0, 0.6, 1),
 		glm::vec3(499, terrain->GetHeightOfTerrain(499, 578) + 10, 578),
 		160.0f,
 		false);
+
+	// Point Light Crystal
+	// =========================================================================
+	auto crystalPositions = crystal.GetSpawnPositions();
+	for (size_t i = 0; i < 4; i++)
+	{
+		std::shared_ptr<BaseLight> pointLightCrystal = std::make_shared<PointLight>(
+			4.0f,
+			glm::vec3(0.4, 0.4, 1.0),
+			glm::vec3(crystalPositions[i].x, crystalPositions[i].y + 5, crystalPositions[i].z),
+			100.0f,
+			false);
+		AddLight(pointLightCrystal, LightType::POINT);
+	}
+
 
 	AddLight(dirLight, LightType::DIR);
 	AddLight(pointLightVillage, LightType::POINT);

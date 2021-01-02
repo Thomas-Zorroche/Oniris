@@ -11,6 +11,8 @@
 #include "engine/Terrain.hpp"
 #include "gameplay/Game.hpp"
 
+#include "glm/glm.hpp"
+
 
 class CreateCrystal
 {
@@ -33,10 +35,14 @@ public:
 			position.z = uniformRealDistributionZ(generator) + _spawnZones[i][1];
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 
+			_spawnCoord.push_back(position);
+
 			std::shared_ptr<Object> object = std::make_shared<UsableObject>(model, position, "o_crystal_" + std::to_string(i), "crystal", game);
 			objects.insert({ "o_crystal_" + std::to_string(i), object });
 		}
 	}
+
+	const std::vector<glm::vec3>& GetSpawnPositions() const { return _spawnCoord; }
 
 
 private:
@@ -45,5 +51,7 @@ private:
 												  {800, 500, 100, 300},
 												  {200, 300, 200, 200},
 												  {400, 600, 300, 100} };
+
+	std::vector<glm::vec3> _spawnCoord;
 };
 
