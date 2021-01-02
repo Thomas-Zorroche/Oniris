@@ -45,7 +45,7 @@ float noise (in vec2 st) {
 
 void main()
 {
-    float scaleUV = 40.0;
+    float scaleUV = 60.0;
     float offsetX = 0.3;
     float offsetY = 0.3;
     

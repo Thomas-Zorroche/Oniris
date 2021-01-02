@@ -21,8 +21,8 @@ public:
 
 private:
 	// Simple Fog
-	glm::vec3 _colorShadow = glm::vec3(0.5, 0.6, 0.7);
-	glm::vec3 _colorSun = glm::vec3(0.925, 0.709, 0.654);
+	glm::vec3 _colorShadow = glm::vec3(0.25, 0.725, 0.825);
+	glm::vec3 _colorSun = glm::vec3(0.800, 0.715, 0.600);
 	float amountSun = 0.005f;									// Amount of fog coming from Sun (keep this value small)
 	float gradientSunShadow = 1.0f;
 	float be = 0.01f;											// exctinction
@@ -34,7 +34,7 @@ private:
 	float distanceDeepFog = 0.02;							    // 1 : minimale distance / 0 : infinity
 
 	// Sky Fog
-	glm::vec3 _colorSky = glm::vec3(1.0, 0.9, 0.7);
+	glm::vec3 _colorSky = glm::vec3(1.0, 0.85, 0.5);
 
 	float _density = 0.01f;
 	float _gradient = 0.5f;

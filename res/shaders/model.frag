@@ -73,7 +73,7 @@ void main()
     
     float factorDeepFog = 1.0 / (1.0 + (length(vFragPos_vs) * 0.02));
     factorDeepFog = clamp(factorDeepFog, 0.0, 0.5);
-    vec3 colorDeepFog = vec3(0.0, 0.1, 0.3);
+    vec3 colorDeepFog = vec3(0.0, 0.1, 0.4);
 
     float factorFog = (vFragPos_os.y - fog.lowerLimitFog) / (fog.upperLimitFog - fog.lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);

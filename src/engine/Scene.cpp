@@ -62,12 +62,12 @@ void Scene::Init(const std::shared_ptr<Game>& game)
 	// =============
 	std::vector<std::string> facesSkybox
 	{
-		"night/left.jpg",
-		"night/right.jpg",
-		"night/top.jpg",
-		"night/bottom.jpg",
-		"night/front.jpg",
-		"night/back.jpg"
+		"day/left.png",
+		"day/right.png",
+		"day/up.png",
+		"day/down.png",
+		"day/front.png",
+		"day/back.png"
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
 

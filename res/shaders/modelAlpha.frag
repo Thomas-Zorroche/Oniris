@@ -76,7 +76,7 @@ void main()
 
     float factorDeepFog = 1.0 / (1.0 + (length(vFragPos_vs) * 0.02));
     factorDeepFog = clamp(factorDeepFog, 0.0, 0.65);
-    vec3 colorDeepFog = vec3(0.0, 0.1, 0.25);
+    vec3 colorDeepFog = vec3(0.0, 0.1, 0.4);
 
     float factorFog = (vFragPos_os.y - fog.lowerLimitFog) / (fog.upperLimitFog - fog.lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);
@@ -85,9 +85,6 @@ void main()
     vec3 grassLight = vec3(0.1f, 0.4f, 0.25f);
     vec3 grassDark = vec3(0.1f, 0.15f, 0.1f);
     vec3 finalColor = mix(grassDark, grassLight, vFragHeight);
-
-    //finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
-    //finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
 
     // Simple Fog
     fFragColor = vec4( mix(ApplyFog(finalColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), finalColor.rgb, factorFog) , 1.0);
@@ -147,7 +144,7 @@ vec3 ApplyFog( in vec3  pixelColor,      // original color of the pixel
     float sunAmount = max( dot( rayDir, sunDir ), 0.0 );
     vec3  fogColor  = mix( fog.colorShadow, // bluish
                            fog.colorSun, // yellowish
-                           pow(sunAmount * 0.01, 1.0) );
+                           pow(sunAmount * 0.005, 1.0) );
     
     return fogColor * (1.0 - exp(-distance * be)) + pixelColor * exp(-distance * bi);
 }
