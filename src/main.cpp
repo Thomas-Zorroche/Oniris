@@ -1,36 +1,29 @@
-/* ======== O N I R I S ========
-* OpenGL / C++ Project
-* 
-* IMAC 2 - Semester 3
-* 
-* VODABLE Emma, ZORROCHE Thomas
-* 
-* Using Glad and GLFW
-* ==============================
-*/
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+
+#include "engine/Window.hpp"
 #include "engine/Application.hpp"
 
 
 int main(int argc, char** argv)
 {
+    Window window(argc, argv);
+
     /* Initialize the library */
     if (!glfwInit())
         return 0;
 
     /* Create a windowed mode window and its OpenGL context */
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Oniris", NULL, NULL);
-    if (!window)
+    GLFWwindow* glfw_Window = glfwCreateWindow(window.Width(), window.Height(), "Oniris", NULL, NULL);
+    if (!glfw_Window)
     {
         glfwTerminate();
         return 0;
     }
 
     /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(glfw_Window);
 
     /* Initialize glad: load all OpenGL function pointers */
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -40,7 +33,7 @@ int main(int argc, char** argv)
     }
 
     /* Main Game Loop */
-    mainloop(window);
+    mainloop(glfw_Window);
 
     glfwTerminate();
     return 0;

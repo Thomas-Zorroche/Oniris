@@ -11,8 +11,9 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "engine/Terrain.hpp"
-#include "collision/CollisionBox.hpp"
+#include "engine/Application.hpp"
 
+#include "collision/CollisionBox.hpp"
 
 enum class DIRCAM
 {
@@ -94,8 +95,8 @@ private:
 
 	// Technical Data
 	float _fov = 45.0f;
-	float _widthScreen = 1280.0f;
-	float _heightScreen = 720.0f;
+	float _widthScreen = 1280.0;
+	float _heightScreen = 720.0;
 	float _nearPlane = 0.1f;
 	float _farPlane = 5000.0f;
 
