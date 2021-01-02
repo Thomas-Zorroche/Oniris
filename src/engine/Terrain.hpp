@@ -46,9 +46,6 @@ private:
 	std::shared_ptr<Material> _material;
 	std::shared_ptr<Shader> _shader;
 
-
 	Mesh generateMesh();
-	glm::vec3 Terrain::CalculateNormals(int x, int z);
-	void SmoothTerrain();
-	void Lerp();
+	glm::vec3 CalculateNormals(int x, int z);
 };

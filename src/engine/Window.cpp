@@ -1,6 +1,7 @@
 #include "engine/Window.hpp"
 
 #include <iostream>
+#include <string.h>
 
 Window::Window(int argc, char** argv)
 {

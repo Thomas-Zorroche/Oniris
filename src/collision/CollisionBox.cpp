@@ -73,7 +73,7 @@ void CollisionBox::Draw()
 
     Renderer::Get().SendTransMatrixUniforms(glm::mat4(1.0f), shader);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    _debugMesh.Draw(ResourceManager::Get().GetShader("CBox"));
+    _debugMesh.Draw(shader);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     shader->Unbind();

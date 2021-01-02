@@ -42,7 +42,7 @@ public:
 	CollisionGrid(float size = 1000.0f, int res = 10)
 		: _size(size), _resolution(res) {}
 
-	CollisionGridCase CollisionGrid::BoxCase(const std::shared_ptr<CollisionBox>& box);
+	CollisionGridCase BoxCase(const std::shared_ptr<CollisionBox>& box);
 	
 	int Resolution() const { return _resolution; }
 	float Margin() const { return _margin; }
