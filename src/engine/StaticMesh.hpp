@@ -13,6 +13,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 class Fog;
+class CollisionManager;
 
 class TransformLayout
 {
@@ -55,6 +56,8 @@ public:
 
 	unsigned int GetVAO() const { return _model.GetVAO(); }
 
+	static void SetCollisionManagerPtr(CollisionManager* cm_Ptr);
+
 	enum RotationCBox {
 		R_0, R_90, R_180, R_270
 	};
@@ -77,4 +80,6 @@ private:
 	static const std::vector<std::vector<int> > _indicesCBox;
 
 	std::shared_ptr<Fog> _fog;
+
+	static CollisionManager* _collisionManagerPtr;
 };

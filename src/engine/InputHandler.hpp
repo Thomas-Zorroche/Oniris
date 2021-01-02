@@ -2,6 +2,7 @@
 
 #include "engine/Camera.hpp"
 #include "engine/Terrain.hpp"
+#include "collision/CollisionManager.hpp"
 #include <iostream>
 #include "GLFW/glfw3.h"
 
@@ -30,11 +31,15 @@ public:
 	InputHandler(const InputHandler&) = delete;
 	InputHandler& operator=(const InputHandler&) = delete;
 
-	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Game>& game, float deltaTime);
+	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, 
+		const std::shared_ptr<Game>& game, float deltaTime, CollisionManager& collisionManager);
+
 	void SetCallback(GLFWwindow* window, CallbackPtr& callbackPtr);
+
 	ActiveKey GetActiveKey() { return _ActiveKey; };
 	
 	bool CanInteract() const { return _canInteract; }
+
 	void SetCanInteract(bool interact) { _canInteract = interact; }
 
 

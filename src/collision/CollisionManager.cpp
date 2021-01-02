@@ -6,18 +6,17 @@
 #include <memory>
 #include <iterator>
 
-void CollisionManager::Init(const std::shared_ptr<Camera>& camera)
-{
-	_camera = camera;
 
+CollisionManager::CollisionManager()
+{
 	for (size_t i = 0; i < _grid.Resolution(); i++)
 	{
 		for (size_t j = 0; j < _grid.Resolution(); j++)
 		{
-			_boxes.insert({ 
-				CollisionGridCase(i, j), 
-				std::vector<std::shared_ptr<CollisionBox> >() 
-			});
+			_boxes.insert({
+				CollisionGridCase(i, j),
+				std::vector<std::shared_ptr<CollisionBox> >()
+				});
 		}
 	}
 }
@@ -128,4 +127,9 @@ void CollisionManager::DebugMode()
 		_debugMode = false;
 	else
 		_debugMode = true;
+}
+
+void CollisionManager::SetCamera(const std::shared_ptr<Camera>& cameraPtr)
+{
+	_camera = cameraPtr;
 }

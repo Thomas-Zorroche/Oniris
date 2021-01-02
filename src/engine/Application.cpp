@@ -22,6 +22,10 @@ void mainloop(GLFWwindow* window)
     // Load all the shaders
     ResourceManager::Get().LoadAllShaders();
 
+    // Initialisation Collision Manager
+    CollisionManager collisionManager;
+    StaticMesh::SetCollisionManagerPtr(&collisionManager);
+
     // Game
     std::shared_ptr<Game> game = std::make_shared<Game>();
 
@@ -30,13 +34,14 @@ void mainloop(GLFWwindow* window)
 
     // Camera
     auto camera = std::make_shared<Camera>(scene.TerrainPtr());
+
+    // Associate camera with Collision Manager and Renderer
     Renderer::Get().SetCamera(camera);
+    collisionManager.SetCamera(camera);
 
     // Sound
     AudioManager::Get().Init();
 
-    // Initialisation Collision Manager
-    CollisionManager::Get().Init(camera);
 
     glEnable(GL_DEPTH_TEST);  
 
@@ -57,7 +62,7 @@ void mainloop(GLFWwindow* window)
         AudioManager::Get().SetListenerPosition(camera->GetPosition(), camera->GetFrontVector());
 
         // Handle Inputs
-        InputHandler::Get().ProcessInput(window, camera, game, deltaTime);
+        InputHandler::Get().ProcessInput(window, camera, game, deltaTime, collisionManager);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
@@ -70,7 +75,7 @@ void mainloop(GLFWwindow* window)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Check Collisions
-        CollisionManager::Get().CheckCollisions();
+        collisionManager.CheckCollisions();
 
         // Render scene here
         scene.Draw();

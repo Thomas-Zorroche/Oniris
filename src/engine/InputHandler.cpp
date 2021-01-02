@@ -8,7 +8,8 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
-void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Game>& game, float deltaTime)
+void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, 
+    const std::shared_ptr<Game>& game, float deltaTime, CollisionManager& collisionManager)
 {
     // Close Window
     // ===================================================================================================
@@ -39,7 +40,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     // ===================================================================================================
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && _ActiveKey != ActiveKey::C) // C Qwerty = C Azerty
     {
-        CollisionManager::Get().DebugMode();
+        collisionManager.DebugMode();
         _ActiveKey = ActiveKey::C;
     }
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)

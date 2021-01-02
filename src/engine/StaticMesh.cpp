@@ -14,9 +14,6 @@
 
 
 
-const std::vector<std::vector<int> > StaticMesh::_indicesCBox = { 
-	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1} 
-};
 
 StaticMesh::StaticMesh(const Model& model, const TransformLayout& transLayout, const std::string& shaderName,
 	const std::shared_ptr<Fog>& fog, CollisionLayout cBoxLayout)
@@ -161,15 +158,29 @@ void StaticMesh::updateCBox()
 		}
 
 		// Remove cBox inside all the cases where the cBox was
-		CollisionManager::Get().DeleteBox(_cBoxes[i]);
+		_collisionManagerPtr->DeleteBox(_cBoxes[i]);
 
 		// Compute the new cBox
 		_cBoxes[i] = GenerateCBox(newVertices);
 
 		//std::vector<std::shared_ptr<CollisionBox> >::iterator it = _cBoxes.end();
-		CollisionManager::Get().AddBox(_cBoxes[i]);
+		_collisionManagerPtr->AddBox(_cBoxes[i]);
 
 		_cBoxes[i]->updateDebugMesh();
 	}
 }
 
+
+/*
+* Static Data
+*/
+CollisionManager* StaticMesh::_collisionManagerPtr = nullptr;
+
+void StaticMesh::SetCollisionManagerPtr(CollisionManager* cm_Ptr)
+{
+	_collisionManagerPtr = cm_Ptr;
+}
+
+const std::vector<std::vector<int> > StaticMesh::_indicesCBox = {
+	{0, 11, 3, 1}, {3, 0, 7, 1}, {7, 3, 11, 1 }, {11, 7, 0, 1}
+};
