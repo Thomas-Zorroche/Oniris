@@ -13,3 +13,11 @@ Object::~Object() {}
 void Object::Draw() {
 	_staticMesh->Draw();
 }
+
+InputHandler* Object::s_inputHandler = nullptr;
+
+void Object::SetInputHandlerPtr(InputHandler* inputHandler)
+{
+	s_inputHandler = inputHandler;
+}
+

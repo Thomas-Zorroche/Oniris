@@ -20,17 +20,8 @@ enum class ActiveKey {
 class InputHandler
 {
 public:
-	// Static method to get the only instance shared by the class
-	static InputHandler& Get()
-	{
-		static InputHandler instance;
-		return instance;
-	}
-
-	// Delete copy constructor and = operator
-	InputHandler(const InputHandler&) = delete;
-	InputHandler& operator=(const InputHandler&) = delete;
-
+	InputHandler() = default;
+	
 	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, 
 		const std::shared_ptr<Game>& game, float deltaTime, CollisionManager& collisionManager);
 
@@ -42,22 +33,18 @@ public:
 
 	void SetCanInteract(bool interact) { _canInteract = interact; }
 
-
 private:
-	// Prevent using constructors
-	InputHandler() = default;
-	~InputHandler() = default;
-
 	ActiveKey _ActiveKey = ActiveKey::NONE;
+
 	bool _canInteract = false;
 
 	void Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime);
 };
+
 //
 // callbacks functions
 // can't be object function due to glwf syntax
 //
-
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 

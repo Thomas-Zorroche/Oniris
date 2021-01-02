@@ -17,11 +17,11 @@ void InteractiveObject::OnOverlap()
 	Hud::Get().SetState(ScreenState::OVERLAP_IO);
 	Hud::Get().SetTarget(1);
 
-	if (InputHandler::Get().GetActiveKey() == ActiveKey::E 
-	 && InputHandler::Get().CanInteract())
+	if (s_inputHandler->GetActiveKey() == ActiveKey::E
+	 && s_inputHandler->CanInteract())
 	{	
 		Interact();
-		InputHandler::Get().SetCanInteract(false);
+		s_inputHandler->SetCanInteract(false);
 	}
 
 }

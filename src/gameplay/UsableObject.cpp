@@ -21,10 +21,9 @@ void UsableObject::OnOverlap()
 		Hud::Get().SetState(ScreenState::OVERLAP_UO);
 		Hud::Get().SetVisibility("p_pickup", true);
 		Hud::Get().SetTarget(1);
-
 	}
 
-	if (InputHandler::Get().GetActiveKey() == ActiveKey::E)
+	if (s_inputHandler->GetActiveKey() == ActiveKey::E)
 	{
 		if (_InWorld)
 		{

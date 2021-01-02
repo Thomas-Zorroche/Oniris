@@ -77,9 +77,13 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
 
+	// Create an Entity Importer
+	// =========================
+	EntityImporter entityImporter;
+
 	// Particule Systems
 	// =================
-	auto particuleSystem = EntityImporter::Get().ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
+	auto particuleSystem = entityImporter.ParticuleSystems("res/scene/particule_systems.txt", _terrain, _fog);
 	for (size_t i = 0; i < particuleSystem.size(); i++)
 	{
 		AddParticuleSystem(particuleSystem[i]);
@@ -87,7 +91,7 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 
 	// Import Static Meshes
 	// ====================
-	auto staticMeshes = EntityImporter::Get().StaticMeshes("res/scene/static_meshes.txt", _terrain, _fog);
+	auto staticMeshes = entityImporter.StaticMeshes("res/scene/static_meshes.txt", _terrain, _fog);
 	for (size_t i = 0; i < staticMeshes.size(); i++)
 	{
 		AddStaticMesh(staticMeshes[i]);
@@ -99,7 +103,7 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 
 	// Create Objects
 	// ==============
-	auto objectsEntities = EntityImporter::Get().Objects("res/scene/objects.txt", _terrain, _fog, game);
+	auto objectsEntities = entityImporter.Objects("res/scene/objects.txt", _terrain, _fog, game);
 	_objects = objectsEntities.objects;
 	for (const auto& obj : objectsEntities.ioObjects)
 	{

@@ -5,6 +5,7 @@
 
 class StaticMesh;
 class TransformLayout;
+class InputHandler;
 
 //
 // Object is an Interface 
@@ -21,10 +22,13 @@ public:
 
 	virtual void OnOverlap() = 0;
 
+	static void SetInputHandlerPtr(InputHandler* inputHandler);
 
 protected:
 	std::shared_ptr<StaticMesh> _staticMesh;
 	std::string _panelName;
 	bool _InWorld = true;
+
+	static InputHandler* s_inputHandler;
 };
 

@@ -35,21 +35,21 @@ void mainloop(GLFWwindow* window)
     // Camera
     auto camera = std::make_shared<Camera>(scene.TerrainPtr());
 
-    // Associate camera with Collision Manager and Renderer
+    // Link Camera with Collision Manager and Renderer
     Renderer::Get().SetCamera(camera);
     collisionManager.SetCamera(camera);
 
     // Sound
     AudioManager::Get().Init();
 
-
-    glEnable(GL_DEPTH_TEST);  
-
-    // Initialize GLFW Callbacks
-    InputHandler::Get().SetCallback(window, CallbackPtr(game, camera));
+    // Initialize GLFW Callbacks and Inputs
+    InputHandler inputHandler;
+    inputHandler.SetCallback(window, CallbackPtr(game, camera));
+    Object::SetInputHandlerPtr(&inputHandler);
 
     float deltaTime = 0.0f;	// Time between current frame and last frame
     float lastFrame = 0.0f; // Time of last frame
+    glEnable(GL_DEPTH_TEST);  
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -62,7 +62,7 @@ void mainloop(GLFWwindow* window)
         AudioManager::Get().SetListenerPosition(camera->GetPosition(), camera->GetFrontVector());
 
         // Handle Inputs
-        InputHandler::Get().ProcessInput(window, camera, game, deltaTime, collisionManager);
+        inputHandler.ProcessInput(window, camera, game, deltaTime, collisionManager);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
