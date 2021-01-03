@@ -90,7 +90,7 @@ private:
 	float _limitNormal = 2.0f;			// Limit value normal where the player can move
 	float _responsiveness = 10.0f;       // Value use for lerp
 	float _cameraTime = 0.0f;
-	float _frequenceShake = 18.0f;
+	float _frequenceShake = 12.0f;
 	float _amplitudeShake = 3.5f;
 
 	// Technical Data

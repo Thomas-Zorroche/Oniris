@@ -98,12 +98,10 @@ void Camera::Move(float deltaTime, DIRCAM direction)
 	_cameraTime += abs(deltaTime);
 	float offset_factor = sin(_cameraTime * _frequenceShake) * _amplitudeShake;
 
+	// Wiggle walking effect
 	rotateUp(offset_factor);
 	
 	computeDirectionVectors();
-
-	//std::cout << _Position.x << " " << _Position.z << std::endl;
-	//std::cout << _Position.y << std::endl;
 }
 
 
