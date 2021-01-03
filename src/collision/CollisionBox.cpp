@@ -24,11 +24,11 @@ void CollisionBox::OnBeginOverlap()
 // Check whether the box overlaps with another box
 HitResult CollisionBox::IsColliding(const std::shared_ptr<CollisionBox>& box)
 {
-    if ((box->_x > _x + _w)            // trop à droite 
-        || (box->_x + box->_w < _x)    // trop à gauche 
+    if ((box->_x > _x + _w)            // trop ï¿½ droite 
+        || (box->_x + box->_w < _x)    // trop ï¿½ gauche 
         || (box->_y > _y + _h)         // trop en bas 
         || (box->_y + box->_h < _y)    // trop en haut     
-        || (box->_z < _z - _d)         // trop derrière 
+        || (box->_z < _z - _d)         // trop derriï¿½re 
         || (box->_z - box->_d > _z))   // trop devant 
         return { false, NONE };
     else

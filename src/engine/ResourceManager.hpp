@@ -32,7 +32,7 @@ public:
 	void LoadShader(const std::string& vertexShaderPath, 
 									   const std::string& fragmentShaderPath,
 									   const std::string& name);
-	std::shared_ptr<Shader> GetShader(const std::string& name) const;
+	std::shared_ptr<Shader> GetShader(const std::string& name);
 	void LoadAllShaders();
 
 

@@ -88,7 +88,7 @@ private:
 
 	std::unordered_map<CollisionGridCase, int> _indices;
 
+	Mesh _debugMesh;
 	CollisionLayout _cLayout;
 
-	Mesh _debugMesh;
 };

@@ -9,7 +9,7 @@
 
 Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Material>& material,
            const std::vector<unsigned int>& indices)
-    : _vertices(vertices), _material(material), _indices(indices)
+    : _vertices(vertices), _indices(indices), _material(material)
 {
     SetupMesh();
 }

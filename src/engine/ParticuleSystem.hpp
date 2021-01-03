@@ -48,6 +48,6 @@ private:
 	float _randomRotationAmount = 0.0f;
 	glm::vec3 _randomRotationAxis = glm::vec3(0.0, 1.0, 0.0);
 
-	std::shared_ptr<Terrain> _terrain;
 	std::vector<ControlPointParticule> _controlPoints;
+	std::shared_ptr<Terrain> _terrain;
 };

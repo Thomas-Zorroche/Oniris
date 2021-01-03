@@ -70,9 +70,9 @@ private:
 	Model _model;
 
 	TransformLayout _transformLayout;
+	std::shared_ptr<Shader> _shader;
 	glm::mat4 _modelMatrix;
 
-	std::shared_ptr<Shader> _shader;
 	float _globalRotation = 0.0f;
 
 	CollisionLayout _cBoxLayout;

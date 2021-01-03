@@ -5,7 +5,7 @@
 
 
 Panel::Panel(const std::string& texture, const std::string& name, float x, float y, float scale, int spriteSize, int nbSprite, bool visibility):
-	_modelMatrix(glm::mat4(1.0f)), _nbSprite(nbSprite), _visibility(visibility), _name(name)
+	_modelMatrix(glm::mat4(1.0f)), _nbSprite(nbSprite), _name(name), _visibility(visibility)
 {
 	float imgWidth = 0.0f, imgHeight = 0.0f;
 	try {

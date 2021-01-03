@@ -34,9 +34,9 @@ private:
 
 private:
 	unsigned int _rendererID;
-	int _width, _height;
-	int _BPP = 3;
 	TextureType _type;
 	std::vector<unsigned char> _imageData;
 	std::string _path;
+	int _width, _height;
+	int _BPP = 3;
 };

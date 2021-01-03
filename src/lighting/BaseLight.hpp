@@ -43,17 +43,17 @@ public:
 
 
 private:
+	LightType _type;
 	float _intensity;
 	glm::vec3 _color;
+	bool _electricity;
 
 	glm::vec3 _ambient;
 	glm::vec3 _diffuse;
 	glm::vec3 _specular;
 
-	LightType _type;
 	glm::mat4 _modelMatrix = glm::mat4(1.0f);
 
-	bool _electricity;
 };
 
 using BaseLightPtr = std::shared_ptr<BaseLight>;
