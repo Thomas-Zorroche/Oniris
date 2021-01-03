@@ -4,7 +4,7 @@
 
 Camera::Camera(const std::shared_ptr<Terrain>& terrain)
 	: _terrain(terrain), 
-	_Position(499, _terrain->GetHeightOfTerrain(499, 250) + _HeightCamera, 250), _phi(M_PI), _theta(0), _CanTurn(false),
+	_Position(200, _terrain->GetHeightOfTerrain(200, 250) + _HeightCamera, 250), _phi(M_PI), _theta(0), _CanTurn(false),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f),
 	_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth))	
 {

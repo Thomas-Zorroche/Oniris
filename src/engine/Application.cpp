@@ -15,6 +15,8 @@
 
 void mainloop(GLFWwindow* window)
 {
+    // Display Loading Screen
+    
     // Load all the shaders
     ResourceManager::Get().LoadAllShaders();
 
@@ -47,6 +49,9 @@ void mainloop(GLFWwindow* window)
     float deltaTime = 0.0f;	// Time between current frame and last frame
     float lastFrame = 0.0f; // Time of last frame
     glEnable(GL_DEPTH_TEST);  
+
+    // Remove Loading Screen
+
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))

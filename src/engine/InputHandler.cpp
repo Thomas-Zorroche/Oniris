@@ -20,10 +20,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     // ===================================================================================================
     float boostSprint = 1.0f;
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        boostSprint = 5.0f; 
-    // 
-    // [TODO] :: Remettre 2 pour la release
-    //
+        boostSprint = 2.0f; 
 
     // Retrive Screen State from Hud
     // ===================================================================================================

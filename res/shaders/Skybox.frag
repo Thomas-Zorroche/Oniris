@@ -8,7 +8,7 @@ uniform samplerCube skybox;
 uniform vec3 u_skyColor;
 
 const float lowerLimitFog = 0.0f;
-const float upperLimitFog = 1.0f;
+const float upperLimitFog = 0.5f;
 
 void main()
 {    
