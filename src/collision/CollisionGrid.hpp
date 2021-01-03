@@ -56,5 +56,4 @@ private:
 	float _widthCase = _size / (float)_resolution;
 	float _margin = 0.2f; // We search around each case for potential object
 						  // that are across multiple cases
-
 };

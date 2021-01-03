@@ -1,7 +1,6 @@
 #include "engine/Camera.hpp"
 #include "engine/Terrain.hpp"
-
-float Lerp(float start, float end, float t);
+#include "common.hpp"
 
 Camera::Camera(const std::shared_ptr<Terrain>& terrain)
 	: _terrain(terrain), 
@@ -91,7 +90,7 @@ void Camera::Move(float deltaTime, DIRCAM direction)
 			MoveZ(dst, dir);
 	}
 
-	_Position.y = Lerp(_Position.y, _terrain->GetHeightOfTerrain(_Position.x, _Position.z) +_HeightCamera, abs(deltaTime) * _responsiveness);
+	_Position.y = Lerp<float>(_Position.y, _terrain->GetHeightOfTerrain(_Position.x, _Position.z) +_HeightCamera, abs(deltaTime) * _responsiveness);
 	_Position.y = glm::clamp(_Position.y, 12.0f, 100.0f);
 
 	_cameraTime += abs(deltaTime);
@@ -170,10 +169,4 @@ bool Camera::CheckNormal()
 	if (abs(normal.x) > _limitNormal || abs(normal.z) > _limitNormal)
 		return true;
 	return false;
-}
-
-
-float Lerp(float start, float end, float t)
-{
-	return start * (1 - t) + end * t;
 }

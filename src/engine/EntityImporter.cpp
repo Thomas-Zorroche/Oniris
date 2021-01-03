@@ -227,7 +227,6 @@ std::vector<std::shared_ptr<StaticMesh> > EntityImporter::StaticMeshes(const std
 			location.y = std::stof(token);
 		}
 
-
 		if (line.find("[end]") != std::string::npos)
 		{
 			Model model(objPath);
@@ -237,9 +236,6 @@ std::vector<std::shared_ptr<StaticMesh> > EntityImporter::StaticMeshes(const std
 
 			staticMeshes.push_back(std::make_shared<StaticMesh>(model, transLayout, "Model3D_Tex", fog, cLayout));
 			
-			/*
-			* Variadic fonction pour remettre les parametre par defaut ?
-			*/
 			objPath = "";
 			location = glm::vec2(0.0f, 0.0f);
 			rotation = glm::vec3(0, 0, 0);

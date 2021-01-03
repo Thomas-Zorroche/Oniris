@@ -29,15 +29,11 @@ public:
 	std::shared_ptr<Terrain>& TerrainPtr() { return _terrain; }
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 
-	int StaticMeshesCount() const { return _staticMeshesCount; }
-
 	void Free();
 
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);
 	void AddParticuleSystem(const std::shared_ptr<ParticuleSystem>& particuleSystem);
-	//void AddObject(const std::string& name, const std::shared_ptr<Object>& object);
-	//void AddLight();
 
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
@@ -51,8 +47,5 @@ private:
 
 	unsigned int _staticMeshesCount = 0;
 	unsigned int _particuleSystemCount = 0;
-
-
-
 };
 
