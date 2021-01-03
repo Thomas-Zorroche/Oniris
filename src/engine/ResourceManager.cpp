@@ -221,23 +221,23 @@ void ResourceManager::LoadShader(const std::string& vertexShaderPath,
 		{
 			std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
 		}
-		//
-		// [TODO 2] :: Vérifier cette execption
-		// 
-
+				
 		std::shared_ptr<Shader> newShader = std::make_shared<Shader>(vertexCode, fragmentCode);
 	
 		_shaderCache.insert({ name, newShader}).first->second;
 	}
 }
 
-std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name) const
+std::shared_ptr<Shader> ResourceManager::GetShader(const std::string& name)
 {
 	// Check if shader exists
 	const auto shader = _shaderCache.find(name);
 
 	if (shader == _shaderCache.end())
-		return nullptr;
+	{
+		std::shared_ptr<Shader> ptr = std::shared_ptr<Shader>(nullptr);
+		return ptr;
+	}
 
 	return shader->second;
 }

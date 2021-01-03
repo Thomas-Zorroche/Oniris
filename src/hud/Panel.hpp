@@ -11,7 +11,7 @@ class Panel
 {
 public:
 	// Constructeur
-	Panel::Panel(const std::string& texture,  
+	Panel(const std::string& texture,  
 		const std::string& name,
 		float x, 
 		float y, 
@@ -35,9 +35,9 @@ private:
 
 	glm::mat4 _modelMatrix;
 
-	// Le Mesh possède :
-	// - La géometrie (VAO, VBO, IBO)
-	// - Un matérial, qui possède les textures
+	// Le Mesh possï¿½de :
+	// - La gï¿½ometrie (VAO, VBO, IBO)
+	// - Un matï¿½rial, qui possï¿½de les textures
 	std::shared_ptr<Mesh> _mesh;
 
 	//sprite parameters
@@ -46,7 +46,7 @@ private:
 	int _nbSprite;
 	std::string _name;
 
-	// Je sais pas si t'en auras besoin, mais au cas où
+	// Je sais pas si t'en auras besoin, mais au cas oï¿½
 	bool _visibility = true;
 
 };

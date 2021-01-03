@@ -1,7 +1,6 @@
 #pragma once
 #include <unordered_map>
-#include <irrklang/irrKlang.h>
-#include <irrklang/irrKlang.h>
+#include <../../include/irrKlang/irrKlang.h>
 #include <glm/glm.hpp>
 
 class AudioManager

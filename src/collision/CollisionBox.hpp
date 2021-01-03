@@ -76,7 +76,7 @@ public:
 	const std::unordered_map<CollisionGridCase, int>& Indices() const { return _indices; }
 	std::unordered_map<CollisionGridCase, int>& Indices() { return _indices; }
 	void AddIndex(CollisionGridCase gridCase, int index);
-	void CollisionBox::DecreaseIndexCase(CollisionGridCase gridCase);
+	void DecreaseIndexCase(CollisionGridCase gridCase);
 	void updateDebugMesh();
 	void Draw();
 

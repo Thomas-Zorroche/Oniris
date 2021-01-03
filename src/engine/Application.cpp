@@ -40,7 +40,8 @@ void mainloop(GLFWwindow* window)
 
     // Initialize GLFW Callbacks and Inputs
     InputHandler inputHandler;
-    inputHandler.SetCallback(window, CallbackPtr(game, camera));
+    CallbackPtr callbackPtr(game, camera);
+    inputHandler.SetCallback(window, callbackPtr);
     Object::SetInputHandlerPtr(&inputHandler);
 
     float deltaTime = 0.0f;	// Time between current frame and last frame

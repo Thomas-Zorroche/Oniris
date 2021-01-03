@@ -51,8 +51,8 @@ public:
 	void Scale(float alpha);
 	void Rotate(const glm::vec3& alpha);
 
-	std::shared_ptr<CollisionBox> StaticMesh::GenerateCBox(const std::vector<ShapeVertex>& verticesCBox);
-	void StaticMesh::updateCBox();
+	std::shared_ptr<CollisionBox> GenerateCBox(const std::vector<ShapeVertex>& verticesCBox);
+	void updateCBox();
 
 	unsigned int GetVAO() const { return _model.GetVAO(); }
 

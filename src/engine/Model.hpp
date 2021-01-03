@@ -18,13 +18,13 @@ class Model
 public:
 	// Constructor
 	Model(const std::string& path);
-	void Model::Draw(std::shared_ptr<Shader>& shader, bool isParticuleInstance = false, int countParticule = 0);
+	void Draw(std::shared_ptr<Shader>& shader, bool isParticuleInstance = false, int countParticule = 0);
 
 	// Retrieve mesh vao (when there is a single mesh in the model)
 	// Useful for particule system
 	unsigned int GetVAO() const { return _meshes[0].GetVAO(); }
 
-	std::vector<ShapeVertex>& Model::VerticesCBox(size_t index);
+	std::vector<ShapeVertex>& VerticesCBox(size_t index);
 
 	std::vector<Mesh>& CBoxes() { return _cBoxes; }
 

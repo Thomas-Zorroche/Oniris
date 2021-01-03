@@ -17,7 +17,7 @@ public:
 	const float LowerLimit() const;
 	const float UpperLimit() const;
 
-	void Fog::InsideDarkWorld(bool darkWorld);
+	void InsideDarkWorld(bool darkWorld);
 
 private:
 	// Simple Fog

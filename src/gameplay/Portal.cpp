@@ -2,6 +2,7 @@
 #include "engine/Fog.hpp"
 #include "lighting/BaseLight.hpp"
 
+#include <GLFW/glfw3.h>
 
 Portal::Portal()
 	: _staticMesh(Model("res/models/PortalPlan.obj"), TransformLayout(glm::vec3(499, 75, 578), glm::vec3(0, 0, 0), 2.2f), "Portal", nullptr)

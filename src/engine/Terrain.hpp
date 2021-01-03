@@ -48,7 +48,7 @@ private:
 
 
 	Mesh generateMesh();
-	glm::vec3 Terrain::CalculateNormals(int x, int z);
+	glm::vec3 CalculateNormals(int x, int z);
 	void SmoothTerrain();
 	void Lerp();
 };
