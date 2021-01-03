@@ -49,6 +49,10 @@ private:
 	// =======================================================
 	bool _darkWorld = false;
 
+	// Simple Fog
+	glm::vec3 _colorShadowDW = glm::vec3(0.55, 0.62, 0.925);
+	glm::vec3 _colorSunDW = glm::vec3(0.955, 0.6, 0.85);
+
 	// Sky Fog
 	glm::vec3 _colorSkyDW = glm::vec3(0.7, 0.6, 0.95);
 };

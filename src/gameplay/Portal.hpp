@@ -26,7 +26,7 @@ public:
 	void SetLight(const std::shared_ptr<BaseLight>& light);
 
 private:
-	bool _open = false;
+	bool _open = true;
 	bool _canEnter = false;
 
 	int _hitsCountCBox = 0;

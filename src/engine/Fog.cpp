@@ -4,7 +4,10 @@
 // Getters
 std::pair<glm::vec3, glm::vec3> Fog::Color() const 
 { 
-	return { _colorShadow, _colorSun }; 
+	if (!_darkWorld)
+		return { _colorShadow, _colorSun }; 
+	else
+		return { _colorShadowDW, _colorSunDW };
 }
 glm::vec3 Fog::ColorSky() const 
 { 
