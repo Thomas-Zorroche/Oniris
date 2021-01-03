@@ -7,32 +7,44 @@ IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-if(WIN32)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-endif(WIN32)
+#if(UNIX)
+#  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+#endif(UNIX)
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
 
 # find the required packages
-find_package(GLM REQUIRED)
-message(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
-find_package(GLFW3 REQUIRED)
-message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
-find_package(ASSIMP REQUIRED)
-message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
-find_package(IRRKLANG REQUIRED)
-message(STATUS "Found IRRKLANG in ${IRRKLANG_INCLUDE_DIR}")
-# find_package(GLEW REQUIRED)
-# message(STATUS "Found GLEW in ${GLEW_INCLUDE_DIR}")
+if(UNIX)
+  find_package(GLM REQUIRED)
+  message(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
+  find_package(GLFW3 REQUIRED)
+  message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
+  find_package(ASSIMP REQUIRED)
+  message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
+  find_package(IRRKLANG REQUIRED)
+  message(STATUS "Found IRRKLANG in ${IRRKLANG_INCLUDE_DIR}")
+  # find_package(GLEW REQUIRED)
+  # message(STATUS "Found GLEW in ${GLEW_INCLUDE_DIR}")
+elseif (WIN32)
+  # Add Assimp dll into Exec Directory
+  file(COPY ${CMAKE_SOURCE_DIR}/lib/assimp-vc142-mtd.dll
+    DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+
+  # Add IrrKlang dll into Exec Directory
+  file(COPY ${CMAKE_SOURCE_DIR}/lib/irrKlang.dll
+    DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+  file(COPY ${CMAKE_SOURCE_DIR}/lib/ikpMP3.dll
+    DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+endif(UNIX)
 
 add_library(GLAD "thirdparty/glad.c")
 
 if(WIN32)
-  set(LIBS glfw3 opengl32 assimp irrKlang)
+  set(LIBS glfw3 opengl32 STB_IMAGE GLAD assimp-vc142-mtd irrKlang)
 elseif(UNIX AND NOT APPLE)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
   find_package(OpenGL REQUIRED)
@@ -103,24 +115,16 @@ file(COPY ${CMAKE_SOURCE_DIR}/res/scene/
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${RES_FILES} ${SOURCE_FILES})
 
+# define the include dirs
+MESSAGE(STATUS " ${LIBS}")
 target_link_libraries(${PROJECT_NAME} ${LIBS})
-if(WIN32)
-  set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-  set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/Debug")
-elseif(UNIX AND NOT APPLE)
-  set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-elseif(APPLE)
-  set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-  set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/bin")
-  set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/bin")
-endif(WIN32)
 
 # copy shader files to build directory
 file(COPY ${CMAKE_SOURCE_DIR}/res/shaders/
   DESTINATION ${CMAKE_BINARY_DIR}/res/shaders)
   
 # copy ipkMP3 into build folder
-file(COPY ${CMAKE_SOURCE_DIR}/lib/ikpMP3.so
-DESTINATION ${CMAKE_SOURCE_DIR}/build)
-
-#include_directories(${CMAKE_SOURCE_DIR}/include)
+if(UNIX)
+  file(COPY ${CMAKE_SOURCE_DIR}/lib/ikpMP3.so
+  DESTINATION ${CMAKE_SOURCE_DIR}/build)
+endif(UNIX)
