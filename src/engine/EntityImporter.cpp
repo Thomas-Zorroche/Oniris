@@ -338,9 +338,6 @@ ObjectArrayImporter EntityImporter::Objects(const std::string& filepath, const s
 		{
 			Model model = Model(objPath);
 
-			//
-			// [ TO DO ] :: trie des shaders - quel shader mettre aux objects
-			//
 			position.y = terrain->GetHeightOfTerrain(position.x, position.z);
 			std::shared_ptr<Object> object = nullptr;
 			if (type == "Um") 

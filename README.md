@@ -1,4 +1,4 @@
-# Oniris
+﻿# Oniris
 
 ## About
 
@@ -49,6 +49,12 @@ To execute the program use :
 
 ## More ...
 
-### Screenshots (to come)
+### Screenshots
+
+![screenshot01](doc/Oniris01.PNG)
+
+![[screenshot02]](doc/Oniris02.PNG)
+
+![[screenshot03]](doc/Oniris04.PNG)
 
 You'll have a better overview (in French) of the project in 'doc/Rapport_Oniris.pdf' 

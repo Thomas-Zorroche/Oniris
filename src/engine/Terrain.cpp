@@ -183,7 +183,7 @@ double Terrain::GetHeightOfTerrain(int worldX, int worldZ) const
 	// X and Z coordinates relative to the current square (between 0 and 1)
 	double xCoord, zCoord;
 	if (_GridSquareSize < 1.0)
-		throw "Math error: Attempted to divide by Zero\n";
+		assert("Math error: Attempted to divide by Zero in Terrain Class\n");
 	else
 	{
 		xCoord = ModuloFloat(terrainX, _GridSquareSize) / _GridSquareSize;
@@ -248,7 +248,9 @@ glm::vec3 Terrain::GetNormal(int worldX, int worldZ) const
 		return _normals[gridX][gridZ];
 }
 
-
+/*
+* Utility Math Functions
+*/
 double Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 {
 	double det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
@@ -259,9 +261,6 @@ double Barycentre(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec2 pos)
 	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 }
 
-//
-// [TODO] : replace with fmod
-//
 double ModuloFloat(double a, double b)
 {
 	double mod;

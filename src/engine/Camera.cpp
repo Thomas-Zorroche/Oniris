@@ -2,11 +2,10 @@
 #include "engine/Terrain.hpp"
 #include "common.hpp"
 
-// Spawn Player : 200 250
 
 Camera::Camera(const std::shared_ptr<Terrain>& terrain)
 	: _terrain(terrain), 
-	_Position(500, _terrain->GetHeightOfTerrain(500, 525) + _HeightCamera, 525), _phi(M_PI), _theta(0), _CanTurn(false),
+	_Position(200, _terrain->GetHeightOfTerrain(200, 250) + _HeightCamera, 250), _phi(M_PI), _theta(0), _CanTurn(false),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f),
 	_cBox(std::make_shared<CollisionBox>(glm::vec3(_Position), _cBoxWidth, _HeightCamera, _cBoxWidth))	
 {
