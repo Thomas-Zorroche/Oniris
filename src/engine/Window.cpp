@@ -43,10 +43,18 @@ int Window::Init()
 */
 void Window::HandleArgs(int argc, char** argv)
 {
-    InitLogLevel("-none");
-    InitScreenSize("hd");
+    std::string none = "-none";
+    std::string hd = "-hd";
 
-    for (size_t i = 1; i < argc; i++)
+    char cstrNONE[none.size() + 1];
+    char cstrHD[hd.size() + 1];
+    strcpy(cstrNONE, none.c_str());
+    strcpy(cstrHD, hd.c_str());
+ 
+    InitLogLevel(cstrNONE);
+    InitScreenSize(cstrHD);
+
+    for (size_t i = 1; i < (size_t)argc; i++)
     {
         if (strcmp(argv[i], "-none") == 0 || strcmp(argv[i], "-info") == 0 || strcmp(argv[i], "-warning") == 0)
             InitLogLevel(argv[i]);

@@ -9,9 +9,9 @@
 
 CollisionManager::CollisionManager()
 {
-	for (size_t i = 0; i < _grid.Resolution(); i++)
+	for (size_t i = (size_t)0; i < (size_t)_grid.Resolution(); i++)
 	{
-		for (size_t j = 0; j < _grid.Resolution(); j++)
+		for (size_t j = (size_t)0; j < (size_t)_grid.Resolution(); j++)
 		{
 			_boxes.insert({
 				CollisionGridCase(i, j),
@@ -31,7 +31,7 @@ void CollisionManager::CheckCollisions()
 	// Check all collisions between boxes and camera
 	std::vector<HitCollisionAxis> AxisHit;
 	int countCollision = 0;
-	for (size_t i = 0; i < activeBoxes.size(); i++)
+	for (size_t i = (size_t)0; i < activeBoxes.size(); i++)
 	{
 		HitResult hit = activeBoxes[i]->IsColliding(cameraCBox);
 		if (hit.IsHitting)

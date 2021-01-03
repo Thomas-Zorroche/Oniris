@@ -46,14 +46,15 @@ public:
 
 
 private:
-	std::string _name;
-	std::vector<unsigned int> _materialTextures;
-
-	const static int NumberTexturesMax;
 
 	float _shininess;
 	glm::vec3 _ambient;
 	glm::vec3 _diffuse;
 	glm::vec3 _specular;
+
+	std::vector<unsigned int> _materialTextures;
+	std::string _name;
+
+	const static int NumberTexturesMax;
 };
 

@@ -7,7 +7,7 @@
 #include <iostream>
 
 Texture::Texture()
-	: _rendererID(0), _width(0), _height(0), _type(DIFFUSE)
+	: _rendererID(0), _type(DIFFUSE), _width(0), _height(0)
 {
 }
 

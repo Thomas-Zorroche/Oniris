@@ -217,7 +217,7 @@ void ResourceManager::LoadShader(const std::string& vertexShaderPath,
 			vertexCode = vShaderStream.str();
 			fragmentCode = fShaderStream.str();
 		}
-		catch (std::exception e)
+		catch (std::exception&)
 		{
 			std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
 		}

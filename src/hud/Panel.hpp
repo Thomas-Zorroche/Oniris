@@ -32,12 +32,8 @@ private:
 	void Scale(float x, float y);
 	void Translate(float x, float y);
 
-
 	glm::mat4 _modelMatrix;
 
-	// Le Mesh poss�de :
-	// - La g�ometrie (VAO, VBO, IBO)
-	// - Un mat�rial, qui poss�de les textures
 	std::shared_ptr<Mesh> _mesh;
 
 	//sprite parameters
@@ -46,7 +42,6 @@ private:
 	int _nbSprite;
 	std::string _name;
 
-	// Je sais pas si t'en auras besoin, mais au cas o�
 	bool _visibility = true;
 
 };

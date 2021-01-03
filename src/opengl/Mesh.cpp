@@ -9,15 +9,15 @@
 
 Mesh::Mesh(const std::vector<ShapeVertex>& vertices, const std::shared_ptr<Material>& material,
            const std::vector<unsigned int>& indices)
-    : _vertices(vertices), _material(material), _indices(indices)
+    : _vertices(vertices), _indices(indices), _material(material)
 {
     SetupMesh();
 }
 
 Mesh::Mesh()
     : _vertices(std::vector<ShapeVertex>()), 
-      _material(ResourceManager::Get().CachePBRColorMaterial("Default", glm::vec3(1.0, 1.0, 1.0))),
-      _indices(std::vector<unsigned int>())
+      _indices(std::vector<unsigned int>()),
+      _material(ResourceManager::Get().CachePBRColorMaterial("Default", glm::vec3(1.0, 1.0, 1.0)))
 {
 
 }

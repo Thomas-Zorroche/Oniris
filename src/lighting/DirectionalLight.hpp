@@ -14,7 +14,7 @@ public:
 
     
     const glm::vec3& Direction() const { return _direction; }
-    float SetDirection(const glm::vec3& direction) { _direction = direction; }
+    void SetDirection(const glm::vec3& direction) { _direction = direction; }
     std::vector<glm::vec3> GetSpecialData() override;
 
 private:
