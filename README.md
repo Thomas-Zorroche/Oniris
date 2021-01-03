@@ -14,7 +14,7 @@ In repo directory, type in command line :
 ``` bash
 mkdir build
 cd build
-cmake ..
+cmake "Visual Studio 16 2019" ..
 ```
 
 Open '/build/Oniris.sln' and build Oniris project in Visual Studio.
@@ -32,7 +32,7 @@ First, make sure you have `g++` and `cmake`  installed by typing, in terminal :
 Then, get the required packages : 
 ``` apt-get install libsoil-dev libglm-dev libassimp-dev libglfw3-dev libxinerama-dev libxcursor-dev libxi-dev  ```
 
-Create and navigate to build directory:
+Create and navigate to 'build/' directory:
 ```mkdir build && cd build```
 
 In repo directory, type in command line : 
@@ -49,6 +49,6 @@ To execute the program use :
 
 ## More ...
 
-### Screenshots !
+### Screenshots (to come)
 
 You'll have a better overview (in French) of the project in 'doc/Rapport_Oniris.pdf' 

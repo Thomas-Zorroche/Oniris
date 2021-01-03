@@ -56,6 +56,8 @@ void Scene::Init(const std::string& pathScene, const std::shared_ptr<Game>& game
 	// ==============
 	_terrain = std::make_shared<Terrain>(0, 0, "res/img/Terrain/heightmap.png");
 
+
+
 	// Load All Lights
 	// =================
 	LightManager::Get().LoadAllLights(_terrain, _portal);

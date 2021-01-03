@@ -16,7 +16,7 @@ int Window::Init()
         return 0;
 
     /* Create a windowed mode window and its OpenGL context */
-    _glfw_Window = glfwCreateWindow(_width, _height, "Oniris", NULL, NULL);
+    _glfw_Window = glfwCreateWindow((int)_width, (int)_height, "Oniris", NULL, NULL);
     if (!_glfw_Window)
     {
         glfwTerminate();
@@ -43,16 +43,8 @@ int Window::Init()
 */
 void Window::HandleArgs(int argc, char** argv)
 {
-    std::string none = "-none";
-    std::string hd = "-hd";
-
-    char cstrNONE[none.size() + 1];
-    char cstrHD[hd.size() + 1];
-    strcpy(cstrNONE, none.c_str());
-    strcpy(cstrHD, hd.c_str());
- 
-    InitLogLevel(cstrNONE);
-    InitScreenSize(cstrHD);
+    InitLogLevel("-none");
+    InitScreenSize("-hd");
 
     for (size_t i = 1; i < (size_t)argc; i++)
     {
