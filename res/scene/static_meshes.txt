@@ -1,0 +1,164 @@
+#StaticMeshes
+
+[obj] res/models/Portal.obj
+[loc] 499 578
+[rot] 0 0 0
+[scl] 2.2
+[end]
+
+//
+// VILLAGE
+//
+[obj] res/models/House.obj
+[loc] 594 150
+[rot] 0 270 0
+[scl] 1.5
+[end]
+
+[obj] res/models/House.obj
+[loc] 660 192
+[rot] 0 180 0
+[scl] 1.5
+[end]
+
+[obj] res/models/House.obj
+[loc] 608 270
+[rot] 0 90 0
+[scl] 1.5
+[end]
+
+[obj] res/models/StreetLight.obj
+[loc] 604 204
+[rot] 0 0 0
+[scl] 2.2
+[end]
+
+[obj] res/models/Balancoire.obj
+[loc] 639 136
+[rot] 0 0 0
+[scl] 2.2
+[end]
+
+[obj] res/models/Gate.obj
+[loc] 532 235
+[rot] 0 90 0
+[scl] 2.2
+[end]
+
+[obj] res/models/Crate.obj
+[loc] 648 171
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crate.obj
+[loc] 641 167
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crate.obj
+[loc] 634 234
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crate.obj
+[loc] 631 244
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crates.obj
+[loc] 642 245
+[rot] 0 0 0
+[scl] 1.4
+[end]
+[obj] res/models/Crates.obj
+[loc] 569 155
+[rot] 0 0 0
+[scl] 1.4
+[end]
+
+//
+// Fences
+//
+[obj] res/models/Fence.obj
+[loc] 532 30
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 67
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 103
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 140
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 178
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 256 
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 292
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 329 
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 365 
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 402 
+[rot] 0 270 0
+[scl] 2.9
+[end]
+[obj] res/models/Fence.obj
+[loc] 532 438 
+[rot] 0 270 0
+[scl] 2.9
+[end]
+
+//
+// LABORATORY
+//
+
+[obj] res/models/Labo.obj
+[loc] 850 407
+[rot] 0 270 0
+[scl] 2.2
+[end]
+
+//
+// FANTASY
+//
+
+
+
+[obj] res/models/Stonehenge.obj
+[loc] 483 675
+[rot] 0 270 0
+[scl] 1.5
+[end]
+
+
+
+
+
+
