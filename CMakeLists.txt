@@ -127,5 +127,5 @@ file(COPY ${CMAKE_SOURCE_DIR}/res/shaders/
 # copy ipkMP3 into build folder
 if(UNIX)
   file(COPY ${CMAKE_SOURCE_DIR}/lib/ikpMP3.so
-  DESTINATION ${CMAKE_SOURCE_DIR}/build)
+  DESTINATION ${CMAKE_SOURCE_DIR})
 endif(UNIX)
