@@ -8,22 +8,9 @@ struct Material
     vec3 specular;
 };
 
-struct PointLight 
-{
-    float intensity;
-    vec3 position;  
-  
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-	
-    float constant;
-    float linear;
-    float quadratic;
-}; 
-
 struct DirLight 
 {
+    float intensity;
     vec3 direction;
   
     vec3 ambient;
@@ -39,7 +26,6 @@ struct Fog
     float upperLimitFog;
 }; 
 
-#define POINT_LIGHTS_COUNT 3
 
 out vec4 fFragColor;
 
@@ -51,22 +37,15 @@ in vec3 vNormal_os;
 
 uniform Material material;
 uniform DirLight dirLight;
-uniform PointLight pointLights[POINT_LIGHTS_COUNT];
 uniform Fog fog;
 
 uniform vec3 cameraPos;
 
-uniform sampler2D backgroundTexture;
-uniform sampler2D rTexture;
-uniform sampler2D gTexture;
-uniform sampler2D bTexture;
-uniform sampler2D blendmap;
-
+uniform sampler2D texture_diffuse;
 uniform float uvScale;
 
 vec3 ApplyFog(in vec3 pixelColor, in float distance, in vec3 rayDir, in vec3  sunDir);
 vec3 ComputeDirLight(Material material, DirLight dirLight, vec3 normal, vec3 viewDir);
-vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 
 void main()
@@ -82,27 +61,12 @@ void main()
     float factorFog = (vFragPos_os.y - fog.lowerLimitFog) / (fog.upperLimitFog - fog.lowerLimitFog);
     factorFog = clamp(factorFog, 0.0, 1.0);
 
-    // Blendmap
-    vec4 blendMapColour = texture(blendmap, vVertexTexcoords);
-    float backgroundTextureAmount = 1 - (blendMapColour.r + blendMapColour.g + blendMapColour.b);
-
-    vec4 backgroundTextureColour = texture(backgroundTexture, vVertexTexcoords * uvScale) * backgroundTextureAmount;
-    vec4 rTextureColour = texture(rTexture, vVertexTexcoords * uvScale) * blendMapColour.r;
-    vec4 gTextureColour = texture(gTexture, vVertexTexcoords * uvScale) * blendMapColour.g;
-    vec4 bTextureColour = texture(bTexture, vVertexTexcoords * uvScale) * blendMapColour.b;
-
-    vec4 totalColour = backgroundTextureColour + rTextureColour + gTextureColour + bTextureColour;
-
-
     // Lighting
     vec3 finalColor = vec3(0.0f);
     finalColor += ComputeDirLight(material, dirLight, Normal_vs, viewDir_vs);
 
-    for (int i = 0; i < POINT_LIGHTS_COUNT; i++)
-        finalColor += ComputePointLight(material, pointLights[i], Normal_vs, vFragPos_vs, viewDir_vs);
-
     // Texture
-    fFragColor = totalColour * vec4(finalColor, 1.0f);;
+    fFragColor = texture(texture_diffuse, vVertexTexcoords * uvScale) * vec4(finalColor, 1.0f);
 
     // Simple Fog
     fFragColor = vec4( mix(ApplyFog(fFragColor.rgb, length(vFragPos_vs.xyz), vFragPos_vs, dirLight.direction), fFragColor.rgb, factorFog) , 1.0);
@@ -127,26 +91,6 @@ vec3 ComputeDirLight(Material material, DirLight light, vec3 normal, vec3 viewDi
 
     return vec3(ambient + diffuse + specular);
 }
-
-vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
-{
-    float distance = length(light.position - fragPos);
-    vec3 lightDir = normalize(light.position - fragPos);
-
-    vec3 reflectDir = reflect(-lightDir, normal);
-
-    float diffuseStrength = max(dot(normal, lightDir), 0.0);
-    float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-
-    float attenuation = 1.0 / (1.0f + light.linear * distance + light.quadratic * (distance * distance));  
-    
-    vec3 ambient = light.ambient * material.ambient * attenuation * light.intensity;
-    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation * light.intensity;
-    vec3 specular = light.specular * material.specular * specularStrength * attenuation * light.intensity;
-
-    return vec3(ambient + diffuse + specular);
-}
-
 
 
 vec3 ApplyFog( in vec3  pixelColor,      // original color of the pixel

@@ -22,6 +22,8 @@ ParticuleSystem::ParticuleSystem(const std::string& name, const StaticMesh& mesh
     _controlPoints(controlPoints), _terrain(terrain)
       
 {
+    _count *= 1.0;
+    
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
     

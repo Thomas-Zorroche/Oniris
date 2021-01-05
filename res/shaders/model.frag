@@ -40,7 +40,7 @@ struct Fog
     float upperLimitFog;
 }; 
 
-#define POINT_LIGHTS_COUNT 7
+#define POINT_LIGHTS_COUNT 3
 
 out vec4 fFragColor;
 

@@ -42,9 +42,10 @@ make
 ```
 
 To execute the program use :
+Make sure to be in the root directory of Oniris :
 ``` cpp
-../bin/Oniris -fhd -none // window size in full HD and no warning
-../bin/Oniris -hd -error // window size in HD and all warning
+bin/Oniris -fhd -none // window size in full HD and no warning
+bin/Oniris -hd -error // window size in HD and all warning
 ```
 
 ## More ...

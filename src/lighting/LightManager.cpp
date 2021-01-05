@@ -9,7 +9,7 @@
 #include "engine/Terrain.hpp"
 #include "gameplay/Portal.hpp"
 
-const int LightManager::POINT_LIGHTS_COUNT = 7;
+const int LightManager::POINT_LIGHTS_COUNT = 3;
 
 void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 {
@@ -142,7 +142,7 @@ void LightManager::LoadAllLights(const std::shared_ptr<Terrain>& terrain, const 
 	// Point Light Crystal
 	// =========================================================================
 	auto crystalPositions = crystal.GetSpawnPositions();
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < 0; i++)
 	{
 		std::shared_ptr<BaseLight> pointLightCrystal = std::make_shared<PointLight>(
 			4.0f,
